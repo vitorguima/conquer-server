@@ -38,7 +38,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `build(csproj): retarget to net8.0 AnyCPU`
   - _Requirements: FR-2, NFR-1, NFR-2_
 
-- [ ] 1.3 Audit and remove native DLL references from `.csproj`
+- [x] 1.3 Audit and remove native DLL references from `.csproj`
   - **Do**:
     1. Search `ConquerServer.csproj` for `ManagedOpenSsl`, `TinyMap`, `<Reference>`, `<Content>`, `<None>` nodes referencing these DLLs
     2. Delete those `<Reference>` and `<Content>` XML nodes

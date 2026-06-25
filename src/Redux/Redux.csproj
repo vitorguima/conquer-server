@@ -24,9 +24,6 @@
     <Reference Include="LinFu.DynamicProxy">
       <HintPath>..\packages\NHibernate.LinFu.3.1.0.4000\lib\Net35\LinFu.DynamicProxy.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedOpenSsl">
-      <HintPath>..\packages\zdm.ManagedOpenSsl.1.1.0\lib\netstandard2.0\ManagedOpenSsl.dll</HintPath>
-    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\packages\MySql.Data.6.10.9\lib\net452\MySql.Data.dll</HintPath>
     </Reference>
@@ -71,21 +68,5 @@
     <EmbeddedResource Include="Database\Mappings\DbAssociate.hbm.xml" />
   </ItemGroup>
 
-  <!-- Native DLLs to copy to output -->
-  <ItemGroup>
-    <Content Include="libeay32.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="msvcrt.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ssleay32.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TinyMap\TinyMap.csproj" />
-  </ItemGroup>
 
 </Project>
