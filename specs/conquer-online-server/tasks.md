@@ -205,7 +205,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.12 [P] Create `Maps/TinyMap.cs` — managed DMAP binary parser
+- [x] 1.12 [P] Create `Maps/TinyMap.cs` — managed DMAP binary parser
   - **Do**:
     1. Create directory `C:/Users/Windows/conquer-server/src/Maps/`
     2. Create `TinyMap.cs` with namespace `Conquer.Maps`
