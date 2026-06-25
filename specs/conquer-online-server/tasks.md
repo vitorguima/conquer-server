@@ -76,12 +76,22 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `build(deps): add Dapper MySqlConnector and Microsoft.Extensions.Configuration`
   - _Requirements: FR-1, FR-15_
 
-- [ ] V1 [VERIFY] Quality checkpoint: `.csproj` structure clean, restore succeeds
+- [x] V1 [VERIFY] Quality checkpoint: `.csproj` structure clean, restore succeeds
   - **Do**: Run `dotnet restore` and verify `.csproj` has no NHibernate refs and has the 5 new packages
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet restore 2>&1 | tail -3`
   - **Done when**: `dotnet restore` exits 0 with no error lines
   - **Commit**: `chore(build): fix restore errors if any`
   - _Requirements: FR-1, FR-2_
+
+- [x] V1.1 [FIX V1] Fix: Remove legacy MySql.Data DLL reference conflicting with MySqlConnector
+  - **Do**: Address the error: Legacy `<Reference Include="MySql.Data">` with net452 HintPath coexists with MySqlConnector PackageReference in Redux.csproj
+    1. Remove the entire `<ItemGroup>` containing the `MySql.Data` Reference (lines with `<Reference Include="MySql.Data">` and its `<HintPath>`)
+    2. Remove the stale comment `<!-- Legacy NuGet DLL references — to be replaced with PackageReferences in task 1.3 -->`
+    3. Run `dotnet restore` to confirm exit 0 and no MySql.Data hint path remains
+  - **Files**: `C:/Users/Windows/conquer-server/src/Redux/Redux.csproj`
+  - **Done when**: No `MySql.Data` reference in Redux.csproj; `dotnet restore` exits 0
+  - **Verify**: `Select-String -Path C:/Users/Windows/conquer-server/src/Redux/Redux.csproj -Pattern 'MySql\.Data' | Measure-Object | Select-Object -ExpandProperty Count`
+  - **Commit**: `fix(csproj): remove legacy MySql.Data DLL reference conflicting with MySqlConnector`
 
 ---
 
