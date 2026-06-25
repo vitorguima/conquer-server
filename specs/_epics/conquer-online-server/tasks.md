@@ -13,7 +13,7 @@ Focus: Vertical slice running end-to-end. Auth handshake → login → token →
 
 ---
 
-- [ ] 1.1 Solution scaffold
+- [x] 1.1 Solution scaffold
 
   - **Do**: Create `ConquerServer.sln` with three projects: `src/Common/Common.csproj` (.NET 8 classlib), `src/AccountServer/AccountServer.csproj` (.NET 8 console), `src/GameServer/GameServer.csproj` (.NET 8 console). Add project references: both server projects reference Common. Add `data/README.md` documenting where to source `.dmap` files and the community SQL dump. Add `.gitignore` with standard .NET entries plus `data/maps/`.
   - **Files**: `ConquerServer.sln`, `src/Common/Common.csproj`, `src/AccountServer/AccountServer.csproj`, `src/GameServer/GameServer.csproj`, `data/README.md`, `.gitignore`
