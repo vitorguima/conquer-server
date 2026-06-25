@@ -158,7 +158,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: None (audit task)
   - _Requirements: FR-10, FR-17, AC-3.2_
 
-- [ ] V3 [VERIFY] Quality checkpoint: build still green after research tasks
+- [x] V3 [VERIFY] Quality checkpoint: build still green after research tasks
   - **Do**: Confirm no accidental edits during research broke the build
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -3`
   - **Done when**: "Build succeeded" with zero errors
@@ -167,7 +167,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.10 Create `Crypto/RC5.cs` — RC5-32/12/16 password decryption
+- [x] 1.10 Create `Crypto/RC5.cs` — RC5-32/12/16 password decryption
   - **Do**:
     1. Create directory `C:/Users/Windows/conquer-server/src/Crypto/` if absent
     2. Create `RC5.cs` with namespace `Conquer.Crypto`
