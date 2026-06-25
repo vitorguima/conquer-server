@@ -123,7 +123,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `fix(compat): fix .NET 8 API breaks in Redux game logic`
   - _Requirements: FR-2, FR-14_
 
-- [ ] V2 [VERIFY] Quality checkpoint: clean build with zero errors
+- [x] V2 [VERIFY] Quality checkpoint: clean build with zero errors
   - **Do**: Run `dotnet build --no-incremental` from `src/` and verify exit 0 and "Build succeeded"
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -5`
   - **Done when**: Output contains "Build succeeded" and zero `error` lines
@@ -145,7 +145,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: None (research task)
   - _Requirements: FR-6, FR-7_
 
-- [ ] 1.9 [P] Audit Redux DDL for SHA1 format and MySQL 5.6 syntax
+- [x] 1.9 [P] Audit Redux DDL for SHA1 format and MySQL 5.6 syntax
   - **Do**:
     1. Find the Redux SQL dump file: `Get-ChildItem -Recurse -Filter '*.sql' C:/Users/Windows/conquer-server/src | Select-Object FullName`
     2. Read the `account` table `CREATE TABLE` definition — note the `Password` column type (VARCHAR(40)=hex SHA1, VARCHAR(64)=base64, BINARY(20)=raw)
