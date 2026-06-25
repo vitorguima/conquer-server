@@ -1,0 +1,19 @@
+# .NET build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+.vs/
+*.user
+*.suo
+
+# Environment / secrets
+.env
+*.env
+
+# Map data (sourced separately)
+data/maps/
+
+# OS
+Thumbs.db
+.DS_Store
