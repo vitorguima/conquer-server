@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir *)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(powershell *)",
+      "WebFetch(domain:conquer-online.github.io)",
+      "WebFetch(domain:gitlab.com)",
+      "WebFetch(domain:cooldown.dev)",
+      "WebFetch(domain:www.elitepvpers.com)",
+      "Bash(jq '.awaitingApproval = true | .phase = \"requirements\"' \"specs/_epics/conquer-online-server/.ralph-state.json\")",
+      "Bash(mv /tmp/state.json \"specs/_epics/conquer-online-server/.ralph-state.json\")",
+      "Skill(ralph-specum:design)",
+      "Skill(ralph-specum:design:*)",
+      "Bash(jq '.awaitingApproval = true | .phase = \"design\"' \"C:/Users/Windows/conquer-server/specs/_epics/conquer-online-server/.ralph-state.json\")",
+      "Bash(mv /tmp/state.json \"C:/Users/Windows/conquer-server/specs/_epics/conquer-online-server/.ralph-state.json\")",
+      "PowerShell(winget install --id Microsoft.DotNet.SDK.8 -e --accept-source-agreements --accept-package-agreements --disable-interactivity)",
+      "PowerShell(dotnet --version 2>&1)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\); dotnet --version; dotnet --list-sdks)",
+      "PowerShell(winget install --id Docker.DockerDesktop -e --accept-source-agreements --accept-package-agreements --disable-interactivity)",
+      "Bash(awk '/^- \\\\[ \\\\] 1\\\\.1 /{found=1} found{print; if\\(found>1 && /^- \\\\[/\\) exit} {found=found?found+1:0}' specs/_epics/conquer-online-server/tasks.md)",
+      "Skill(ralph-specum:cancel)",
+      "Skill(ralph-specum:cancel:*)"
+    ]
+  }
+}
