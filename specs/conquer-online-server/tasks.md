@@ -180,7 +180,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(crypto): add RC5-32/12/16 password decryption adapted from Comet`
   - _Requirements: FR-7, AC-3.2_
 
-- [ ] 1.11 Create `Crypto/TQCipher.cs` — XOR stream cipher
+- [x] 1.11 Create `Crypto/TQCipher.cs` — XOR stream cipher
   - **Do**:
     1. Create `C:/Users/Windows/conquer-server/src/Crypto/TQCipher.cs` with namespace `Conquer.Crypto`
     2. Implement `public sealed class TQCipher` with fields `byte[] _K1 = new byte[512]`, `byte[] _K2 = new byte[512]`, `int _encryptPos`, `int _decryptPos`
