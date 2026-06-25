@@ -205,6 +205,25 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
+- [x] V3.1 [FIX 1.12] Fix: Scaffold multi-project structure — Crypto/Maps/Database/Network/Packets .csproj files
+  - **Do**:
+    1. Create `src/Crypto/Crypto.csproj` (SDK class library, net8.0, RootNamespace=Conquer.Crypto) — no extra PackageReferences needed
+    2. Move (copy+delete) `src/Redux/Crypto/RC5.cs` → `src/Crypto/RC5.cs`; change namespace `Redux.Crypto` → `Conquer.Crypto`
+    3. Move (copy+delete) `src/Redux/Crypto/TQCipher.cs` → `src/Crypto/TQCipher.cs`; change namespace `Redux.Crypto` → `Conquer.Crypto`
+    4. Remove the now-empty `src/Redux/Crypto/` directory
+    5. Verify `src/Maps/TinyMap.cs` has namespace `Conquer.Maps` (it should — no change needed)
+    6. Create `src/Maps/Maps.csproj` (SDK class library, net8.0, RootNamespace=Conquer.Maps)
+    7. Create `src/Database/Database.csproj` (SDK class library, net8.0, RootNamespace=Conquer.Database) with PackageReferences: Dapper 2.*, MySqlConnector 2.*, Microsoft.Extensions.Configuration 8.*
+    8. Create `src/Network/Network.csproj` (SDK class library, net8.0, RootNamespace=Conquer.Network) with `<ProjectReference Include="../Crypto/Crypto.csproj" />`
+    9. Create `src/Packets/Packets.csproj` (SDK class library, net8.0, RootNamespace=Conquer.Packets) with ProjectReferences to Crypto.csproj and Network.csproj
+    10. Update `src/Redux/Redux.csproj`: add `<ProjectReference>` for Crypto, Maps, Database, Network, Packets
+    11. Create `src/Conquer.sln` including Redux.csproj, Crypto.csproj, Maps.csproj, Database.csproj, Network.csproj, Packets.csproj using `dotnet new sln -o src/ -n Conquer` + `dotnet sln add` commands
+    12. Verify `cd C:/Users/Windows/conquer-server/src/Redux; dotnet build --no-incremental` exits 0 (0 error CS)
+  - **Files**: `src/Crypto/Crypto.csproj`, `src/Crypto/RC5.cs`, `src/Crypto/TQCipher.cs`, `src/Maps/Maps.csproj`, `src/Database/Database.csproj`, `src/Network/Network.csproj`, `src/Packets/Packets.csproj`, `src/Redux/Redux.csproj` (updated), `src/Conquer.sln`
+  - **Done when**: `dotnet build C:/Users/Windows/conquer-server/src/Redux/Redux.csproj --no-incremental` exits 0; all .csproj files exist; `src/Crypto/RC5.cs` has namespace `Conquer.Crypto`
+  - **Verify**: `cd C:/Users/Windows/conquer-server/src/Redux; dotnet build --no-incremental 2>&1 | Select-String 'error CS' | Measure-Object | Select-Object -ExpandProperty Count`
+  - **Commit**: `build(project): scaffold multi-project structure with Crypto/Maps/Database/Network/Packets class libraries`
+
 - [x] 1.12 [P] Create `Maps/TinyMap.cs` — managed DMAP binary parser
   - **Do**:
     1. Create directory `C:/Users/Windows/conquer-server/src/Maps/`

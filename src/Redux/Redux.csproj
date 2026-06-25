@@ -19,5 +19,12 @@
     <PackageReference Include="MySqlConnector" Version="2.*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../Crypto/Crypto.csproj" />
+    <ProjectReference Include="../Maps/Maps.csproj" />
+    <ProjectReference Include="../Database/Database.csproj" />
+    <ProjectReference Include="../Network/Network.csproj" />
+    <ProjectReference Include="../Packets/Packets.csproj" />
+  </ItemGroup>
 
 </Project>

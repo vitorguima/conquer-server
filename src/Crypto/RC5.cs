@@ -1,7 +1,7 @@
 // Adapted from Comet@5017 (non-commercial/academic license)
 // Source: https://github.com/conquer-online/comet/tree/5017/src/Comet.Network/Security/RC5.cs
 
-namespace Redux.Crypto
+namespace Conquer.Crypto
 {
     using System;
 
