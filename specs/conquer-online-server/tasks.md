@@ -63,7 +63,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `build(csproj): remove NHibernate packages and mapping XML files`
   - _Requirements: FR-1_
 
-- [ ] 1.5 Add Dapper, MySqlConnector, and Microsoft.Extensions.Configuration NuGet packages
+- [x] 1.5 Add Dapper, MySqlConnector, and Microsoft.Extensions.Configuration NuGet packages
   - **Do**:
     1. `cd C:/Users/Windows/conquer-server/src && dotnet add package Dapper --version "2.*"`
     2. `dotnet add package MySqlConnector --version "2.*"`

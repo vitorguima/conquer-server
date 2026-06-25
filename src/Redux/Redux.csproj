@@ -16,6 +16,13 @@
       <HintPath>..\packages\MySql.Data.6.10.9\lib\net452\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.*" />
+    <PackageReference Include="MySqlConnector" Version="2.*" />
+  </ItemGroup>
 
 
 </Project>
