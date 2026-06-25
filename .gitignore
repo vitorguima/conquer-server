@@ -17,3 +17,6 @@ data/maps/
 # OS
 Thumbs.db
 .DS_Store
+specs/.current-spec
+**/.progress.md
+**/.ralph-state.json
