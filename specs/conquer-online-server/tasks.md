@@ -196,7 +196,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(crypto): add TQCipher XOR stream cipher adapted from Comet`
   - _Requirements: FR-6, AC-3.4_
 
-- [ ] V4 [VERIFY] Quality checkpoint: Crypto/ compiles, build green
+- [x] V4 [VERIFY] Quality checkpoint: Crypto/ compiles, build green
   - **Do**: Verify both crypto files compile without errors
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -5`
   - **Done when**: "Build succeeded", zero errors
@@ -240,7 +240,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(maps): add managed TinyMap DMAP binary parser`
   - _Requirements: FR-4, NFR-6_
 
-- [ ] 1.13 [P] Create `Maps/MapRegistry.cs` — static map loading registry
+- [x] 1.13 [P] Create `Maps/MapRegistry.cs` — static map loading registry
   - **Do**:
     1. Create `MapRegistry.cs` with namespace `Conquer.Maps`
     2. Implement `public static class MapRegistry` exactly per design.md:
