@@ -132,7 +132,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.8 [P] Read Comet@5017 `TQCipher.cs` and `RC5.cs` references via WebFetch
+- [x] 1.8 [P] Read Comet@5017 `TQCipher.cs` and `RC5.cs` references via WebFetch
   - **Do**:
     1. Fetch `https://raw.githubusercontent.com/conquer-online/comet/5017/src/Comet.Network/Security/TQCipher.cs` and read the full file
     2. Fetch `https://raw.githubusercontent.com/conquer-online/comet/5017/src/Comet.Network/Security/RC5.cs` and read the full file
