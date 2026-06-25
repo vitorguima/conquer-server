@@ -50,7 +50,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `build(csproj): remove ManagedOpenSsl.dll and TinyMap.dll native references`
   - _Requirements: FR-3, FR-4, NFR-6_
 
-- [ ] 1.4 Remove NHibernate packages and `.hbm.xml` mapping files
+- [x] 1.4 Remove NHibernate packages and `.hbm.xml` mapping files
   - **Do**:
     1. In `ConquerServer.csproj`, delete all `<PackageReference>` nodes where `Include` contains `NHibernate`, `FluentNHibernate`, or `Iesi.Collections`
     2. Also delete any `<Reference>` nodes for NHibernate DLLs
