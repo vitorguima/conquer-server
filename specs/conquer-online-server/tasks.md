@@ -25,7 +25,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `chore(repo): fork redux into src/ on modernize/m1 branch`
   - _Requirements: FR-2_
 
-- [ ] 1.2 Retarget `.csproj` to `net8.0` / AnyCPU
+- [x] 1.2 Retarget `.csproj` to `net8.0` / AnyCPU
   - **Do**:
     1. Open `src/ConquerServer.csproj`
     2. Replace `<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>` with `<TargetFramework>net8.0</TargetFramework>` (and remove the old `TargetFrameworkVersion` node if separate)
