@@ -30,7 +30,7 @@ namespace Redux
         public static ThreadSafeCounter ItemGenerator;
         public static int offset = 40;
         public static int value = 5;
-        public static object MapService; // TODO-M1: TinyMap removed - was TinyMapServer
+        public static TinyMapService MapService = new TinyMapService(); // TODO-M1: TinyMap stub - was TinyMapServer
         public static List<ushort> ValidCharacterMeshes = new List<ushort> { 1003, 1004, 2001, 2002 };
         public static List<ushort> ValidBaseProfessions = new List<ushort> { 10, 20, 30, 40, 100};
         public static Dictionary<ushort, ushort> WeaponSkills = new Dictionary<ushort, ushort>

@@ -107,7 +107,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `fix(compat): stub out NHibernate and native DLL usages`
   - _Requirements: FR-1, FR-3, FR-14_
 
-- [ ] 1.7 Fix .NET 8 API breaks in Redux game logic files
+- [x] 1.7 Fix .NET 8 API breaks in Redux game logic files
   - **Do**:
     1. Run `dotnet build 2>&1 | Select-String 'error CS'` to enumerate remaining errors
     2. Fix each error category in order:

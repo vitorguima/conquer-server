@@ -30,7 +30,7 @@ namespace Redux.Managers
         private DbMagicType skill;
         //We need to remember the target we are attacking
         private uint targetUID;
-        private Entity target;
+        internal Entity target; // TODO-M1: changed private→internal for PetAI access
         //We need a skill target location which is read from the interaction packet. This is again to simply avoid passing the packet to 50 diff methods
         private Point location;
         //We need to know when the next combat event will occur (if 0 no events are required and combat is not active)

@@ -8,10 +8,11 @@ using Redux.Packets.Game;
 namespace Redux.Npcs
 {
 
-    public class NPC_45 : INpc
+    // TODO-M1: renamed NPC_45 → NPC_45_BirdIslandWarehouse to avoid duplicate with Market [45]
+    public class NPC_45_BirdIslandWarehouse : INpc
     {
 
-        public NPC_45(Game_Server.Player _client)
+        public NPC_45_BirdIslandWarehouse(Game_Server.Player _client)
             : base(_client)
         {
     		ID = 45;	

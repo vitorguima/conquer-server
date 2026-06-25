@@ -15,14 +15,15 @@ namespace Redux.Npcs
     /// <summary>
     /// Handles NPC usage for [42] Warden
     /// </summary>
-    public class NPC_42 : INpc
+    // TODO-M1: renamed NPC_42 → NPC_42_Warden to avoid duplicate with [42] Captain.cs
+    public class NPC_42_Warden : INpc
     {
 
-        public NPC_42(Game_Server.Player _client)
+        public NPC_42_Warden(Game_Server.Player _client)
             :base (_client)
     	{
-    		ID = 42;	
-			Face = 54;    
+    		ID = 42;
+			Face = 54;
     	}
 
         public override void Run(Game_Server.Player _client, ushort _linkback)

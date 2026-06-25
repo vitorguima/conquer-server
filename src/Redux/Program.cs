@@ -1,22 +1,13 @@
-﻿using System;
-using System.Windows.Forms;
-using System.IO;
-
+// TODO-M1: Win-Forms removed — headless server startup stub
+// Original WinForms entry point replaced for .NET 8 headless server
 namespace Redux
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            if(!File.Exists(Environment.MachineName+".ini"))
-                Application.Run(new ConfigCreatorForm());
-            Application.Run(new ControlForm());
+            // Entry point replaced in task 1.25 with IConfiguration wire-up
+            System.Console.WriteLine("Redux server starting (headless mode)...");
         }
     }
 }
