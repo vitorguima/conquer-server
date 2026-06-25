@@ -14,7 +14,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.1 Clone Redux source into `src/`
+- [x] 1.1 Clone Redux source into `src/`
   - **Do**:
     1. `git clone https://github.com/conquer-online/redux C:/Users/Windows/conquer-server/src`
     2. `cd C:/Users/Windows/conquer-server/src && git checkout -b modernize/m1`
