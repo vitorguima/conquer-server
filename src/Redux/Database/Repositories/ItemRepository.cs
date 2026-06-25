@@ -1,9 +1,8 @@
-﻿using System.Collections;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
 using System;
 using System.Collections.Generic;
 using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 using Redux.Structures;
 
 namespace Redux.Database.Repositories
@@ -35,31 +34,14 @@ namespace Redux.Database.Repositories
         }
         public void PopulateItemGenerator()
         {
+            // TODO-M1: NHibernate removed - seeding item generator skipped
             uint item = 0;
-            try
-            {
-                using (var session = NHibernateHelper.OpenSession())
-                {
-                    item = session
-                        .CreateCriteria<DbItem>()
-                        .AddOrder(new Order("UniqueID", false))
-                        .List<DbItem>()[0].UniqueID; 
-                }
-            }
-            catch (Exception e) { Console.WriteLine("Could not initialize item generator seed. " + e); }
             Common.ItemGenerator = new Utility.ThreadSafeCounter((int)item, int.MaxValue);
         }
         public IList<DbItem> GetItemsByPlayer(uint playerID)
         {
-            
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbItem>()
-                    .Add(Restrictions.Eq("Owner", playerID))
-                    .List<DbItem>();
-            }
-        }        
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
+        }
     }
 }
 

@@ -1,5 +1,6 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+using Redux.Database.Domain;
+using System;
 
 namespace Redux.Database.Repositories
 {
@@ -7,31 +8,15 @@ namespace Redux.Database.Repositories
     {
         public void ResetOnlineCharacters()
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                var t = session.CreateSQLQuery("UPDATE Characters SET Online=0 WHERE Online>0");
-                t.ExecuteUpdate();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
         public DbCharacter GetByUID(uint uid)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbCharacter>()
-                    .Add(Restrictions.Eq("UID", uid))
-                    .UniqueResult<DbCharacter>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
         public DbCharacter GetByName(string name)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbCharacter>()
-                    .Add(Restrictions.Eq("Name", name))
-                    .UniqueResult<DbCharacter>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
         public void CreateEntry(DbCharacter character)
         {

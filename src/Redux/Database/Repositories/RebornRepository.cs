@@ -1,8 +1,9 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+// TODO-M1: NHibernate removed - using NHibernate.Transform;
+using Redux.Database.Domain;
+using System;
 using System.Collections.Generic;
-using NHibernate.Transform;
 
 namespace Redux.Database.Repositories
 {
@@ -10,15 +11,8 @@ namespace Redux.Database.Repositories
     {
         public IList<DbRebornPath> GetRebornByPath(uint _path)
         {
-
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbRebornPath>()
-                    .Add(Restrictions.Eq("RebornPath", _path))
-                    .List<DbRebornPath>();
-            }
-        }      
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
+        }
     }
 }
 

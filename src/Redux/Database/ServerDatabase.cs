@@ -9,10 +9,8 @@ namespace Redux.Database
         public static bool InitializeSql()
         {
             Context = new ConquerDataContext();
-            NHibernateHelper.BuildSessionFactory();
-
-            Context.Accounts.ResetLoginTokens();
-            Context.Characters.ResetOnlineCharacters();
+            // TODO-M1: NHibernate removed - NHibernateHelper.BuildSessionFactory() removed
+            // TODO-M1: NHibernate removed - ResetLoginTokens/ResetOnlineCharacters not called (Dapper replacements in later tasks)
             return true;
         }
     }

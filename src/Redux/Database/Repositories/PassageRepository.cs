@@ -1,22 +1,17 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using Redux.Database.Domain;
 using Redux.Game_Server;
+using System;
+
 namespace Redux.Database.Repositories
 {
     public class PassageRepository : Repository<uint, DbPassage>
     {
         public DbPortal GetPortalByMapAndID(ushort _map, uint _id)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return ServerDatabase.Context.Portals.GetPortalByPassage(session.CreateCriteria<DbPassage>()
-                    .Add(Restrictions.Eq("EnterMap", _map))
-                    .Add(Restrictions.Eq("EnterID", _id))
-                    .List<DbPassage>()[0]);
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-        
     }
 }
 

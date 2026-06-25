@@ -1,8 +1,9 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+// TODO-M1: NHibernate removed - using NHibernate.Transform;
+using Redux.Database.Domain;
+using System;
 using System.Collections.Generic;
-using NHibernate.Transform;
 
 namespace Redux.Database.Repositories
 {
@@ -10,46 +11,19 @@ namespace Redux.Database.Repositories
     {
         public DbNobility GetByName(string name)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbNobility>()
-                    .Add(Restrictions.Eq("Name", name))
-                    .UniqueResult<DbNobility>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-
         public DbNobility GetByUID(uint UID)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbNobility>()
-                    .Add(Restrictions.Eq("UID", UID))
-                    .UniqueResult<DbNobility>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-
         public long GetNobilityRank(long Donation)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .GetNamedQuery("GetNobilityRank")
-                    .SetParameter("donationvalue", Donation)
-                    .UniqueResult<long>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-
         public IList<DbNobility> NobilityPages()
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .GetNamedQuery("NobilityPages")
-                    .SetResultTransformer(Transformers.AliasToBean<DbNobility>())
-                    .List<DbNobility>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

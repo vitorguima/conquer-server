@@ -1,6 +1,7 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using Redux.Database.Domain;
+using System;
 
 namespace Redux.Database.Repositories
 {
@@ -8,14 +9,7 @@ namespace Redux.Database.Repositories
     {
         public DbPortal GetPortalByPassage(DbPassage _passage)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbPortal>()
-                    .Add(Restrictions.Eq("MapID", _passage.ExitMap))
-                    .Add(Restrictions.Eq("PortalID", _passage.ExitID))
-                    .UniqueResult<DbPortal>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using Redux.Database.Domain;
+using System;
 
 namespace Redux.Database.Repositories
 {
@@ -8,42 +9,19 @@ namespace Redux.Database.Repositories
     {
         public void ResetLoginTokens()
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                var t = session.CreateSQLQuery("UPDATE Accounts SET token=0 WHERE token>0");            
-                t.ExecuteUpdate();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
         public DbAccount GetByToken(uint token)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbAccount>()
-                    .Add(Restrictions.Eq("Token", token))
-                    .UniqueResult<DbAccount>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
         public DbAccount GetByName(string name)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbAccount>()
-                    .Add(Restrictions.Eq("Username", name))
-                    .UniqueResult<DbAccount>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-
         public void DeleteCharacter(uint _uid)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                session
-                   .GetNamedQuery("DeleteCharacter")
-                   .SetParameter("_uid", _uid)
-                    .ExecuteUpdate();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

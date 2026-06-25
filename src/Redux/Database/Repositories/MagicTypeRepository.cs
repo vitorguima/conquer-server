@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿// TODO-M1: NHibernate removed - using NHibernate;
+// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
 using System;
 using Redux.Structures;
 using Redux.Database.Domain;
-using NHibernate;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 
 namespace Redux.Database.Repositories
 {
@@ -12,25 +11,11 @@ namespace Redux.Database.Repositories
     {
         public DbMagicType GetMagicTypeBySkill(ConquerSkill _skill)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                          .CreateCriteria<DbMagicType>()
-                          .Add(Restrictions.Eq("ID", _skill.ID))
-                          .Add(Restrictions.Eq("Level", _skill.Level))
-                          .UniqueResult<DbMagicType>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
         public DbMagicType GetMagictypeByIDAndLevel(ushort _id, ushort _level)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                          .CreateCriteria<DbMagicType>()
-                          .Add(Restrictions.Eq("ID", _id))
-                          .Add(Restrictions.Eq("Level", _level))
-                          .UniqueResult<DbMagicType>();
-            }
-        }        
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
+        }
     }
 }

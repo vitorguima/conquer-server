@@ -1,10 +1,8 @@
-﻿using System.Collections;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
 using System;
 using System.Collections.Generic;
 using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
-using Redux.Structures;
 
 namespace Redux.Database.Repositories
 {
@@ -12,13 +10,7 @@ namespace Redux.Database.Repositories
     {
         public IList<DbTask> GetTasksByPlayerUID(uint uit)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbTask>()
-                    .Add(Restrictions.Eq("Owner", uit))
-                    .List<DbTask>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

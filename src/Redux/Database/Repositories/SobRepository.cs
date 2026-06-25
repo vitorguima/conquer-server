@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using System;
+using System.Collections.Generic;
 using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 
 namespace Redux.Database.Repositories
 {
@@ -9,35 +10,15 @@ namespace Redux.Database.Repositories
     {
         public DbSob GetByUID(uint uid)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbSob>()
-                    .Add(Restrictions.Eq("UID", uid))
-                    .UniqueResult<DbSob>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-
         public IList<DbSob> GetSOBByMap(uint _map)
         {
-
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbSob>()
-                    .Add(Restrictions.Eq("Map", _map))
-                    .List<DbSob>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-
         public void SetGwWinner(string name)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                var t = session.CreateSQLQuery("UPDATE sobs SET Name=" + name + " WHERE UID=6700");
-                
-                t.ExecuteUpdate();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

@@ -1,41 +1,19 @@
-﻿using System;
-using NHibernate;
+﻿// TODO-M1: NHibernate removed - NHibernateHelper stubbed out
+using System;
 
 namespace Redux.Database.Repositories
 {
     public class NHibernateHelper
     {
-        private static ISessionFactory _sessionFactory;
-
         public static bool BuildSessionFactory()
         {
-            if (_sessionFactory != null) return false;
-
-            var configuration = new NHibernate.Cfg.Configuration();
-            configuration.Configure(Environment.MachineName + ".cfg.xml");
-            configuration.AddAssembly(System.Reflection.Assembly.GetExecutingAssembly());
-
-            _sessionFactory = configuration.BuildSessionFactory();
-
-            return true;
+            // TODO-M1: NHibernate removed - no-op stub
+            return false;
         }
 
-        private static ISessionFactory SessionFactory
+        public static object OpenSession()
         {
-            get
-            {
-                if (_sessionFactory == null)
-                {
-                    BuildSessionFactory();
-                }
-
-                return _sessionFactory;
-            }
-        }
-
-        public static ISession OpenSession()
-        {
-            return SessionFactory.OpenSession();
+            throw new NotImplementedException("TODO-M1: NHibernate removed - use Dapper repositories instead");
         }
     }
 }

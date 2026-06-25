@@ -1,6 +1,7 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using Redux.Database.Domain;
+using System;
 
 namespace Redux.Database.Repositories
 {
@@ -8,14 +9,7 @@ namespace Redux.Database.Repositories
     {
         public DbStat GetByProfessionAndLevel(ushort _professionType, byte _level)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbStat>()
-                    .Add(Restrictions.Eq("ProfessionType", _professionType))
-                    .Add(Restrictions.Eq("Level", _level))
-                    .UniqueResult<DbStat>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

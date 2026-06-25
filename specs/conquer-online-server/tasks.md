@@ -95,7 +95,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.6 Stub out / remove NHibernate usages in Redux `.cs` files to unblock build
+- [x] 1.6 Stub out / remove NHibernate usages in Redux `.cs` files to unblock build
   - **Do**:
     1. Run `dotnet build 2>&1 | Select-String 'error CS' | Select-Object -First 50` from `src/` to get the full error list
     2. For every file referencing `NHibernate`, `ISession`, `SessionFactory`, `IQuery`: delete NHibernate `using` directives and comment out or stub the usages with `// TODO-M1: NHibernate removed` so the file compiles

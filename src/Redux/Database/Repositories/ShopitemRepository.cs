@@ -1,6 +1,7 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using Redux.Database.Domain;
+using System;
 
 namespace Redux.Database.Repositories
 {
@@ -8,14 +9,7 @@ namespace Redux.Database.Repositories
     {
         public DbShopItem GetShopItem(ushort _shopID, uint _itemID)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return
-                    session.CreateCriteria<DbShopItem>()
-                    .Add(Restrictions.Eq("ShopID", _shopID))
-                    .Add(Restrictions.Eq("ItemID", _itemID))
-                    .UniqueResult<DbShopItem>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

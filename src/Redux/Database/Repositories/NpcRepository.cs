@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using System;
 using System.Collections.Generic;
 using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 
 namespace Redux.Database.Repositories
 {
@@ -10,14 +10,7 @@ namespace Redux.Database.Repositories
     {
         public IList<DbNpc> GetNpcsByMap(ushort _map)
         {
-
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbNpc>()
-                    .Add(Restrictions.Eq("Map", _map))
-                    .List<DbNpc>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

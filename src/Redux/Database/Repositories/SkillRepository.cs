@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using System;
+using System.Collections.Generic;
 using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 
 namespace Redux.Database.Repositories
 {
@@ -9,24 +10,11 @@ namespace Redux.Database.Repositories
     {
         public IList<DbSkill> GetUserSkills(uint uid)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbSkill>()
-                    .Add(Restrictions.Eq("Owner", uid))
-                    .List<DbSkill>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
         public bool SkillExists(uint owner, ushort id)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbSkill>()
-                    .Add(Restrictions.Eq("Owner", owner))
-                    .Add(Restrictions.Eq("ID", id))
-                    .List<DbSkill>().Count > 0;
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

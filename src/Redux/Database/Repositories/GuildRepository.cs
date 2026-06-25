@@ -1,7 +1,8 @@
-﻿using Redux.Database.Domain;
-using NHibernate.Criterion;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.Transform;
+using Redux.Database.Domain;
+using System;
 using System.Collections.Generic;
-using NHibernate.Transform;
 
 namespace Redux.Database.Repositories
 {
@@ -9,35 +10,15 @@ namespace Redux.Database.Repositories
     {
         public IList<DbGuildMemberInfo> GetMemberInfo(int guildId)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .GetNamedQuery("GetGuildMemberList")
-                    .SetParameter("guildId", guildId)
-                    .SetResultTransformer(Transformers.AliasToBean<DbGuildMemberInfo>())
-                    .List<DbGuildMemberInfo>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-
         public DbGuild GetGuildByName(string name)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbGuild>()
-                    .Add(Restrictions.Eq("Name", name))
-                    .UniqueResult<DbGuild>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
-
         public IList<DbGuild> GetAll()
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbGuild>()
-                    .List<DbGuild>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

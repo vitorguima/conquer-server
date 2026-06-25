@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿// TODO-M1: NHibernate removed - using NHibernate.Criterion;
+// TODO-M1: NHibernate removed - using NHibernate.SqlCommand;
+using System;
 using System.Collections.Generic;
 using Redux.Database.Domain;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 
 namespace Redux.Database.Repositories
 {
@@ -10,13 +10,7 @@ namespace Redux.Database.Repositories
     {
         public IList<DbDropRule> GetRulesByMonsterType(uint _monsterType)
         {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session
-                    .CreateCriteria<DbDropRule>()
-                    .Add(Restrictions.Eq("MonsterID", _monsterType))
-                    .List<DbDropRule>();
-            }
+            throw new NotImplementedException("TODO-M1: NHibernate removed");
         }
     }
 }

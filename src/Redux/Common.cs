@@ -4,7 +4,7 @@ using Redux.Utility;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using TinyMap;
+// TODO-M1: TinyMap removed - using TinyMap;
 
 namespace Redux
 {
@@ -22,22 +22,15 @@ namespace Redux
             DeltaY = new sbyte[] { 1, 1, 0, -1, -1, -1, 0, 1, 0 };
             _trojanLifeBonus = new[] { 100, 105, 108, 110, 112, 115 };
             _taoistManaBonus = new[] { 100, 100, 300, 400, 500, 600 };
-            MapService = new TinyMapServer
-            {
-                ConquerDirectory = "",
-                ExtractDMaps = false,
-                LoadPortals = true,
-                LoadHeight = true,
-                Threading = true,
-            };
-            MapService.Load();
+            // TODO-M1: TinyMap removed - MapService not initialized here
+            // MapService = new TinyMapServer { ... }; MapService.Load();
         }
 
         #region Variables
         public static ThreadSafeCounter ItemGenerator;
         public static int offset = 40;
         public static int value = 5;
-        public static TinyMapServer MapService;
+        public static object MapService; // TODO-M1: TinyMap removed - was TinyMapServer
         public static List<ushort> ValidCharacterMeshes = new List<ushort> { 1003, 1004, 2001, 2002 };
         public static List<ushort> ValidBaseProfessions = new List<ushort> { 10, 20, 30, 40, 100};
         public static Dictionary<ushort, ushort> WeaponSkills = new Dictionary<ushort, ushort>
