@@ -77,7 +77,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-1, FR-2, FR-8_
   - _Design: ServerKeyExchange; AC-1.1–1.3, AC-2.1–2.3, AC-2.5_
 
-- [ ] 1.5 [VERIFY] DH round-trip + server-key packet-layout tests
+- [x] 1.5 [VERIFY] DH round-trip + server-key packet-layout tests
   - **Do**:
     1. Create `src/Crypto.Tests/DhExchangeTests.cs`:
        - `Dh_RoundTrip`: two parties over `DHParameters(P,G)` derive the **same** secret (US-2 / A3).

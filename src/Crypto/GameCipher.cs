@@ -88,16 +88,32 @@ namespace Conquer.Crypto
             Cfb64(_decEngine, _decReg, ref _decPos, data, offset, length, encrypting: false);
         }
 
+        /// <summary>Effective Blowfish key length in bytes — OpenSSL <c>EVP_bf_cfb</c>
+        /// uses its default 128-bit (16-byte) key, so only the leading 16 bytes of the
+        /// key material are consumed (matches the original native GameCryptography,
+        /// which loaded the DH secret into a 128-byte buffer fed to EVP at the default
+        /// 16-byte key length, and is consistent with the 16-byte initial key KAT).</summary>
+        private const int KeyLength = 16;
+
         /// <summary>
         /// Re-keys both engines with the DH-derived shared secret. Resets both
         /// feedback registers (zeroed) and positions; IVs default to zero unless
         /// subsequently overridden via <see cref="SetIvs"/>.
+        ///
+        /// The shared secret can exceed Blowfish's key range; only the leading
+        /// <see cref="KeyLength"/> (16) bytes are used — OpenSSL's effective bf-cfb
+        /// key length and the byte-compatible behaviour of the original cipher.
         /// </summary>
         public void SetKey(byte[] sharedSecret)
         {
             if (sharedSecret == null || sharedSecret.Length == 0)
                 throw new ArgumentException("shared secret must be non-empty", nameof(sharedSecret));
-            _key = (byte[])sharedSecret.Clone();
+
+            int len = Math.Min(sharedSecret.Length, KeyLength);
+            var key = new byte[len];
+            Buffer.BlockCopy(sharedSecret, 0, key, 0, len);
+            _key = key;
+
             Array.Clear(_encReg, 0, _encReg.Length);
             Array.Clear(_decReg, 0, _decReg.Length);
             InitEngines();
