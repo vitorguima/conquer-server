@@ -1,13 +1,13 @@
 // Managed Blowfish-CFB64 game cipher (port of the original native
 // ManagedOpenSsl `Blowfish_CFB64` GameCryptography from commit 0b094c6).
-// Implemented with BouncyCastle so the build stays managed-only (NFR-5).
+// Uses a hand-rolled OpenSSL-compatible `Blowfish` block cipher (Blowfish.cs)
+// so the build stays managed-only (NFR-5) AND so the FULL DH shared secret can be
+// used as the key — BouncyCastle's BlowfishEngine rejects keys > 56 bytes, but the
+// real 5065 client keys OpenSSL BF_set_key with the whole ~64-byte secret.
 
 namespace Conquer.Crypto
 {
     using System;
-    using Org.BouncyCastle.Crypto;
-    using Org.BouncyCastle.Crypto.Engines;
-    using Org.BouncyCastle.Crypto.Parameters;
 
     /// <summary>
     /// Blowfish in CFB-64 mode, byte-compatible with OpenSSL <c>Blowfish_CFB64</c>
@@ -47,9 +47,9 @@ namespace Conquer.Crypto
 
         private byte[] _key;
 
-        // Per-direction ECB engines used as the CFB-64 keystream generator.
-        private IBlockCipher _encEngine;
-        private IBlockCipher _decEngine;
+        // Per-direction Blowfish ECB engines used as the CFB-64 keystream generator.
+        private Blowfish _encEngine;
+        private Blowfish _decEngine;
 
         // Per-direction feedback registers (8 bytes) + position within the register.
         // Separate registers per direction, both zeroed at start.
@@ -66,11 +66,14 @@ namespace Conquer.Crypto
 
         private void InitEngines()
         {
-            _encEngine = new BlowfishEngine();
-            _encEngine.Init(true, new KeyParameter(_key)); // ECB-encrypt the register
+            // OpenSSL BF_set_key over the FULL key material (no 56/16-byte truncation).
+            // CFB always ECB-ENCRYPTs the feedback register, so both directions use
+            // an encryption-keyed Blowfish.
+            _encEngine = new Blowfish();
+            _encEngine.SetKey(_key, _key.Length);
 
-            _decEngine = new BlowfishEngine();
-            _decEngine.Init(true, new KeyParameter(_key)); // CFB always ECB-ENCRYPTs
+            _decEngine = new Blowfish();
+            _decEngine.SetKey(_key, _key.Length);
 
             _encPos = 0;
             _decPos = 0;
@@ -88,30 +91,25 @@ namespace Conquer.Crypto
             Cfb64(_decEngine, _decReg, ref _decPos, data, offset, length, encrypting: false);
         }
 
-        /// <summary>Effective Blowfish key length in bytes — OpenSSL <c>EVP_bf_cfb</c>
-        /// uses its default 128-bit (16-byte) key, so only the leading 16 bytes of the
-        /// key material are consumed (matches the original native GameCryptography,
-        /// which loaded the DH secret into a 128-byte buffer fed to EVP at the default
-        /// 16-byte key length, and is consistent with the 16-byte initial key KAT).</summary>
-        private const int KeyLength = 16;
-
         /// <summary>
         /// Re-keys both engines with the DH-derived shared secret. Resets both
         /// feedback registers (zeroed) and positions; IVs default to zero unless
         /// subsequently overridden via <see cref="SetIvs"/>.
         ///
-        /// The shared secret can exceed Blowfish's key range; only the leading
-        /// <see cref="KeyLength"/> (16) bytes are used — OpenSSL's effective bf-cfb
-        /// key length and the byte-compatible behaviour of the original cipher.
+        /// The FULL shared secret is used as the Blowfish key (matching the real
+        /// 5065 client, which feeds the whole DH secret to OpenSSL <c>BF_set_key</c>).
+        /// The hand-rolled <see cref="Blowfish"/> accepts arbitrary key lengths, so
+        /// no truncation is applied — truncating to 16/56 bytes yields a different key
+        /// schedule and post-exchange packets decrypt to garbage (gated by the
+        /// 64-byte-key KAT in BlowfishCfb64Tests).
         /// </summary>
         public void SetKey(byte[] sharedSecret)
         {
             if (sharedSecret == null || sharedSecret.Length == 0)
                 throw new ArgumentException("shared secret must be non-empty", nameof(sharedSecret));
 
-            int len = Math.Min(sharedSecret.Length, KeyLength);
-            var key = new byte[len];
-            Buffer.BlockCopy(sharedSecret, 0, key, 0, len);
+            var key = new byte[sharedSecret.Length];
+            Buffer.BlockCopy(sharedSecret, 0, key, 0, sharedSecret.Length);
             _key = key;
 
             Array.Clear(_encReg, 0, _encReg.Length);
@@ -139,14 +137,14 @@ namespace Conquer.Crypto
         /// correctly (matches OpenSSL BF_cfb64_encrypt).
         /// </summary>
         private static void Cfb64(
-            IBlockCipher engine, byte[] reg, ref int pos,
+            Blowfish engine, byte[] reg, ref int pos,
             byte[] data, int offset, int length, bool encrypting)
         {
             int p = pos;
             for (int i = 0; i < length; i++)
             {
                 if (p == 0)
-                    engine.ProcessBlock(reg, 0, reg, 0); // ECB-encrypt the register in place
+                    engine.EncryptEcb(reg, 0); // ECB-encrypt the register in place
 
                 int idx = offset + i;
                 byte inByte = data[idx];

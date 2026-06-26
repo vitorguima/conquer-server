@@ -46,6 +46,34 @@ namespace Conquer.Crypto.Tests
         private const string TailPlaintext = "PartialTail13";
         private const string TailCipherHex = "74167fb015808f21eaad60ee5e";
 
+        // 64-byte (128-hex) Blowfish key — the LIVE DH shared secret. This gates the
+        // full-length-key path that the real 5065 client uses (the post-exchange key).
+        // BouncyCastle's BlowfishEngine rejected keys > 56 bytes, so GameCipher used to
+        // truncate to 16 bytes → wrong key schedule → garbage decrypt. Conquer.Crypto.Blowfish
+        // reproduces OpenSSL BF_set_key for the full key.
+        private const string Key64Hex =
+            "5CEFE509C75E740720814692166149FF675EB34996A253F7A06DEB7244F28B1B" +
+            "F8E69C87A0759A9A2FEBC67D28F426BCAB6F74C387F3434A8855625E33A05E08";
+
+        // GROUND TRUTH for the 64-byte key was produced by calling OpenSSL's legacy
+        // Blowfish primitives DIRECTLY (NOT the `openssl enc` CLI). The CLI caps `-K`
+        // at the EVP cipher's default 16-byte key length ("hex string is too long,
+        // ignoring excess"), so it CANNOT exercise the long-key path. The reference
+        // below comes from a tiny C program linked against libcrypto:
+        //
+        //   BF_KEY bk;
+        //   BF_set_key(&bk, 64, key64);                 // FULL 64-byte key
+        //   unsigned char iv[8] = {0};  int num = 0;
+        //   BF_cfb64_encrypt(pt, out, len, &bk, iv, &num, BF_ENCRYPT);
+        //
+        // compiled+run inside mcr.microsoft.com/dotnet/sdk:8.0 (OpenSSL 3.0.x legacy
+        // headers): gcc bfkat.c -o bfkat -lcrypto. This is exactly what the real
+        // client does (full DH secret → BF_set_key → BF_cfb64_encrypt).
+        private const string Kat64Plaintext = "Blowfish 64-byte DH key KAT v#2 spanning several blocks!!!";
+        private const string Kat64CipherHex =
+            "872c9339f06d190bcfd942c2c9a5caafe840446639baec2bd5ddca5fa04a2e4e" +
+            "93d5a487ceabbc8c9b752d79499c4408b5a025d4e6a4ea9aea5e";
+
         [Fact]
         public void BlowfishCfb64_KAT()
         {
@@ -54,6 +82,23 @@ namespace Conquer.Crypto.Tests
             cipher.Encrypt(data, 0, data.Length);
 
             Assert.Equal(KatCipherHex, ToHex(data));
+        }
+
+        [Fact]
+        public void BlowfishCfb64_KAT_64ByteKey()
+        {
+            // The LOAD-BEARING gate for this fix: GameCipher, re-keyed with the FULL
+            // 64-byte DH secret, must match OpenSSL BF_set_key byte-for-byte. If this
+            // fails the hand-rolled Blowfish key schedule / endianness is wrong.
+            byte[] key = FromHex(Key64Hex);
+            Assert.Equal(64, key.Length);
+
+            byte[] data = Encoding.ASCII.GetBytes(Kat64Plaintext);
+            var cipher = new GameCipher();
+            cipher.SetKey(key); // full secret, no truncation
+            cipher.Encrypt(data, 0, data.Length);
+
+            Assert.Equal(Kat64CipherHex, ToHex(data));
         }
 
         [Fact]
@@ -120,6 +165,14 @@ namespace Conquer.Crypto.Tests
                 b.Decrypt(payload, 0, payload.Length);
                 Assert.Equal(original, payload);
             }
+        }
+
+        private static byte[] FromHex(string hex)
+        {
+            var bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < bytes.Length; i++)
+                bytes[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
+            return bytes;
         }
 
         private static string ToHex(byte[] data)
