@@ -100,7 +100,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-5, FR-6, NFR-2_
   - _Design: ClientSession; AC-4.1, AC-4.3_
 
-- [ ] 1.7 GameConnection state machine + listener game path (server-first)
+- [x] 1.7 GameConnection state machine + listener game path (server-first)
   - **Do**:
     1. Create `src/Redux/GameConnection.cs`: `OnAccept` sends `CreateServerKeyPacket()` then state `AwaitingClientKey` (log key sent); first inbound → decrypt(initial) → `HandleClientKeyPacket` → state `Established` (log derived key); Established inbound → `GameCipher.Decrypt(whole buffer)` → split: `bodyLen = ReadUInt16LE(off)`, frame = `bodyLen+8`, `typeId = ReadUInt16LE(off+2)` → `PacketRouter.Dispatch`. Loop multiple frames; close+log on malformed/oversized (AC-2.5, NFR-3).
     2. In `src/Redux/NetworkListener.cs`: add `RunGameAsync` (:5816, `Kind=Game`, **server-first send on accept**) + `ServeGameAsync` loop driving `GameConnection`. Leave `RunAuthAsync` / `ServeClientAsync` / `ReadPacket` BYTE-FOR-BYTE unchanged.

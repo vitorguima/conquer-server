@@ -51,7 +51,7 @@ namespace Redux
                 while (!ct.IsCancellationRequested)
                 {
                     var client = await listener.AcceptTcpClientAsync(ct).ConfigureAwait(false);
-                    _ = Task.Run(() => ServeClientAsync(client, ct), ct);
+                    _ = Task.Run(() => ServeGameAsync(client, ct), ct);
                 }
             }
             finally
@@ -60,6 +60,8 @@ namespace Redux
             }
         }
 
+        // Auth serve loop — byte-for-byte unchanged (NFR-2): 2-byte-prefix TQCipher
+        // stream via PacketRouter.ReadPacket. Game connections use ServeGameAsync.
         private async Task ServeClientAsync(TcpClient tcp, CancellationToken ct)
         {
             var session = new ClientSession(tcp);
@@ -97,6 +99,54 @@ namespace Redux
                 Console.WriteLine($"[Disconnect] {endpoint}");
             }
             await Task.CompletedTask.ConfigureAwait(false);
+        }
+
+        // Game serve loop (:5816, Kind=Game, server-first). Sends the server-key packet
+        // on accept, then drives the GameConnection state machine. Distinct from the auth
+        // ServeClientAsync loop / ReadPacket (AC-4.2/4.3, NFR-3).
+        private async Task ServeGameAsync(TcpClient tcp, CancellationToken ct)
+        {
+            var session = new ClientSession(tcp) { Kind = ConnKind.Game };
+            string endpoint = tcp.Client?.RemoteEndPoint?.ToString() ?? "unknown";
+            string local = tcp.Client?.LocalEndPoint?.ToString() ?? "?";
+            Console.WriteLine($"[Connect] (game) {endpoint} -> {local}");
+
+            var connection = new GameConnection(session, _router);
+            var buffer = new byte[8192];
+            try
+            {
+                // Server-first: send the server-key packet immediately on accept.
+                connection.OnAccept();
+
+                while (!ct.IsCancellationRequested)
+                {
+                    int n = await session.Stream.ReadAsync(buffer.AsMemory(0, buffer.Length), ct)
+                                                .ConfigureAwait(false);
+                    if (n == 0) break; // clean client disconnect
+                    connection.OnReceive(buffer, n);
+                }
+            }
+            catch (EndOfStreamException)
+            {
+                // clean client disconnect
+            }
+            catch (ObjectDisposedException)
+            {
+                // session was closed by a handler / malformed-frame guard — clean
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"[Error] (game) {endpoint} IO: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] (game) {endpoint} {ex.GetType().Name}: {ex.Message}");
+            }
+            finally
+            {
+                session.Disconnect();
+                Console.WriteLine($"[Disconnect] (game) {endpoint}");
+            }
         }
     }
 }
