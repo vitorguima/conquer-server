@@ -24,7 +24,7 @@ This session is driven remotely; the operator runs the real client on a **separa
 
 Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does correct length-preserving null-padded ASCII search/replace on an in-memory fixture, and a minimal `Program` patches a fixture file from the CLI. Hardcoded shortcuts OK; tests come in Phase 3.
 
-- [ ] 1.1 Scaffold ClientPatcher.csproj
+- [x] 1.1 Scaffold ClientPatcher.csproj
   - **Do**: Create `src/ClientPatcher/ClientPatcher.csproj`: `net8.0`, `OutputType=Exe`, `RootNamespace`/`AssemblyName=ClientPatcher`, `Nullable=enable`, `ImplicitUsings=enable`, no NuGet, no ProjectReference.
   - **Files**: src/ClientPatcher/ClientPatcher.csproj
   - **Done when**: csproj has all properties; no package or project refs.
