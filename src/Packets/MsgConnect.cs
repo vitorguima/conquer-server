@@ -45,6 +45,7 @@ namespace Conquer.Packets
             Console.WriteLine($"[Game] Connect accountId={accountId}");
 
             var character = _characters.FindByAccountId(accountId);
+            session.Character = character;
             if (character != null)
             {
                 // Valid token + existing char: ANSWER_OK then HeroInformation(1006).

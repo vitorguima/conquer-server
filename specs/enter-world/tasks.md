@@ -29,7 +29,7 @@ Deploy: `docker compose -f src/docker-compose.yml up -d --build` on 192.168.0.25
 
 Focus: get the SetLocation echo + 1110 onto the wire for a real client login so loading clears. Skip tests until Phase 3.
 
-- [ ] 1.1 Branch + persist DbCharacter on ClientSession at 1052
+- [x] 1.1 Branch + persist DbCharacter on ClientSession at 1052
   - **Do**:
     1. From `feat/character-select`, create + checkout `feat/enter-world` (`git checkout feat/character-select && git checkout -b feat/enter-world`).
     2. Ensure `src/Network/Network.csproj` references `src/Database/Database.csproj` (add `<ProjectReference>` only if missing — `DbCharacter` lives in `src/Database/CharacterRepository.cs`).

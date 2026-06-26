@@ -49,6 +49,9 @@ namespace Conquer.Network
         public int AccountId { get; set; }
         public bool IsAuthenticated { get; set; }
 
+        /// <summary>Authenticated character, set at MsgConnect(1052); null until then or if none found.</summary>
+        public Conquer.Database.DbCharacter? Character { get; set; }
+
         public ClientSession(TcpClient tcp)
         {
             TcpClient = tcp;

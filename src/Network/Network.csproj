@@ -7,5 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Crypto/Crypto.csproj" />
+    <ProjectReference Include="../Database/Database.csproj" />
   </ItemGroup>
 </Project>
