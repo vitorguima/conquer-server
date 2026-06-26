@@ -75,7 +75,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: FR-2, FR-3, FR-4, FR-5, FR-7, FR-8, FR-9, FR-11, US-2, US-3, AC-2.2, AC-2.3, AC-3.1, AC-3.2, AC-3.3, AC-3.4_
   - _Design: ActionHandler, Error Handling, Diagnostics_
 
-- [ ] 1.5 Wire case 1010 in PacketRouter.Dispatch
+- [x] 1.5 Wire case 1010 in PacketRouter.Dispatch
   - **Do**:
     1. In `src/Redux/PacketRouter.cs`, add `private readonly ActionHandler _action;` and construct `_action = new ActionHandler();` in the ctor (sibling of existing AuthHandler/GameHandler).
     2. Add `case 1010: _action.HandleAction(session, payload); break;` to the `Dispatch` switch. Leave 1051/1052/default and all other cases UNCHANGED.
@@ -86,7 +86,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: FR-2, FR-11, US-2, AC-2.1, AC-2.4_
   - _Design: PacketRouter_
 
-- [ ] 1.6 [VERIFY] Quality checkpoint: full build green, POC wired
+- [x] 1.6 [VERIFY] Quality checkpoint: full build green, POC wired
   - **Do**: Build the full solution; confirm the 1010 path compiles end-to-end (session → router → ActionHandler → builders).
   - **Verify**: `scripts/dotnet build src/Conquer.sln && echo PASS`
   - **Done when**: 0 build errors; whole 1010 flow present.
