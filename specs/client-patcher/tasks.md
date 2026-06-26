@@ -32,7 +32,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `chore(client-patcher): scaffold ClientPatcher.csproj`
   - _Requirements: NFR-1 · AC-6.1_ _Design: File Structure, Existing Patterns_
 
-- [ ] 1.2 Create ClientPatcher.sln + add app project
+- [x] 1.2 Create ClientPatcher.sln + add app project
   - **Do**: Create `src/ClientPatcher.sln` (independent solution) and add `ClientPatcher.csproj`. Use `scripts/dotnet new sln` + `scripts/dotnet sln add` OR hand-author a valid sln referencing the csproj.
   - **Files**: src/ClientPatcher.sln
   - **Done when**: Solution references ClientPatcher.csproj only; no server projects.
