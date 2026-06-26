@@ -114,7 +114,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): implement ArgumentParser + UsageText`
   - _Requirements: FR-3, FR-4 · AC-1.2_ _Design: §1 ArgumentParser_
 
-- [ ] 1.13 TargetResolver
+- [x] 1.13 TargetResolver
   - **Do**: Create `src/ClientPatcher/TargetResolver.cs` per design §3: `TargetFile(Name,SourcePath,OutputPath)`, `Resolve(PatchOptions)` returns 1-2 entries for `Conquer.exe`/`server.dat` that exist under `--client`, matched case-insensitively. OutputPath = `<OutDir>/<name>`.
   - **Files**: src/ClientPatcher/TargetResolver.cs
   - **Done when**: Resolves present targets case-insensitively; OutDir defaults to `<ClientDir>/patched`.
@@ -122,7 +122,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): implement TargetResolver`
   - _Requirements: FR-7 · AC-3.2_ _Design: §3 TargetResolver_
 
-- [ ] 1.14 [VERIFY] Quality checkpoint: parser + resolver build
+- [x] 1.14 [VERIFY] Quality checkpoint: parser + resolver build
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
