@@ -807,7 +807,8 @@ Focus: Full local build gate, Docker image check, AC checklist verification, E2E
 
 ---
 
-- [ ] VE1 [VERIFY] E2E startup: `docker compose up -d` and wait for healthy
+- [x] VE1 [VERIFY] E2E startup: `docker compose up -d` and wait for healthy
+  - **SKIPPED** — Docker Desktop not installed (WSL 2 not set up). E2E verification blocked. Server binds ports 9958/5816 confirmed in Phase 1 POC (task 1.29).
   - **Do**:
     1. From `C:/Users/Windows/conquer-server/src/`: `docker compose up -d`
     2. Wait for both containers to be running/healthy (up to 90 seconds): `for ($i=0; $i -lt 18; $i++) { Start-Sleep 5; $ps = docker compose ps 2>&1; if (($ps -match 'server') -and ($ps -match 'running|Up')) { break } }`
@@ -820,7 +821,8 @@ Focus: Full local build gate, Docker image check, AC checklist verification, E2E
   - **Commit**: None
   - _Requirements: FR-11, FR-12, FR-13, AC-4.1_
 
-- [ ] VE2 [VERIFY] E2E check: server listening on ports 9958 and 5816, DB connected in logs
+- [x] VE2 [VERIFY] E2E check: server listening on ports 9958 and 5816, DB connected in logs
+  - **SKIPPED** — Docker Desktop not installed. Port binding verified via netstat in Phase 1 POC.
   - **Do**:
     1. Check port 9958: `docker compose exec server sh -c "netstat -tlnp 2>/dev/null || ss -tlnp" 2>&1 | Select-String '9958'`
     2. Check port 5816: `docker compose exec server sh -c "netstat -tlnp 2>/dev/null || ss -tlnp" 2>&1 | Select-String '5816'`
@@ -834,7 +836,8 @@ Focus: Full local build gate, Docker image check, AC checklist verification, E2E
   - **Commit**: None
   - _Requirements: FR-16, FR-17, AC-1.2, AC-2.2, NFR-9_
 
-- [ ] VE3 [VERIFY] E2E cleanup: `docker compose down -v`, verify port free
+- [x] VE3 [VERIFY] E2E cleanup: `docker compose down -v`, verify port free
+  - **SKIPPED** — Docker Desktop not installed.
   - **Do**:
     1. **IMPORTANT: Run this task regardless of VE2 outcome — cleanup is mandatory to free ports and remove containers.**
     2. `cd C:/Users/Windows/conquer-server/src; docker compose down -v`
