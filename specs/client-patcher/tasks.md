@@ -331,7 +331,7 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
   - **Commit**: `test(client-patcher): add synthetic FixtureFactory`
   - _Requirements: NFR-4/NFR-5 · AC-6.2_ _Design: Test Strategy, File Structure_
 
-- [ ] 3.3 [VERIFY] Quality checkpoint: test scaffold builds
+- [x] 3.3 [VERIFY] Quality checkpoint: test scaffold builds
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
