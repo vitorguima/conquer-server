@@ -345,7 +345,7 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
   - **Commit**: `test(client-patcher): add PatchEngine unit tests`
   - _Requirements: FR-1/FR-6 · AC-2.3/3.1/3.2/3.3/3.4 · NFR-3/6_ _Design: Test Strategy (PatchEngineTests)_
 
-- [ ] 3.5 PatchEngineTests — pinned AC-1.3 no-collateral assertion
+- [x] 3.5 PatchEngineTests — pinned AC-1.3 no-collateral assertion
   - **Do**: Add the pinned reviewer test: after patch, assert every byte OUTSIDE each matched `[offset, offset+len(find))` region is byte-identical to source (slice-by-slice `Assert.Equal` around edits). Concrete proof no game IP/unrelated bytes touched.
   - **Files**: src/ClientPatcher.Tests/PatchEngineTests.cs
   - **Done when**: No-collateral test passes.

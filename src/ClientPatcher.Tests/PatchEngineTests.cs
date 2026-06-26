@@ -166,4 +166,43 @@ public sealed class PatchEngineTests
             }
         }
     }
+
+    /// <summary>
+    /// AC-1.3 (pinned, no-collateral): after a patch, every byte OUTSIDE each
+    /// matched <c>[offset, offset+len(find))</c> region must be byte-identical to
+    /// the source. This is the concrete proof that no game IP / unrelated byte is
+    /// ever touched — only the operator-supplied <c>--find</c> slots change.
+    /// </summary>
+    [Fact]
+    public void NoCollateral_OnlyMatchedRegionsChange_RestIsByteIdentical()
+    {
+        var source = FixtureFactory.BuildConquerExe(); // two embedded host tokens
+        var find = Ascii(FixtureFactory.PlaceholderHost);
+        var replacement = Ascii("127.0.0.1");
+
+        var (output, result, error) = PatchEngine.Apply(source, find, replacement);
+
+        Assert.Equal(PatchError.None, error);
+        Assert.Equal(source.Length, output.Length);
+        Assert.True(result.MatchCount > 0);
+
+        // Mark every index that falls inside a matched [offset, offset+len(find)) slot.
+        var insideMatch = new bool[source.Length];
+        foreach (var edit in result.Edits)
+        {
+            for (var i = edit.Offset; i < edit.Offset + find.Length; i++)
+            {
+                insideMatch[i] = true;
+            }
+        }
+
+        // Every byte OUTSIDE a matched region is identical to source.
+        for (var i = 0; i < source.Length; i++)
+        {
+            if (!insideMatch[i])
+            {
+                Assert.Equal(source[i], output[i]);
+            }
+        }
+    }
 }
