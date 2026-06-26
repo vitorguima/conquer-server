@@ -24,11 +24,13 @@ namespace Conquer.Packets
 
         public void Handle(ClientSession session, byte[] payload)
         {
-            string username = Encoding.Latin1.GetString(payload, 4, 16).TrimEnd('\0');
+            // payload has the 2-byte length prefix stripped, so the body starts at
+            // offset 2 (after the 2-byte type id): username @2, RC5 password @18.
+            string username = Encoding.Latin1.GetString(payload, 2, 16).TrimEnd('\0');
 
-            // Decrypt RC5-encrypted password (bytes 20..35)
+            // Decrypt RC5-encrypted password (bytes 18..33)
             var encPwd = new byte[16];
-            Array.Copy(payload, 20, encPwd, 0, 16);
+            Array.Copy(payload, 18, encPwd, 0, 16);
             var rc5 = new RC5();
             byte[] rawPwd = rc5.Decrypt(encPwd);
             string password = Encoding.Latin1.GetString(rawPwd).TrimEnd('\0');

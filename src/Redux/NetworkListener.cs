@@ -78,6 +78,10 @@ namespace Redux
             {
                 // clean client disconnect
             }
+            catch (ObjectDisposedException)
+            {
+                // session was closed by a handler (e.g. auth redirect) — clean
+            }
             catch (IOException ex)
             {
                 Console.WriteLine($"[Error] {endpoint} typeId={typeId} IO: {ex.Message}");
