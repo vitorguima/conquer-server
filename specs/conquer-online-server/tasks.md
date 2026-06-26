@@ -305,7 +305,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(db): add CharacterRepository with FindByAccountId and Insert`
   - _Requirements: FR-1, AC-3.5_
 
-- [ ] V6 [VERIFY] Quality checkpoint: Database/ compiles, build green
+- [x] V6 [VERIFY] Quality checkpoint: Database/ compiles, build green
   - **Do**: Build after adding Database/ files
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -3`
   - **Done when**: "Build succeeded", zero errors
@@ -314,7 +314,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.17 Create `Network/TokenStore.cs` — in-memory session token dictionary
+- [x] 1.17 Create `Network/TokenStore.cs` — in-memory session token dictionary
   - **Do**:
     1. Create directory `C:/Users/Windows/conquer-server/src/Network/`
     2. Create `TokenStore.cs` with namespace `Conquer.Network`
@@ -325,7 +325,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(network): add in-memory TokenStore for session tokens`
   - _Requirements: FR-9, AC-3.3_
 
-- [ ] 1.18 Create `Network/ClientSession.cs` — per-connection state object
+- [x] 1.18 Create `Network/ClientSession.cs` — per-connection state object
   - **Do**:
     1. Create `ClientSession.cs` with namespace `Conquer.Network`
     2. Implement `public sealed class ClientSession` per design.md:
