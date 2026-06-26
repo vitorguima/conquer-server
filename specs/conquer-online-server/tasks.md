@@ -1,4 +1,4 @@
-# Tasks: Conquer Online Server (5065 Modernization)
+﻿# Tasks: Conquer Online Server (5065 Modernization)
 
 **Total tasks: 60** (Phase 1: 31, Phase 2: 9, Phase 3: 5, Phase 4: 15 including VE/V tasks)
 
@@ -853,7 +853,7 @@ Focus: Full local build gate, Docker image check, AC checklist verification, E2E
 
 ---
 
-- [ ] 4.1 Final review — commit spec artifacts and tag M1
+- [x] 4.1 Final review — commit spec artifacts and tag M1
   - **Do**:
     1. Stage all spec files: `git -C C:/Users/Windows/conquer-server add specs/`
     2. Stage all `src/` changes (confirm no secrets or .dmap files): `git -C C:/Users/Windows/conquer-server add src/`
