@@ -39,7 +39,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-4, FR-6, FR-7, NFR-2, NFR-5_
   - _Design: ICipher; File Structure (Crypto.csproj, ICipher.cs, TQCipher.cs)_
 
-- [ ] 1.2 Implement GameCipher (Blowfish-CFB64, 2 instances, key swap)
+- [x] 1.2 Implement GameCipher (Blowfish-CFB64, 2 instances, key swap)
   - **Do**:
     1. Create `src/Crypto/GameCipher.cs : ICipher` using `CfbBlockCipher(new BlowfishEngine(), 64)` — **two persistent instances** (enc server→client, dec client→server), **separate** 8-byte `_encIV`/`_decIV` (both zeroed at start).
     2. Initial key ASCII `"DR654dt34trg4UI6"` (16 bytes) set in ctor; process the **exact byte count** (no padding) so partial trailing blocks match OpenSSL; keep the same instance across packets (running feedback register).
