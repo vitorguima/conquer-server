@@ -145,7 +145,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-9, FR-10, FR-11, FR-12_
   - _Design: GameHandler; AC-5.1–5.5, AC-6.1, AC-7.1, AC-7.2_
 
-- [ ] 1.11 [VERIFY] POC Checkpoint: full build + all unit tests green
+- [x] 1.11 [VERIFY] POC Checkpoint: full build + all unit tests green
   - **Do**: Run full build + full test suite (KAT / round-trip / DH / packet-layout). Confirm the end-to-end handshake + char flow compiles and all crypto/exchange invariants hold. (Real-client E2E is the operator-manual gate in Phase 4 — out of CI.)
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qi "Build succeeded" && scripts/dotnet test src/Conquer.sln 2>&1 | grep -qi "Passed!" && echo POC_PASS`
   - **Done when**: Build succeeds; all unit tests pass; handshake + char flow wired end-to-end in code.
