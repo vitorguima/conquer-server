@@ -353,13 +353,13 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
   - **Commit**: `test(client-patcher): pin AC-1.3 no-collateral assertion`
   - _Requirements: FR-2 · AC-1.3 · US-1_ _Design: Test Strategy (no-collateral, pinned)_
 
-- [ ] 3.6 [VERIFY] Quality checkpoint: engine tests pass
+- [x] 3.6 [VERIFY] Quality checkpoint: engine tests pass
   - **Do**: Run `scripts/dotnet test src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet test src/ClientPatcher.sln && echo PASS`
   - **Done when**: All tests pass.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 3.7 InputValidatorTests — incl. pinned AC-5.1 LAN substring
+- [x] 3.7 InputValidatorTests — incl. pinned AC-5.1 LAN substring
   - **Do**: Create `src/ClientPatcher.Tests/InputValidatorTests.cs`: valid/invalid IPv4 + hostname (AC-4.1); port boundaries `0,1,65535,65536` (AC-4.2); missing dir / empty dir (AC-4.3); non-ASCII `--find` rejection; **pinned** `--ip 192.168.1.5`→warnings contains literal substring `Server.dat is damaged` (AC-5.1); loopback `127.0.0.1`→no LAN warning.
   - **Files**: src/ClientPatcher.Tests/InputValidatorTests.cs
   - **Done when**: All validator tests pass incl. literal LAN substring assertion.
