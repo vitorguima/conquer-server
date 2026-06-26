@@ -61,7 +61,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - **Commit**: `chore(enter-world): pass quality checkpoint` (only if fixes needed)
   - _Requirements: NFR-1_
 
-- [ ] 1.4 Create ActionHandler (parse Action@20; SetLocation(74) → echo + 1110)
+- [x] 1.4 Create ActionHandler (parse Action@20; SetLocation(74) → echo + 1110)
   - **Do**:
     1. Create `src/Packets/ActionHandler.cs` (`public sealed class ActionHandler`) with `HandleAction(ClientSession session, byte[] payload)`.
     2. Guard `payload.Length < 22` → log `[Game] short 1010` + `return` (no disconnect). Read `ushort action = BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(20, 2));`.
