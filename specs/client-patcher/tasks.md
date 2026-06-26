@@ -158,7 +158,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): implement InputValidator`
   - _Requirements: FR-5, FR-10 · AC-4.1/4.2/4.3 · AC-5.1_ _Design: §2 InputValidator_
 
-- [ ] 1.19 LAN warning literal substring
+- [x] 1.19 LAN warning literal substring
   - **Do**: In `InputValidator` (or ReportWriter warning text), ensure the LAN warning string contains the literal substring `Server.dat is damaged` (pinned reviewer assertion AC-5.1).
   - **Files**: src/ClientPatcher/InputValidator.cs
   - **Done when**: LAN warning text includes exact substring `Server.dat is damaged`.
@@ -166,7 +166,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): add LAN warning with Server.dat-is-damaged substring`
   - _Requirements: FR-10 · AC-5.1_ _Design: §7 sample report, Test Strategy (pin)_
 
-- [ ] 1.20 [VERIFY] Quality checkpoint: validator builds
+- [x] 1.20 [VERIFY] Quality checkpoint: validator builds
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
