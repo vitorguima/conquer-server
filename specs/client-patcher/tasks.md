@@ -188,13 +188,13 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): wire patch loop + exit-code mapping`
   - _Requirements: FR-1, FR-2, FR-8, FR-9, FR-12 · AC-1.3/2.1/2.2/2.3/3.2_ _Design: §8, Data Flow_
 
-- [ ] 1.23 [VERIFY] Quality checkpoint: full pipeline builds
+- [x] 1.23 [VERIFY] Quality checkpoint: full pipeline builds
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.24 POC end-to-end on real fixture files in temp dir
+- [x] 1.24 POC end-to-end on real fixture files in temp dir
   - **Do**: Create a temp client dir **under the repo** at `./.e2e-tmp/poc` (gitignored; must be inside the repo tree so the dockerized `scripts/dotnet` container can see it) with stub `Conquer.exe` + `server.dat` byte files (each containing `192.168.0.10\0`). Run `scripts/dotnet run --project src/ClientPatcher/ClientPatcher.csproj -- --client ./.e2e-tmp/poc --find "192.168.0.10" --ip 127.0.0.1`. Assert: backups exist, patched files exist with length == originals, source temp files byte-unchanged, report printed, exit 0.
   - **Files**: (none — runtime verification; artifacts under gitignored `./.e2e-tmp/`)
   - **Done when**: CLI patches both fixture files end-to-end; source untouched; exit 0.
