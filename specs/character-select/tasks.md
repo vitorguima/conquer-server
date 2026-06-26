@@ -132,7 +132,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-10, FR-11_
   - _Design: NetStringPacker/PacketBuilder/MsgTalk/HeroInformation; AC-6.2, AC-6.3_
 
-- [ ] 1.10 Update GameHandler char flow (ANSWER_OK + 1006 / NEW_ROLE)
+- [x] 1.10 Update GameHandler char flow (ANSWER_OK + 1006 / NEW_ROLE)
   - **Do**:
     1. In `src/Packets/MsgConnect.cs` (GameHandler): **drop the TQCipher `GenerateKeys` call** (game path uses Blowfish; key already swapped by exchange).
     2. Token via `TokenStore.TryConsume`; valid + char → `session.Send(MsgTalk.Build(ChatType.Entrance, "ANSWER_OK"))` then `session.Send(HeroInformation.Build(char))` (lookup char by `AccountId`).

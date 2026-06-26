@@ -36,23 +36,29 @@ namespace Conquer.Packets
                 return;
             }
 
+            // NOTE: the game path uses GameCipher (Blowfish-CFB64, already keyed by the
+            // DH exchange). Do NOT re-key or cast to TQCipher here — that cast would throw
+            // InvalidCastException on a real game connection.
             session.AccountId = accountId;
-            ((Conquer.Crypto.TQCipher)session.Cipher).GenerateKeys(new object[] { token });
             session.IsAuthenticated = true;
 
-            Console.WriteLine($"[Game] Connect accountId={accountId} token={token}");
+            Console.WriteLine($"[Game] Connect accountId={accountId}");
 
             var character = _characters.FindByAccountId(accountId);
             if (character != null)
-                SendMsgUserInfo(session, character);
+            {
+                // Valid token + existing char: ANSWER_OK then HeroInformation(1006).
+                // Use SendGame (NOT Send) — game frames need the 8-byte seal + Blowfish.
+                session.SendGame(MsgTalk.Build(ChatType.Entrance, "ANSWER_OK"));
+                session.SendGame(HeroInformation.Build(character));
+                Console.WriteLine("[Game] ANSWER_OK + 1006 sent");
+            }
             else
-                Console.WriteLine($"[Game] No character for accountId={accountId}; character creation not yet implemented");
-        }
-
-        private void SendMsgUserInfo(ClientSession session, DbCharacter ch)
-        {
-            byte[] packet = MsgUserInfo.Build(ch);
-            session.Send(packet);
+            {
+                // No char: signal the create screen. No create handler this spec (AC-7.2).
+                session.SendGame(MsgTalk.Build(ChatType.Entrance, "NEW_ROLE"));
+                Console.WriteLine($"[Game] No character for accountId={accountId}; NEW_ROLE sent (creation out of scope)");
+            }
         }
     }
 }
