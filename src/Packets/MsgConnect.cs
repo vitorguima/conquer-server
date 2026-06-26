@@ -17,13 +17,17 @@ namespace Conquer.Packets
 
         public void Handle(ClientSession session, byte[] payload)
         {
-            if (payload.Length < 12)
+            Console.WriteLine($"[Game] recv MsgConnect payload.Length={payload.Length}");
+
+            // payload has the 2-byte length prefix stripped: type @0, token @2.
+            if (payload.Length < 10)
             {
+                Console.WriteLine($"[Game] payload too short ({payload.Length}) — disconnecting");
                 session.Disconnect();
                 return;
             }
 
-            ulong token = BinaryPrimitives.ReadUInt64LittleEndian(payload.AsSpan(4, 8));
+            ulong token = BinaryPrimitives.ReadUInt64LittleEndian(payload.AsSpan(2, 8));
 
             if (!TokenStore.TryConsume(token, out int accountId))
             {
