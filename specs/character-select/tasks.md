@@ -89,7 +89,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-14, FR-1, NFR-4_
   - _Design: Test Strategy (Dh_RoundTrip / ServerKeyPacket_Layout); AC-1.2, US-2_
 
-- [ ] 1.6 Wire ClientSession for the game path (cipher-agnostic + seal-aware Send)
+- [x] 1.6 Wire ClientSession for the game path (cipher-agnostic + seal-aware Send)
   - **Do**:
     1. In `src/Network/ClientSession.cs`: change cipher field to `ICipher Cipher`; add `enum ConnKind { Auth, Game }` + `ConnKind Kind`; add `ExchangeState State` (`AwaitingClientKey`/`Established`); add `ServerKeyExchange Exchange`.
     2. Add a seal-aware game `Send`: allocate `len + 8`, stamp last 8 bytes with `SERVER_SEAL`("TQServer"), then `GameCipher.Encrypt(whole buffer)`, then write. Auth `Send` path unchanged.

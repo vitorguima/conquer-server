@@ -37,7 +37,7 @@ namespace Conquer.Packets
             }
 
             session.AccountId = accountId;
-            session.Cipher.GenerateKeys(new object[] { token });
+            ((Conquer.Crypto.TQCipher)session.Cipher).GenerateKeys(new object[] { token });
             session.IsAuthenticated = true;
 
             Console.WriteLine($"[Game] Connect accountId={accountId} token={token}");
