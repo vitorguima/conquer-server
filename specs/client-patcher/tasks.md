@@ -40,7 +40,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `chore(client-patcher): add ClientPatcher.sln`
   - _Requirements: NFR-1_ _Design: Technical Decisions (dedicated sln)_
 
-- [ ] 1.3 Minimal Program.cs + build green
+- [x] 1.3 Minimal Program.cs + build green
   - **Do**: Create `src/ClientPatcher/Program.cs` with a stub `Main` that prints a banner and returns 0. Just enough to compile.
   - **Files**: src/ClientPatcher/Program.cs
   - **Done when**: Solution builds with the executable producing.
