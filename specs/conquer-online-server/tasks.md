@@ -761,7 +761,7 @@ Focus: No automated unit tests in M1 (out of scope). Phase 3 = manual verificati
   - **Commit**: `docs(readme): add README with Getting Started section`
   - _Requirements: FR-18, AC-1.3_
 
-- [ ] V13 [VERIFY] Quality checkpoint: final build clean before quality gates
+- [x] V13 [VERIFY] Quality checkpoint: final build clean before quality gates
   - **Do**: Last build check before Phase 4
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -5`
   - **Done when**: "Build succeeded", zero errors
@@ -776,7 +776,7 @@ Focus: Full local build gate, Docker image check, AC checklist verification, E2E
 
 ---
 
-- [ ] V14 [VERIFY] Full local CI: `dotnet build` clean, publish succeeds, no native DLLs
+- [x] V14 [VERIFY] Full local CI: `dotnet build` clean, publish succeeds, no native DLLs
   - **Do**:
     1. `dotnet build --no-incremental 2>&1 | tail -5` — must show "Build succeeded"
     2. `dotnet publish -c Release -o /tmp/final-publish --no-restore 2>&1 | tail -3` — must show "published"
@@ -787,7 +787,7 @@ Focus: Full local build gate, Docker image check, AC checklist verification, E2E
   - **Commit**: `chore(quality): pass full local build gate`
   - _Requirements: NFR-4, NFR-6, AC-2.1, AC-2.3_
 
-- [ ] V15 [VERIFY] AC checklist — verify each acceptance criterion programmatically
+- [x] V15 [VERIFY] AC checklist — verify each acceptance criterion programmatically
   - **Files**: None (verification only)
   - **Do**: Run the following checks and confirm each passes:
     1. **AC-1.3** (README Getting Started): `Select-String -Path C:/Users/Windows/conquer-server/README.md -Pattern '## Getting Started'`
