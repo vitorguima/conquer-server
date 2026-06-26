@@ -303,7 +303,7 @@ Clean up structure, harden error handling. No new features. Type/build must pass
   - **Commit**: `refactor(client-patcher): handle documented edge cases`
   - _Requirements: FR-6, FR-7 · AC-3.2_ _Design: Edge Cases_
 
-- [ ] 2.8 [VERIFY] Quality checkpoint: refactor complete
+- [x] 2.8 [VERIFY] Quality checkpoint: refactor complete
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds, no warnings introduced.
