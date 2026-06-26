@@ -52,9 +52,25 @@ public static class InputValidator
         {
             errors.Add("--client dir is missing or does not exist");
         }
-        else if (!HasAnyTarget(o.ClientDir))
+        else
         {
-            errors.Add("no Conquer.exe or server.dat found in --client dir");
+            if (!HasAnyTarget(o.ClientDir))
+            {
+                errors.Add("no Conquer.exe or server.dat found in --client dir");
+            }
+
+            // Source-safety (Layer-3 advisory): the resolved output dir must not be
+            // the client/source dir itself, or patched output and backups would
+            // overwrite the operator's original Conquer.exe/server.dat. The default
+            // <client>/patched subdir is fine; only an --out pointing AT --client
+            // (or a path that normalizes to it) is rejected.
+            if (!string.IsNullOrEmpty(o.OutDir) && OutDirEqualsClientDir(o.ClientDir, o.OutDir))
+            {
+                errors.Add(
+                    "--out must not be the --client dir itself; patched output and " +
+                    "backups would overwrite the original source files. Use a separate " +
+                    "output directory (default: <client>/patched).");
+            }
         }
 
         // --find: non-empty pure ASCII (0x20..0x7E).
@@ -104,6 +120,13 @@ public static class InputValidator
                 }
             }
 
+            // Reject leading-zero weirdness ("01", "00") — only a lone "0" is a
+            // valid zero octet. Avoids ambiguous/octal-looking quads.
+            if (part.Length > 1 && part[0] == '0')
+            {
+                return false;
+            }
+
             if (!int.TryParse(part, out var octet) || octet < 0 || octet > 255)
             {
                 return false;
@@ -122,6 +145,7 @@ public static class InputValidator
         }
 
         var labels = s.Split('.');
+        var allNumeric = true;
         foreach (var label in labels)
         {
             if (label.Length == 0 || label.Length > 63)
@@ -144,7 +168,20 @@ public static class InputValidator
                 {
                     return false;
                 }
+
+                if (c < '0' || c > '9')
+                {
+                    allNumeric = false;
+                }
             }
+        }
+
+        // RFC-1123: a hostname must not be entirely numeric (that space belongs to
+        // IPv4). Such strings are rejected here so an invalid dotted-quad like
+        // "999.1.1.1" cannot sneak through as a "hostname".
+        if (allNumeric)
+        {
+            return false;
         }
 
         return true;
@@ -181,6 +218,26 @@ public static class InputValidator
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// True when <paramref name="outDir"/> resolves to the same directory as
+    /// <paramref name="clientDir"/> (after full-path normalization, ignoring a
+    /// trailing separator). Used to block <c>--out</c> from overwriting source.
+    /// </summary>
+    private static bool OutDirEqualsClientDir(string clientDir, string outDir)
+    {
+        string Normalize(string p)
+        {
+            var full = Path.GetFullPath(p);
+            return full.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
+
+        var comparison = OperatingSystem.IsWindows()
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+
+        return string.Equals(Normalize(clientDir), Normalize(outDir), comparison);
     }
 
     private static bool HasAnyTarget(string clientDir)

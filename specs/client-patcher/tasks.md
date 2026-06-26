@@ -251,7 +251,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
 
 Clean up structure, harden error handling. No new features. Type/build must pass.
 
-- [ ] 2.1 Harden InputValidator rules
+- [x] 2.1 Harden InputValidator rules
   - **Do**: Tighten `IsValidIpv4` (octet 0..255), `IsValidHostname` (RFC-1123 labels), port `1..65535`, non-ASCII `--find` error message (v1 ASCII-only note), empty `--find` rejection. Collect ALL errors (not fail-fast on first).
   - **Files**: src/ClientPatcher/InputValidator.cs
   - **Done when**: Each invalid-input path yields a clear distinct error string; build green.
