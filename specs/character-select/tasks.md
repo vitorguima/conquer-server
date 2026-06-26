@@ -27,7 +27,7 @@ Reach the CO 5065 **character-select** screen: managed Blowfish-CFB64 + DH key e
 
 Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow end-to-end. Hardcoded/defaulted values OK. Type check must pass; lint deferred to Phase 4.
 
-- [ ] 1.1 Add BouncyCastle + ICipher abstraction
+- [x] 1.1 Add BouncyCastle + ICipher abstraction
   - **Do**:
     1. Add `<PackageReference Include="BouncyCastle.Cryptography" ...>` to `src/Crypto/Crypto.csproj`.
     2. Create `src/Crypto/ICipher.cs` — `interface ICipher { void Encrypt(byte[] data, int offset, int length); void Decrypt(byte[] data, int offset, int length); }`.

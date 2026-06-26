@@ -17,7 +17,7 @@ namespace Conquer.Crypto
     /// for interoperability with the pre-existing Conquer Online game client.
     /// Do not use for any other purpose.
     /// </remarks>
-    public sealed class TQCipher
+    public sealed class TQCipher : ICipher
     {
         // Static initialization vector — generated once from the static 8-byte seed.
         private static readonly byte[] KInit = new byte[0x200]; // 512 bytes
