@@ -216,7 +216,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `refactor(client-patcher): remove POC self-test harness`
   - _Design: §8 Program (clean orchestrator)_
 
-- [ ] 1.27 [P] Confirm no server-project references
+- [x] 1.27 [P] Confirm no server-project references
   - **Do**: Audit `ClientPatcher.csproj` + `ClientPatcher.sln` for any ProjectReference/PackageReference to Crypto/Database/Network/Packets/Redux. There must be none.
   - **Files**: src/ClientPatcher/ClientPatcher.csproj
   - **Done when**: Zero references to server projects or NuGet packages.
@@ -224,7 +224,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `chore(client-patcher): confirm isolation from server projects` (only if fixes needed)
   - _Requirements: NFR-1_ _Design: Overview, Technical Decisions_
 
-- [ ] 1.28 [P] Confirm source-never-written invariant
+- [x] 1.28 [P] Confirm source-never-written invariant
   - **Do**: Audit `Program.cs`/`BackupWriter.cs` to confirm only `OutDir` paths are opened for write; source files under `--client` are read-only.
   - **Files**: src/ClientPatcher/Program.cs
   - **Done when**: No write/`File.Open(...Write)`/`WriteAllBytes` targets a source path under `--client`.
@@ -232,13 +232,13 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `chore(client-patcher): confirm source files never written` (only if fixes needed)
   - _Requirements: NFR-2 · AC-2.1_ _Design: §6, Data Flow_
 
-- [ ] 1.29 [VERIFY] Quality checkpoint: post-cleanup build
+- [x] 1.29 [VERIFY] Quality checkpoint: post-cleanup build
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.30 POC Checkpoint
+- [x] 1.30 POC Checkpoint
   - **Do**: Demonstrate the patcher works end-to-end via automated run (temp fixture dir, real CLI invocation) and confirm exit 0, backups, length-preserved patched copies, untouched source, report substrings.
   - **Done when**: Feature demonstrably patches a synthetic client folder from the CLI.
   - **Verify**: Re-run the 1.24 E2E script → `echo POC_PASS`.
