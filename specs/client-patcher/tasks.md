@@ -180,7 +180,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): wire parse/validate/resolve pipeline`
   - _Requirements: FR-3, FR-5, FR-7, FR-12 · AC-4.1/4.2/4.3_ _Design: §8, Data Flow_
 
-- [ ] 1.22 Wire Program patch loop (read → engine → backup → write → report)
+- [x] 1.22 Wire Program patch loop (read → engine → backup → write → report)
   - **Do**: In `Program.cs`, per resolved target: read source into in-memory copy (source NEVER opened for write), `EndpointBuilder.Build`, `PatchEngine.Apply` (NewLongerThanOld→exit 2). If `--find` matched in NO file→exit 3. Else per matched file write `<out>.bak` then patched bytes (length preserved), then `ReportWriter.Write` to stdout, exit 0. Wrap IO in try/catch→exit 4.
   - **Files**: src/ClientPatcher/Program.cs
   - **Done when**: Full pipeline writes backup + patched copy and emits report; exit-code mapping per §8.
