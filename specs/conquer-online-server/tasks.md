@@ -569,7 +569,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(docker): add multi-stage Dockerfile sdk:8.0 → runtime:8.0`
   - _Requirements: FR-11, NFR-10, AC-4.2_
 
-- [ ] V10b [VERIFY] Docker image builds from Dockerfile
+- [x] V10b [VERIFY] Docker image builds from Dockerfile
   - **Do**: Run `docker build` against the newly created Dockerfile and confirm a successful image tag
   - **Files**: None (verification only)
   - **Verify**: `docker build -t conquer-server:v10b-check C:/Users/Windows/conquer-server/src/ 2>&1 | Select-String 'Successfully built|Successfully tagged'`
