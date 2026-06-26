@@ -289,13 +289,13 @@ Clean up structure, harden error handling. No new features. Type/build must pass
   - **Commit**: `refactor(client-patcher): polish report formatting`
   - _Requirements: FR-9 · AC-2.4 · NFR-7_ _Design: §7 sample_
 
-- [ ] 2.6 [VERIFY] Quality checkpoint: IO + report
+- [x] 2.6 [VERIFY] Quality checkpoint: IO + report
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 2.7 Edge-case handling pass
+- [x] 2.7 Edge-case handling pass
   - **Do**: Confirm/implement edge cases (design §Edge Cases): zero-length find→validation; find>file→not-found; only one target present; match in one file not the other = success; match bounded `[0,len-len(find)]`; output-dir exists → reuse + overwrite; `.bak` collision → overwrite.
   - **Files**: src/ClientPatcher/PatchEngine.cs, src/ClientPatcher/Program.cs
   - **Done when**: All listed edge cases handled deterministically.

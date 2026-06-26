@@ -87,6 +87,10 @@ public static class PatchEngine
     private static List<int> FindAll(byte[] source, byte[] find)
     {
         var offsets = new List<int>();
+
+        // Edge cases (design §Edge Cases): a zero-length find yields no matches
+        // (it is rejected upstream at validation, guarded here for determinism),
+        // and a find longer than the file yields no matches → not-found · exit 3.
         if (find.Length == 0 || find.Length > source.Length)
         {
             return offsets;
