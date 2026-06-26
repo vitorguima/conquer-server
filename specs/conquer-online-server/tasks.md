@@ -437,7 +437,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `fix(compat): patch GamePacketHandler.cs for .NET 8 compatibility`
   - _Requirements: FR-14_
 
-- [ ] V8 [VERIFY] Quality checkpoint: Packets/ compiles, build green
+- [x] V8 [VERIFY] Quality checkpoint: Packets/ compiles, build green
   - **Do**: Build after adding all packet handlers
   - **Files**: None (verification only)
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -3`
@@ -447,7 +447,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.22 Create `Network/PacketRouter.cs` — packet dispatch by type ID
+- [x] 1.22 Create `Network/PacketRouter.cs` — packet dispatch by type ID
   - **Do**:
     1. Check if Redux already has a `PacketRouter.cs` or equivalent dispatch file; if so, MODIFY it; if not, CREATE it
     2. Implement `public sealed class PacketRouter` per design.md:
@@ -462,7 +462,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(network): add PacketRouter with read-decrypt-dispatch pipeline`
   - _Requirements: FR-5, FR-9_
 
-- [ ] 1.23 Create `Network/NetworkListener.cs` — async accept loops for auth and game ports
+- [x] 1.23 Create `Network/NetworkListener.cs` — async accept loops for auth and game ports
   - **Do**:
     1. Create `NetworkListener.cs` with namespace `Conquer.Network`
     2. Implement `public sealed class NetworkListener` per design.md:
