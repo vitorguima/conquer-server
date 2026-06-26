@@ -477,7 +477,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(network): add NetworkListener async accept loops for auth:9958 and game:5816`
   - _Requirements: FR-5, FR-16, NFR-7, AC-2.2_
 
-- [ ] V9 [VERIFY] Quality checkpoint: Network/ compiles, full build green
+- [x] V9 [VERIFY] Quality checkpoint: Network/ compiles, full build green
   - **Do**: Full build check after NetworkListener
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -5`
   - **Done when**: "Build succeeded", zero errors
@@ -486,7 +486,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.24 Create `appsettings.json` — externalized configuration
+- [x] 1.24 Create `appsettings.json` — externalized configuration
   - **Do**:
     1. Create `C:/Users/Windows/conquer-server/src/appsettings.json` with exact content from design.md Configuration Design section:
        ```json
