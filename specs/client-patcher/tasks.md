@@ -78,13 +78,13 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): implement PatchEngine core search/replace`
   - _Requirements: FR-1, FR-6, FR-11 · AC-3.1/3.3/3.4 · NFR-2/3/6_ _Design: §5 PatchEngine_
 
-- [ ] 1.8 [VERIFY] Quality checkpoint: engine builds
+- [x] 1.8 [VERIFY] Quality checkpoint: engine builds
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.9 Inline POC harness: prove engine on in-memory fixture
+- [x] 1.9 Inline POC harness: prove engine on in-memory fixture
   - **Do**: In `Program.cs`, behind a temporary `--selftest` flag, build an in-memory byte array containing `192.168.0.10\0` among filler, call `PatchEngine.Apply(buf, "192.168.0.10", "127.0.0.1")`, assert output length == input length and matched region == `127.0.0.1` + null pad. Print result, exit 0/1.
   - **Files**: src/ClientPatcher/Program.cs
   - **Done when**: `--selftest` runs and reports the round-trip patch correct.
