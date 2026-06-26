@@ -128,7 +128,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.15 BackupWriter
+- [x] 1.15 BackupWriter
   - **Do**: Create `src/ClientPatcher/BackupWriter.cs` per design §6: `WriteBackup(outputPath, originalCopyBytes)` writes `<output>.bak` (original-copy bytes) BEFORE patched bytes land. Overwrite prior `.bak` on collision. Source under `--client` never opened for write.
   - **Files**: src/ClientPatcher/BackupWriter.cs
   - **Done when**: `<output>.bak` written in out dir from original-copy bytes.
