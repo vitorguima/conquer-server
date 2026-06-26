@@ -281,7 +281,7 @@ Clean up structure, harden error handling. No new features. Type/build must pass
   - **Commit**: `refactor(client-patcher): add IO error handling (exit 4)`
   - _Requirements: FR-12_ _Design: Error Handling (IO rows)_
 
-- [ ] 2.5 Report formatting polish (hex offsets, port line, totals)
+- [x] 2.5 Report formatting polish (hex offsets, port line, totals)
   - **Do**: Align `ReportWriter` output to design §7 sample: hex offsets `0x%08X`, quoted old/new bytes, `(host)` tag, port-applied vs "left unchanged (not co-located...)" line, totals, backup paths.
   - **Files**: src/ClientPatcher/ReportWriter.cs
   - **Done when**: Output matches design sample substrings.

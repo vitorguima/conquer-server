@@ -11,23 +11,21 @@ public static class ReportWriter
 {
     /// <summary>
     /// Write the report for <paramref name="results"/> to <paramref name="o"/>,
-    /// echoing <paramref name="warnings"/> and reflecting the
-    /// <paramref name="endpoint"/> port plan.
+    /// reflecting the <paramref name="endpoint"/> port plan.
     /// </summary>
+    /// <remarks>
+    /// Warnings are NOT echoed here. To avoid duplicate output, LAN/validation
+    /// warnings are emitted on exactly one stream — stderr, via
+    /// <c>Program</c> — so the operator sees each warning once and the LAN
+    /// "Server.dat is damaged" substring stays grep-able on stderr.
+    /// </remarks>
     public static void Write(
         TextWriter o,
         IReadOnlyList<PatchResult> results,
-        IReadOnlyList<string> warnings,
         EndpointPlan endpoint)
     {
         o.WriteLine("ClientPatcher — auth endpoint repoint (auth-only; game IP never touched)");
         o.WriteLine();
-
-        foreach (var warning in warnings)
-        {
-            o.WriteLine("WARNING: " + warning);
-            o.WriteLine();
-        }
 
         var totalOffsets = 0;
         var backups = new List<string>();

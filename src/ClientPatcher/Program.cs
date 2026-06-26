@@ -82,7 +82,7 @@ internal static class Program
             return (int)ExitCode.Validation;
         }
 
-        return RunPatch(options, targets, validation.Warnings);
+        return RunPatch(options, targets);
     }
 
     /// <summary>
@@ -93,8 +93,7 @@ internal static class Program
     /// </summary>
     private static int RunPatch(
         PatchOptions options,
-        IReadOnlyList<TargetFile> targets,
-        IReadOnlyList<string> warnings)
+        IReadOnlyList<TargetFile> targets)
     {
         var endpoint = EndpointBuilder.Build(options);
         var findBytes = Encoding.ASCII.GetBytes(options.Find!);
@@ -180,7 +179,7 @@ internal static class Program
         }
 
         // Report to stdout, exit 0.
-        ReportWriter.Write(Console.Out, results, warnings, endpoint);
+        ReportWriter.Write(Console.Out, results, endpoint);
         return (int)ExitCode.Ok;
     }
 
