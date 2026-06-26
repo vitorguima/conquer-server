@@ -337,7 +337,7 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 3.4 PatchEngineTests — round-trip, length, null-pad, not-found, determinism, multi-match
+- [x] 3.4 PatchEngineTests — round-trip, length, null-pad, not-found, determinism, multi-match
   - **Do**: Create `src/ClientPatcher.Tests/PatchEngineTests.cs`: round-trip replace + reverse-restore (AC-1.1/3.1); `len(new)>len(old)`→`NewLongerThanOld` no output (AC-3.3); shorter→tail null-padded + terminator at `offset+len(find)` unchanged (AC-3.4); find absent→`FindNotFound` no output (AC-3.2); `output.Length==source.Length` every case (NFR-3/AC-2.3); same inputs twice→byte-identical (NFR-6); two placeholders→two offsets both replaced (assumption d).
   - **Files**: src/ClientPatcher.Tests/PatchEngineTests.cs
   - **Done when**: All PatchEngine tests pass.
