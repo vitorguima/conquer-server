@@ -659,7 +659,7 @@ Focus: Clean up POC shortcuts. Improve error handling. Externalize remaining har
   - **Commit**: `fix(auth): use RandomNumberGenerator for cryptographically random session tokens`
   - _Requirements: NFR-8_
 
-- [ ] 2.4 Validate SHA1 comparison against DDL audit — fix if format differs from hex
+- [x] 2.4 Validate SHA1 comparison against DDL audit — fix if format differs from hex
   - **Do**:
     1. Review the DDL audit notes from task 1.9 and the `ValidateSha1` implementation in `MsgAccount.cs`
     2. If the stored format is hex (VARCHAR(40)): confirm `Convert.ToHexString(hash).ToLowerInvariant()` matches stored value — adjust case if needed
