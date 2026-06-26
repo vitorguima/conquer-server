@@ -9,7 +9,10 @@ COPY Maps/Maps.csproj Maps/
 COPY Database/Database.csproj Database/
 COPY Network/Network.csproj Network/
 COPY Packets/Packets.csproj Packets/
-RUN dotnet restore Conquer.sln
+# Restore only the server's project graph (Redux + its ProjectReferences).
+# NOT the whole solution — that now includes Crypto.Tests (xUnit), which the
+# runtime image never publishes and whose .csproj isn't copied here.
+RUN dotnet restore Redux/Redux.csproj
 
 # Copy all source
 COPY . .
