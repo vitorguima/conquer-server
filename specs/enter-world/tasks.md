@@ -42,7 +42,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: FR-1, FR-11, US-1, AC-1.1, AC-1.2, AC-1.3_
   - _Design: ClientSession, GameHandler_
 
-- [ ] 1.2 Add 1010 SetLocation-echo + 1110 packet builders
+- [x] 1.2 Add 1010 SetLocation-echo + 1110 packet builders
   - **Do**:
     1. Create `src/Packets/GeneralData.cs` (namespace `Conquer.Packets`): `BuildSetLocation(uint uid, uint mapId, ushort x, ushort y)` → body **28** per layout (UID@8=uid, Data1@12=mapId, Data2@16=`(uint)((y<<16)|(x & 0xFFFF))`, Action@22=74, pad 24-27=0); call `AppendHeader(span, bodyLen+8, 1010)`.
     2. Create `src/Packets/MapStatus.cs`: `Build(uint mapId)` → body **16** (UID@4=mapId, ID@8=mapId, Type@12=0); `AppendHeader(span, bodyLen+8, 1110)`.
@@ -54,7 +54,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: FR-4, FR-5, FR-6, NFR-4, US-3, AC-3.1, AC-3.2_
   - _Design: Packet builders, Exact Packet Layouts (Reply A/B)_
 
-- [ ] 1.3 [VERIFY] Quality checkpoint: build clean after session + builders
+- [x] 1.3 [VERIFY] Quality checkpoint: build clean after session + builders
   - **Do**: Run dockerized build; fix any errors introduced by 1.1–1.2.
   - **Verify**: `scripts/dotnet build src/Conquer.sln && echo PASS`
   - **Done when**: 0 build errors.
