@@ -291,7 +291,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(db): add AccountRepository with Dapper FindByUsername`
   - _Requirements: FR-1, AC-3.2_
 
-- [ ] 1.16 [P] Create `Database/CharacterRepository.cs` — character table queries
+- [x] 1.16 [P] Create `Database/CharacterRepository.cs` — character table queries
   - **Do**:
     1. Create `CharacterRepository.cs` with namespace `Conquer.Database`
     2. Implement exactly per design.md:
