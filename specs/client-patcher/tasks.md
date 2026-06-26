@@ -267,13 +267,13 @@ Clean up structure, harden error handling. No new features. Type/build must pass
   - **Commit**: `refactor(client-patcher): centralize error messages and exit mapping`
   - _Requirements: FR-12 · AC-3.2/3.3_ _Design: §8 table, Error Handling_
 
-- [ ] 2.3 [VERIFY] Quality checkpoint: validation + errors
+- [x] 2.3 [VERIFY] Quality checkpoint: validation + errors
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 2.4 Robust IO error handling (exit 4)
+- [x] 2.4 Robust IO error handling (exit 4)
   - **Do**: Wrap source read, backup write, and patched write in targeted try/catch emitting "could not read/write <file>: <reason>" → exit 4. Abort in-flight file before flushing patched bytes on write failure.
   - **Files**: src/ClientPatcher/Program.cs
   - **Done when**: Unreadable source / write failure → exit 4 with message; no corrupt partial output.

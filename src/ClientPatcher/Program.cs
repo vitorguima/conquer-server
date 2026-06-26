@@ -150,18 +150,25 @@ internal static class Program
         var results = new List<PatchResult>(pending.Count);
         foreach (var (target, sourceBytes, outputBytes, result) in pending)
         {
+            // Backup the original-copy bytes BEFORE the patched bytes land. A
+            // backup-write failure aborts this file before any patched output —
+            // the original is never at risk (source is never opened for write).
             try
             {
-                // Backup the original-copy bytes BEFORE the patched bytes land.
                 BackupWriter.WriteBackup(target.OutputPath, sourceBytes);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                WriteError(Errors.CouldNotWrite(target.OutputPath + ".bak", ex.Message));
+                return (int)ExitCode.IoError;
+            }
 
-                var dir = Path.GetDirectoryName(target.OutputPath);
-                if (!string.IsNullOrEmpty(dir))
-                {
-                    Directory.CreateDirectory(dir);
-                }
-
-                File.WriteAllBytes(target.OutputPath, outputBytes);
+            // Write patched bytes to a sibling temp file first, then move it into
+            // place. A failure mid-write leaves only the temp file (cleaned up) —
+            // the patched output path never holds a truncated/corrupt partial.
+            try
+            {
+                WritePatchedAtomic(target.OutputPath, outputBytes);
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
@@ -175,5 +182,47 @@ internal static class Program
         // Report to stdout, exit 0.
         ReportWriter.Write(Console.Out, results, warnings, endpoint);
         return (int)ExitCode.Ok;
+    }
+
+    /// <summary>
+    /// Write <paramref name="bytes"/> to <paramref name="outputPath"/> via a sibling
+    /// temp file then a move into place, so a write failure can never leave a
+    /// truncated/corrupt partial at the target path. The temp file is removed on
+    /// failure; on success it replaces any existing patched output.
+    /// </summary>
+    private static void WritePatchedAtomic(string outputPath, byte[] bytes)
+    {
+        var dir = Path.GetDirectoryName(outputPath);
+        if (!string.IsNullOrEmpty(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
+
+        var tempPath = outputPath + ".tmp";
+        try
+        {
+            File.WriteAllBytes(tempPath, bytes);
+            // Move overwriting any prior patched output (reuse + overwrite, design
+            // §Edge Cases: output dir exists).
+            File.Move(tempPath, outputPath, overwrite: true);
+        }
+        catch
+        {
+            // Best-effort cleanup of the partial temp file; never mask the original
+            // IO error that aborted the write.
+            try
+            {
+                if (File.Exists(tempPath))
+                {
+                    File.Delete(tempPath);
+                }
+            }
+            catch
+            {
+                // ignore cleanup failure
+            }
+
+            throw;
+        }
     }
 }
