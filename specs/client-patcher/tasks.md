@@ -172,7 +172,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.21 Wire Program pipeline (parse → validate → resolve)
+- [x] 1.21 Wire Program pipeline (parse → validate → resolve)
   - **Do**: In `Program.cs`, replace stub `Main`: parse args (catch `ArgParseException`→exit 2), `--help`→print UsageText exit 0, validate (errors→exit 2), resolve targets (none→exit 2). Print warnings.
   - **Files**: src/ClientPatcher/Program.cs
   - **Done when**: Parse/validate/resolve wired with correct early exits.

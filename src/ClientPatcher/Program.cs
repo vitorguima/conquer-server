@@ -13,8 +13,70 @@ internal static class Program
             return SelfTest();
         }
 
-        Console.WriteLine("ClientPatcher — auth endpoint repoint (auth-only; game IP never touched)");
-        return 0;
+        // 1. Parse args → PatchOptions (defaults applied). Malformed/unknown flag
+        //    → ArgParseException → exit 2 (design §8).
+        PatchOptions options;
+        try
+        {
+            options = ArgumentParser.Parse(args);
+        }
+        catch (ArgParseException ex)
+        {
+            Console.Error.WriteLine("error: " + ex.Message);
+            Console.Error.WriteLine();
+            Console.Error.WriteLine(ArgumentParser.UsageText());
+            return (int)ExitCode.Validation;
+        }
+
+        // --help/-h → print usage, exit 0.
+        if (options.ShowHelp)
+        {
+            Console.WriteLine(ArgumentParser.UsageText());
+            return (int)ExitCode.Ok;
+        }
+
+        // 2. Validate; errors → exit 2 (nothing written). Warnings are printed but
+        //    do not block the run (design §2, §8).
+        var validation = InputValidator.Validate(options);
+        if (!validation.Ok)
+        {
+            foreach (var error in validation.Errors)
+            {
+                Console.Error.WriteLine("error: " + error);
+            }
+
+            return (int)ExitCode.Validation;
+        }
+
+        foreach (var warning in validation.Warnings)
+        {
+            Console.Error.WriteLine("WARNING: " + warning);
+        }
+
+        // 3. Resolve target files under --client. None → exit 2.
+        var targets = TargetResolver.Resolve(options);
+        if (targets.Count == 0)
+        {
+            Console.Error.WriteLine("error: no Conquer.exe or server.dat found in --client dir");
+            return (int)ExitCode.Validation;
+        }
+
+        return RunPatch(options, targets, validation.Warnings);
+    }
+
+    /// <summary>
+    /// Patch loop (design §8, Data Flow). Wired in task 1.22; this 1.21 placeholder
+    /// confirms parse/validate/resolve reached a non-empty target set.
+    /// </summary>
+    private static int RunPatch(
+        PatchOptions options,
+        IReadOnlyList<TargetFile> targets,
+        IReadOnlyList<string> warnings)
+    {
+        _ = options;
+        _ = warnings;
+        Console.WriteLine($"resolved {targets.Count} target file(s); patch loop wired in 1.22");
+        return (int)ExitCode.Ok;
     }
 
     private static int SelfTest()
