@@ -22,8 +22,9 @@ namespace Conquer.Network
 
         public void Send(byte[] packet)
         {
-            if (IsAuthenticated)
-                Cipher.Encrypt(packet, 0, packet.Length);
+            if (!Stream.CanWrite) return;
+            if (IsAuthenticated && packet.Length > 2)
+                Cipher.Encrypt(packet, 2, packet.Length - 2);  // skip length prefix, encrypt rest
             Stream.Write(packet, 0, packet.Length);
         }
 

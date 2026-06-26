@@ -65,11 +65,12 @@ namespace Redux
             var session = new ClientSession(tcp);
             string endpoint = tcp.Client?.RemoteEndPoint?.ToString() ?? "unknown";
             Console.WriteLine($"[Connect] {endpoint}");
+            ushort typeId = 0;
             try
             {
                 while (!ct.IsCancellationRequested)
                 {
-                    var (typeId, payload) = _router.ReadPacket(session.Stream);
+                    (typeId, var payload) = _router.ReadPacket(session.Stream);
                     _router.Dispatch(session, typeId, payload);
                 }
             }
@@ -79,11 +80,11 @@ namespace Redux
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"[Error] {endpoint} IO: {ex.Message}");
+                Console.WriteLine($"[Error] {endpoint} typeId={typeId} IO: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Error] {endpoint} {ex.GetType().Name}: {ex.Message}");
+                Console.WriteLine($"[Error] {endpoint} typeId={typeId} {ex.GetType().Name}: {ex.Message}");
             }
             finally
             {

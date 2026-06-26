@@ -617,7 +617,7 @@ Focus: Clean up POC shortcuts. Improve error handling. Externalize remaining har
 
 ---
 
-- [ ] 2.1 Fix `ClientSession.Send()` — correct packet framing with length prefix
+- [x] 2.1 Fix `ClientSession.Send()` — correct packet framing with length prefix
   - **Do**:
     1. Review the `Send(byte[] packet)` implementation in `ClientSession.cs`
     2. Ensure the 2-byte LE length prefix is prepended correctly: `totalLen = packet.Length + 2`; write `BinaryPrimitives.WriteUInt16LittleEndian` then `stream.Write(packet)`
@@ -629,7 +629,7 @@ Focus: Clean up POC shortcuts. Improve error handling. Externalize remaining har
   - **Commit**: `fix(network): correct packet framing and cipher ordering in ClientSession.Send`
   - _Requirements: FR-9_
 
-- [ ] 2.2 Improve error handling — add per-packet typeId to error logs
+- [x] 2.2 Improve error handling — add per-packet typeId to error logs
   - **Do**:
     1. In `NetworkListener.ServeClientAsync`, store the last-seen `typeId` in a local variable before `Dispatch`
     2. In the `catch (Exception ex)` block, include `typeId` in the log: `[Error] {endpoint} typeId={typeId} ex={ex.GetType().Name} msg={ex.Message}` — matches design.md error log format
