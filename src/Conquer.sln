@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network", "Network\Network.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packets", "Packets\Packets.csproj", "{D5C83D1E-84A3-4060-AD15-146AAFC5DA27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Tests", "Crypto.Tests\Crypto.Tests.csproj", "{BAECFD81-02A8-4465-ACA1-B60D2F622890}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{D5C83D1E-84A3-4060-AD15-146AAFC5DA27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5C83D1E-84A3-4060-AD15-146AAFC5DA27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5C83D1E-84A3-4060-AD15-146AAFC5DA27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAECFD81-02A8-4465-ACA1-B60D2F622890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAECFD81-02A8-4465-ACA1-B60D2F622890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAECFD81-02A8-4465-ACA1-B60D2F622890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAECFD81-02A8-4465-ACA1-B60D2F622890}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

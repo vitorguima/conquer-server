@@ -51,7 +51,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-3, NFR-1, NFR-5_
   - _Design: GameCipher; AC-3.1–3.4_
 
-- [ ] 1.3 [VERIFY] **A1 GATE** — Blowfish-CFB64 KAT + round-trip (byte-compat vs OpenSSL)
+- [x] 1.3 [VERIFY] **A1 GATE** — Blowfish-CFB64 KAT + round-trip (byte-compat vs OpenSSL)
   - **Do**:
     1. Create `src/Crypto.Tests/Crypto.Tests.csproj` (xUnit, references `Crypto.csproj`); add it to `src/Conquer.sln`.
     2. Create `src/Crypto.Tests/BlowfishCfb64Tests.cs`:
