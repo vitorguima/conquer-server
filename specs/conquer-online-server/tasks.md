@@ -524,7 +524,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(startup): rewrite Program.cs with IConfiguration and async listener startup`
   - _Requirements: FR-15, FR-16, AC-2.1, AC-2.2_
 
-- [ ] V10 [VERIFY] Quality checkpoint: full solution builds cleanly
+- [x] V10 [VERIFY] Quality checkpoint: full solution builds cleanly
   - **Do**: Run `dotnet build --no-incremental` and confirm zero errors; also do `dotnet run --no-build` with `--help` to confirm the binary starts (Ctrl+C to stop)
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | grep -E '^Build (succeeded|FAILED)'`
   - **Done when**: "Build succeeded" present
@@ -533,7 +533,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.26 Create MySQL 8 compatible `init.sql` from audited Redux DDL
+- [x] 1.26 Create MySQL 8 compatible `init.sql` from audited Redux DDL
   - **Do**:
     1. Using the DDL audit findings from task 1.9, create `C:/Users/Windows/conquer-server/src/init.sql`
     2. Start with `CREATE DATABASE IF NOT EXISTS conquer CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;` and `USE conquer;`
@@ -546,7 +546,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(db): add MySQL 8 compatible init.sql with account and character tables`
   - _Requirements: FR-10, FR-13, FR-17, AC-1.1, AC-4.3_
 
-- [ ] 1.27 Create `Dockerfile` — multi-stage build
+- [x] 1.27 Create `Dockerfile` — multi-stage build
   - **Do**:
     1. Create `C:/Users/Windows/conquer-server/src/Dockerfile` with exact content from design.md Docker Topology section:
        ```dockerfile

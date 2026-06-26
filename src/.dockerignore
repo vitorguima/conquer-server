@@ -1,0 +1,7 @@
+bin/
+obj/
+maps/
+*.md
+.git/
+.vs/
+*.user
