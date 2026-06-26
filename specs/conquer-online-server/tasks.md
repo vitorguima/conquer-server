@@ -340,7 +340,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(network): add ClientSession with per-connection state and cipher`
   - _Requirements: FR-5, FR-6, AC-3.4_
 
-- [ ] V7 [VERIFY] Quality checkpoint: Network/ base types compile
+- [x] V7 [VERIFY] Quality checkpoint: Network/ base types compile
   - **Do**: Build after TokenStore + ClientSession
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -3`
   - **Done when**: "Build succeeded", zero errors
@@ -349,7 +349,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.19 Create `Packets/MsgConnectEx.cs` — MsgConnectEx (1055) response builder
+- [x] 1.19 Create `Packets/MsgConnectEx.cs` — MsgConnectEx (1055) response builder
   - **Do**:
     1. Create directory `C:/Users/Windows/conquer-server/src/Packets/` if not already present from Redux
     2. Create `MsgConnectEx.cs` with namespace `Conquer.Packets`
@@ -364,7 +364,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(packets): add MsgConnectEx 1055 response builder`
   - _Requirements: FR-9, AC-3.3_
 
-- [ ] 1.20 Create `Packets/MsgAccount.cs` — MsgAccount (1051) auth handler
+- [x] 1.20 Create `Packets/MsgAccount.cs` — MsgAccount (1051) auth handler
   - **Do**:
     1. Create `MsgAccount.cs` with namespace `Conquer.Packets`
     2. Implement `public sealed class AuthHandler` with:
@@ -390,7 +390,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(auth): add MsgAccount 1051 handler with RC5 decrypt and SHA1 validate`
   - _Requirements: FR-7, FR-8, FR-9, AC-3.1, AC-3.2, AC-3.3, AC-3.6_
 
-- [ ] 1.21 Create `Packets/MsgConnect.cs` — MsgConnect (1052) game auth handler
+- [x] 1.21 Create `Packets/MsgConnect.cs` — MsgConnect (1052) game auth handler
   - **Do**:
     1. Create `MsgConnect.cs` with namespace `Conquer.Packets`
     2. Implement `public sealed class GameHandler` with:
@@ -411,7 +411,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(game): add MsgConnect 1052 handler with token validation and cipher activation`
   - _Requirements: FR-9, AC-3.4, AC-3.5_
 
-- [ ] 1.21b Locate Redux `MsgUserInfo.cs` and patch for .NET 8 compatibility
+- [x] 1.21b Locate Redux `MsgUserInfo.cs` and patch for .NET 8 compatibility
   - **Do**:
     1. Check if Redux already has a `Packets/MsgUserInfo.cs`: `Test-Path C:/Users/Windows/conquer-server/src/Packets/MsgUserInfo.cs`
     2. If found, read it: note the class/struct layout, field count, and any .NET 4.0-era APIs used
@@ -424,7 +424,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `fix(compat): patch or stub MsgUserInfo.cs for .NET 8 compatibility`
   - _Requirements: FR-14, AC-3.5_
 
-- [ ] 1.21c Locate Redux `GamePacketHandler.cs` and patch for .NET 8 compatibility
+- [x] 1.21c Locate Redux `GamePacketHandler.cs` and patch for .NET 8 compatibility
   - **Do**:
     1. Search for the file: `Get-ChildItem -Recurse -Filter 'GamePacketHandler.cs' C:/Users/Windows/conquer-server/src | Select-Object FullName`
     2. If found, read it and enumerate .NET 4.0 API usages: `System.Windows.Forms`, `Thread.Abort`, `System.Web`, obsolete `Encoding.Default`, removed LINQ overloads
