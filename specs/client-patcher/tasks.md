@@ -70,7 +70,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): add PatchOptions model`
   - _Requirements: FR-4 · AC-1.2_ _Design: §1 PatchOptions_
 
-- [ ] 1.7 PatchEngine — core search/replace (POC heart)
+- [x] 1.7 PatchEngine — core search/replace (POC heart)
   - **Do**: Create `src/ClientPatcher/PatchEngine.cs` per design §5: `MatchEdit`, `PatchResult`, `PatchError`, pure `Apply(byte[] source, byte[] find, byte[] replacement)`. Rules: `len(replacement)>len(find)`→`NewLongerThanOld` no output; ASCII byte-search collect ALL offsets; zero→`FindNotFound`; per offset write replacement then null-pad `0x00` to `len(find)`; output length == source length always.
   - **Files**: src/ClientPatcher/PatchEngine.cs
   - **Done when**: Compiles; length-preserving in-place mutation, replace-all, length-guard, null-pad implemented.
