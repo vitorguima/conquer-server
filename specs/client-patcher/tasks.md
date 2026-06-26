@@ -323,7 +323,7 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
   - **Commit**: `test(client-patcher): scaffold xUnit test project`
   - _Requirements: NFR-4 · AC-6.2_ _Design: File Structure_
 
-- [ ] 3.2 FixtureFactory (synthetic in-memory fixtures)
+- [x] 3.2 FixtureFactory (synthetic in-memory fixtures)
   - **Do**: Create `src/ClientPatcher.Tests/Fixtures/FixtureFactory.cs`: builds byte arrays for a stub `Conquer.exe` (placeholder host `192.168.0.10\0` among filler) and a stub `server.dat` (host token), plus helper to write them to a temp dir. No real TQ assets.
   - **Files**: src/ClientPatcher.Tests/Fixtures/FixtureFactory.cs
   - **Done when**: Factory returns deterministic synthetic byte arrays + temp-dir writer.
