@@ -597,7 +597,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(docker): add docker-compose.yml with db and server services`
   - _Requirements: FR-11, FR-12, FR-13, FR-17, AC-1.1, AC-4.1, AC-4.4, AC-4.5_
 
-- [ ] 1.29 POC Checkpoint — verify local `dotnet run` binds ports
+- [x] 1.29 POC Checkpoint — verify local `dotnet run` binds ports
   - **Do**:
     1. Start server in background: `Start-Job { cd C:/Users/Windows/conquer-server/src; dotnet run } | Out-Null; Start-Sleep -Seconds 8`
     2. Check port 9958 listening: `netstat -ano | Select-String ':9958'`
