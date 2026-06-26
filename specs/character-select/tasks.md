@@ -65,7 +65,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-13, NFR-1, NFR-4_
   - _Design: Test Strategy (BlowfishCfb64_KAT/RoundTrip); AC-3.5_
 
-- [ ] 1.4 Implement ServerKeyExchange (managed DH; packet build + parse)
+- [x] 1.4 Implement ServerKeyExchange (managed DH; packet build + parse)
   - **Do**:
     1. Create `src/Crypto/ServerKeyExchange.cs`: `DHParameters(P,G)` with P = the 512-bit hex const + G `"05"`; `GeneratorUtilities.GetKeyPairGenerator("DH")` → `GenerateKeyPair()`; `AgreementUtilities.GetBasicAgreement("DH")`. Constants verbatim: `PAD_LENGTH=11`, `JUNK_LENGTH=12`, `TQSERVER="TQServer"`.
     2. `CreateServerKeyPacket()` — EXACT layout: pad@0(11), `size-PAD`@11(int), junkLen@15(int=12), junk@19(12), clientIVlen@31(int=8), clientIV@35(8 zeros), serverIVlen@43(int=8), serverIV@47(8 zeros), P.Len@55(int=128), P@59(128 ASCII hex), G.Len@187(int=2), G@191("05"), pubKeyLen@193(int), pubKey@197(uppercase ASCII hex), `"TQServer"`@end. Then `GameCipher.Encrypt` under the **initial** key before returning.
