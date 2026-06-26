@@ -389,7 +389,7 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
   - **Commit**: `test(client-patcher): add EndpointBuilder tests`
   - _Requirements: FR-1/FR-2/FR-6 · AC-1.1/1.3_ _Design: Test Strategy (EndpointBuilder)_
 
-- [ ] 3.11 In-memory integration test (full pipeline on temp fixture dir)
+- [x] 3.11 In-memory integration test (full pipeline on temp fixture dir)
   - **Do**: Create `src/ClientPatcher.Tests/IntegrationTests.cs`: write FixtureFactory stubs to a temp dir, run the patch pipeline, assert backup written, patched length==original, source temp bytes unchanged (AC-2.1/2.2), report substrings present (AC-2.4: "File:", offset, "matches"). Clean up temp dir.
   - **Files**: src/ClientPatcher.Tests/IntegrationTests.cs
   - **Done when**: Integration test passes end-to-end on synthetic fixtures.
