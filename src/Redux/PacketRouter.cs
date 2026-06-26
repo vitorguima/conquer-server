@@ -31,6 +31,7 @@ namespace Redux
             ReadExact(stream, lenBuf);
             session.Cipher.Decrypt(lenBuf, 0, 2);
             ushort totalLen = BinaryPrimitives.ReadUInt16LittleEndian(lenBuf);
+            Console.WriteLine($"[Read] local={session.TcpClient.Client.LocalEndPoint} totalLen={totalLen}");
 
             if (totalLen < 4 || totalLen > 8192)
                 throw new IOException($"Invalid packet length {totalLen}");

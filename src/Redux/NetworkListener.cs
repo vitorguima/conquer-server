@@ -64,7 +64,8 @@ namespace Redux
         {
             var session = new ClientSession(tcp);
             string endpoint = tcp.Client?.RemoteEndPoint?.ToString() ?? "unknown";
-            Console.WriteLine($"[Connect] {endpoint}");
+            string local = tcp.Client?.LocalEndPoint?.ToString() ?? "?";
+            Console.WriteLine($"[Connect] {endpoint} -> {local}");
             ushort typeId = 0;
             try
             {
