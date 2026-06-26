@@ -48,13 +48,13 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `chore(client-patcher): minimal Program entrypoint`
   - _Requirements: NFR-1_ _Design: §8 Program_
 
-- [ ] 1.4 [VERIFY] Quality checkpoint: scaffold builds
+- [x] 1.4 [VERIFY] Quality checkpoint: scaffold builds
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds, no errors.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.5 [P] ExitCode enum
+- [x] 1.5 [P] ExitCode enum
   - **Do**: Create `src/ClientPatcher/ExitCode.cs` with `enum ExitCode { Ok = 0, Validation = 2, NotFound = 3, IoError = 4 }`.
   - **Files**: src/ClientPatcher/ExitCode.cs
   - **Done when**: Enum compiles with exactly these four values.
