@@ -150,7 +150,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.18 InputValidator (POC pass)
+- [x] 1.18 InputValidator (POC pass)
   - **Do**: Create `src/ClientPatcher/InputValidator.cs` per design §2: `ValidationResult{Ok,Errors,Warnings}`, `Validate(PatchOptions)`, `IsValidIpv4`, `IsValidHostname`, `IsPrivateLanIpv4`. Rules: valid IPv4/hostname; port 1..65535; client dir exists w/ ≥1 target; `--find` non-empty pure ASCII `0x20..0x7E`; LAN IP → warning (not error). POC: implement core rules, refine in Phase 2.
   - **Files**: src/ClientPatcher/InputValidator.cs
   - **Done when**: Collects errors + LAN warning; returns result without throwing.
