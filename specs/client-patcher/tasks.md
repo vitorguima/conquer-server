@@ -202,13 +202,13 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): complete POC end-to-end patch`
   - _Requirements: FR-1, FR-8, FR-9 · AC-1.1/2.1/2.2/2.3_ _Design: Data Flow, Test Strategy (integration)_
 
-- [ ] 1.25 [VERIFY] Quality checkpoint after POC
+- [x] 1.25 [VERIFY] Quality checkpoint after POC
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.26 Remove POC self-test shortcut
+- [x] 1.26 Remove POC self-test shortcut
   - **Do**: Remove the temporary `--selftest` branch/harness from `Program.cs` added in 1.9 (POC scaffolding no longer needed once E2E proven).
   - **Files**: src/ClientPatcher/Program.cs
   - **Done when**: `--selftest` flag gone; build green.
