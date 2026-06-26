@@ -254,7 +254,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(maps): add MapRegistry static map loader`
   - _Requirements: FR-4_
 
-- [ ] V5 [VERIFY] Quality checkpoint: Maps/ compiles, build green
+- [x] V5 [VERIFY] Quality checkpoint: Maps/ compiles, build green
   - **Do**: Build after adding Maps/ files
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -3`
   - **Done when**: "Build succeeded", zero errors
@@ -263,7 +263,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
 
 ---
 
-- [ ] 1.14 Create `Database/ConnectionFactory.cs` — MySqlConnection factory
+- [x] 1.14 Create `Database/ConnectionFactory.cs` — MySqlConnection factory
   - **Do**:
     1. Create directory `C:/Users/Windows/conquer-server/src/Database/`
     2. Create `ConnectionFactory.cs` with namespace `Conquer.Database`
