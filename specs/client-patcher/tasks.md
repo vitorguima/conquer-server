@@ -136,7 +136,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): implement BackupWriter`
   - _Requirements: FR-8 · AC-2.1/2.2_ _Design: §6 BackupWriter_
 
-- [ ] 1.16 ReportWriter
+- [x] 1.16 ReportWriter
   - **Do**: Create `src/ClientPatcher/ReportWriter.cs` per design §7: `Write(TextWriter, results, warnings, endpoint)` plain-text stdout. Per file list offset (hex), old bytes, new bytes, match count; totals; backups; LAN warnings; port-applied/unchanged line. No JSON.
   - **Files**: src/ClientPatcher/ReportWriter.cs
   - **Done when**: Renders file/offset/old→new/count + totals + backups + port line per design sample.
@@ -144,7 +144,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): implement ReportWriter`
   - _Requirements: FR-9 · AC-2.4 · NFR-7_ _Design: §7 ReportWriter_
 
-- [ ] 1.17 [VERIFY] Quality checkpoint: backup + report build
+- [x] 1.17 [VERIFY] Quality checkpoint: backup + report build
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
