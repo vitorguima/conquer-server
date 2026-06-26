@@ -92,7 +92,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): inline POC self-test for PatchEngine`
   - _Requirements: FR-1, FR-6 · AC-3.1 · NFR-3_ _Design: Test Strategy (round-trip)_
 
-- [ ] 1.10 EndpointBuilder — replacement bytes + port plan
+- [x] 1.10 EndpointBuilder — replacement bytes + port plan
   - **Do**: Create `src/ClientPatcher/EndpointBuilder.cs` per design §4: `EndpointPlan{HostBytes,Port,PortApplied}`, `Build(PatchOptions)`. Default replacement = ASCII bytes of `--ip` (host only), `PortApplied=false`. Apply port ONLY when `--find` carries a `:port` suffix → replacement `<ip>:<port>`, `PortApplied=true`. Never construct game IP/port.
   - **Files**: src/ClientPatcher/EndpointBuilder.cs
   - **Done when**: Host-only default + co-located `:port` path implemented.
@@ -100,7 +100,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): implement EndpointBuilder (host bytes + port plan)`
   - _Requirements: FR-1, FR-2, FR-6 · AC-1.1/1.3_ _Design: §4 EndpointBuilder (port caveat)_
 
-- [ ] 1.11 [VERIFY] Quality checkpoint: endpoint builds
+- [x] 1.11 [VERIFY] Quality checkpoint: endpoint builds
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
