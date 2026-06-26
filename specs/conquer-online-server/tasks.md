@@ -577,7 +577,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `fix(docker): fix Dockerfile build errors if any`
   - _Requirements: NFR-10, AC-4.2_
 
-- [ ] 1.28 Create `docker-compose.yml` — db + server services
+- [x] 1.28 Create `docker-compose.yml` — db + server services
   - **Do**:
     1. Create `C:/Users/Windows/conquer-server/src/docker-compose.yml` with exact content from design.md docker-compose.yml section
     2. Key points to verify in the file:
