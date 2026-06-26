@@ -112,7 +112,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - _Requirements: FR-1, FR-5, FR-6, FR-8, NFR-3_
   - _Design: GameConnection; Listener hook; AC-2.5, AC-4.1–4.3_
 
-- [ ] 1.8 [VERIFY] Quality checkpoint: build + crypto tests after wiring
+- [x] 1.8 [VERIFY] Quality checkpoint: build + crypto tests after wiring
   - **Do**: Run build + all crypto tests; confirm handshake wiring compiles and KAT/DH still green.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qi "Build succeeded" && scripts/dotnet test src/Conquer.sln 2>&1 | grep -qi "Passed!" && echo PASS`
   - **Done when**: Build succeeds; all crypto tests pass.
