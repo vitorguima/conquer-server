@@ -375,13 +375,13 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
   - **Commit**: `test(client-patcher): add ArgumentParser tests`
   - _Requirements: FR-3/FR-4 · AC-1.2_ _Design: Test Strategy (Parser)_
 
-- [ ] 3.9 [VERIFY] Quality checkpoint: validator + parser tests
+- [x] 3.9 [VERIFY] Quality checkpoint: validator + parser tests
   - **Do**: Run `scripts/dotnet test src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet test src/ClientPatcher.sln && echo PASS`
   - **Done when**: All tests pass.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 3.10 EndpointBuilderTests
+- [x] 3.10 EndpointBuilderTests
   - **Do**: Create `src/ClientPatcher.Tests/EndpointBuilderTests.cs`: host-only path → `PortApplied==false`, replacement==host bytes; co-located `--find` with `:port` → replacement==`<ip>:<port>`, `PortApplied==true`; output payload contains only `--ip`/`--port`-derived bytes (never a game IP, AC-1.3).
   - **Files**: src/ClientPatcher.Tests/EndpointBuilderTests.cs
   - **Done when**: All EndpointBuilder tests pass.
