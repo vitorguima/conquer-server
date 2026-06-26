@@ -403,7 +403,7 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
 
 All local checks pass, README written, PR created, CI verified. Never push to default branch.
 
-- [ ] 4.1 Write README (operator docs)
+- [x] 4.1 Write README (operator docs)
   - **Do**: Create `src/ClientPatcher/README.md`: usage + all flags + examples; exit codes; operator notes — delete client `tqantivirus`/anti-cheat folder, add AV exclusions, prefer loopback `127.0.0.1`, LAN "Server.dat is damaged" manual hex-patch caveat (v1 does not auto-apply), ASCII-only `--find` limitation, port co-location caveat; note Nullable/ImplicitUsings deviation from repo style; note no TQ assets shipped (operator supplies client).
   - **Files**: src/ClientPatcher/README.md
   - **Done when**: README covers usage, exit codes, and every operator note.
