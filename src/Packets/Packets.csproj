@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Conquer.Packets</RootNamespace>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Crypto/Crypto.csproj" />
+    <ProjectReference Include="../Network/Network.csproj" />
+    <ProjectReference Include="../Database/Database.csproj" />
+  </ItemGroup>
+</Project>

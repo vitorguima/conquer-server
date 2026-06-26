@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Conquer.Database</RootNamespace>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.*" />
+    <PackageReference Include="MySqlConnector" Version="2.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.*" />
+  </ItemGroup>
+</Project>

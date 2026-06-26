@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: conquer
+      MYSQL_USER: conquer
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__Default: "Server=db;Port=3306;Database=conquer;User=conquer;Password=secret;CharSet=utf8mb4;"
+      AuthPort: "9958"
+      GamePort: "5816"
+      GameServer__Ip: "127.0.0.1"
+      GameServer__Port: "5816"
+      MapsDirectory: "/app/maps"
+    ports:
+      - "9958:9958"
+      - "5816:5816"
+    volumes:
+      - ./maps:/app/maps:ro
+    restart: unless-stopped
+
+volumes:
+  db_data:
