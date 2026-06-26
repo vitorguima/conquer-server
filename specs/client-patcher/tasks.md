@@ -106,7 +106,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.12 ArgumentParser + UsageText
+- [x] 1.12 ArgumentParser + UsageText
   - **Do**: Create `src/ClientPatcher/ArgumentParser.cs` per design §1: hand-rolled `Parse(string[])`→`PatchOptions` recognizing `--client --find --ip --port --out --help/-h`. Unknown flag → throw `ArgParseException`. `UsageText()` lists all flags. POC: minimal, no exhaustive validation yet.
   - **Files**: src/ClientPatcher/ArgumentParser.cs
   - **Done when**: Parses all six flags, applies defaults, throws on unknown flag.
