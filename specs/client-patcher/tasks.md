@@ -259,7 +259,7 @@ Clean up structure, harden error handling. No new features. Type/build must pass
   - **Commit**: `refactor(client-patcher): harden input validation rules`
   - _Requirements: FR-5 · AC-4.1/4.2/4.3_ _Design: §2 rules, Error Handling_
 
-- [ ] 2.2 Centralize error messages + exit-code mapping
+- [x] 2.2 Centralize error messages + exit-code mapping
   - **Do**: Extract user-facing error strings (per Error Handling table) so each maps cleanly to ExitCode in `Program.cs`. Ensure non-zero paths write NO patched output for the failing condition.
   - **Files**: src/ClientPatcher/Program.cs
   - **Done when**: Validation→2, not-found→3, IO→4 messages match Error Handling table; no partial writes on failure.

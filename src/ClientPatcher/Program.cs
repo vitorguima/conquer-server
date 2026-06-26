@@ -4,6 +4,34 @@ namespace ClientPatcher;
 
 internal static class Program
 {
+    /// <summary>
+    /// Centralized user-facing error strings, grouped by the <see cref="ExitCode"/>
+    /// they map to (design §8 exit-code table / Error Handling table). Keeping the
+    /// wording here makes the message→exit-code mapping explicit and auditable.
+    /// </summary>
+    private static class Errors
+    {
+        // → ExitCode.Validation (2)
+        public const string NoTargets = "no Conquer.exe or server.dat found in --client dir";
+
+        public static string NewLongerThanOld(string host, int newLen, int slotLen) =>
+            $"new host '{host}' ({newLen} bytes) longer than --find slot ({slotLen} bytes)";
+
+        // → ExitCode.NotFound (3)
+        public const string FindNotFound = "search string not found in Conquer.exe or server.dat";
+
+        // → ExitCode.IoError (4)
+        public static string CouldNotRead(string path, string reason) =>
+            $"could not read {path}: {reason}";
+
+        public static string CouldNotWrite(string path, string reason) =>
+            $"could not write {path}: {reason}";
+    }
+
+    /// <summary>Write a single "error: ..." line to stderr.</summary>
+    private static void WriteError(string message) =>
+        Console.Error.WriteLine("error: " + message);
+
     private static int Main(string[] args)
     {
         // 1. Parse args → PatchOptions (defaults applied). Malformed/unknown flag
@@ -15,7 +43,7 @@ internal static class Program
         }
         catch (ArgParseException ex)
         {
-            Console.Error.WriteLine("error: " + ex.Message);
+            WriteError(ex.Message);
             Console.Error.WriteLine();
             Console.Error.WriteLine(ArgumentParser.UsageText());
             return (int)ExitCode.Validation;
@@ -35,7 +63,7 @@ internal static class Program
         {
             foreach (var error in validation.Errors)
             {
-                Console.Error.WriteLine("error: " + error);
+                WriteError(error);
             }
 
             return (int)ExitCode.Validation;
@@ -50,7 +78,7 @@ internal static class Program
         var targets = TargetResolver.Resolve(options);
         if (targets.Count == 0)
         {
-            Console.Error.WriteLine("error: no Conquer.exe or server.dat found in --client dir");
+            WriteError(Errors.NoTargets);
             return (int)ExitCode.Validation;
         }
 
@@ -86,7 +114,7 @@ internal static class Program
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                Console.Error.WriteLine($"error: could not read {target.SourcePath}: {ex.Message}");
+                WriteError(Errors.CouldNotRead(target.SourcePath, ex.Message));
                 return (int)ExitCode.IoError;
             }
 
@@ -95,9 +123,10 @@ internal static class Program
 
             if (error == PatchError.NewLongerThanOld)
             {
-                Console.Error.WriteLine(
-                    $"error: new host '{Encoding.ASCII.GetString(endpoint.HostBytes)}' " +
-                    $"({endpoint.HostBytes.Length} bytes) longer than --find slot ({findBytes.Length} bytes)");
+                WriteError(Errors.NewLongerThanOld(
+                    Encoding.ASCII.GetString(endpoint.HostBytes),
+                    endpoint.HostBytes.Length,
+                    findBytes.Length));
                 return (int)ExitCode.Validation;
             }
 
@@ -113,7 +142,7 @@ internal static class Program
         // No target file matched --find → exit 3, nothing written (design §8).
         if (pending.Count == 0)
         {
-            Console.Error.WriteLine("error: search string not found in Conquer.exe or server.dat");
+            WriteError(Errors.FindNotFound);
             return (int)ExitCode.NotFound;
         }
 
@@ -136,7 +165,7 @@ internal static class Program
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                Console.Error.WriteLine($"error: could not write {target.OutputPath}: {ex.Message}");
+                WriteError(Errors.CouldNotWrite(target.OutputPath, ex.Message));
                 return (int)ExitCode.IoError;
             }
 
