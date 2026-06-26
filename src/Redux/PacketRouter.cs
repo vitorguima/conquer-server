@@ -20,33 +20,32 @@ namespace Redux
             _game  = new GameHandler(characters, config);
         }
 
-        public (ushort typeId, byte[] payload) ReadPacket(NetworkStream stream)
+        public (ushort typeId, byte[] payload) ReadPacket(ClientSession session)
         {
-            // Read 2-byte length prefix
-            Span<byte> lenBuf = stackalloc byte[2];
+            NetworkStream stream = session.Stream;
+
+            // The client TQCipher-encrypts the entire stream from byte 0, including the
+            // 2-byte length prefix. Decrypt as we read so the cipher counter advances
+            // continuously across the whole connection.
+            var lenBuf = new byte[2];
             ReadExact(stream, lenBuf);
+            session.Cipher.Decrypt(lenBuf, 0, 2);
             ushort totalLen = BinaryPrimitives.ReadUInt16LittleEndian(lenBuf);
 
             if (totalLen < 4 || totalLen > 8192)
                 throw new IOException($"Invalid packet length {totalLen}");
 
-            // Read the rest of the packet (totalLen - 2 bytes after the length field)
+            // Read + decrypt the rest of the packet (totalLen - 2 bytes after the length field)
             var payload = new byte[totalLen - 2];
             ReadExact(stream, payload.AsSpan());
+            session.Cipher.Decrypt(payload, 0, payload.Length);
             return (BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(0, 2)), payload);
         }
 
         public void Dispatch(ClientSession session, ushort typeId, byte[] payload)
         {
-            if (session.IsAuthenticated)
-                session.Cipher.Decrypt(payload, 0, payload.Length);
-
-            // Re-read typeId from decrypted payload if authenticated
-            ushort resolvedType = session.IsAuthenticated
-                ? BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(0, 2))
-                : typeId;
-
-            switch (resolvedType)
+            // Payload is already decrypted in ReadPacket, so typeId is the real packet type.
+            switch (typeId)
             {
                 case 1051:
                     _auth.Handle(session, payload);
@@ -55,7 +54,7 @@ namespace Redux
                     _game.Handle(session, payload);
                     break;
                 default:
-                    Console.WriteLine($"[Warn] Unknown typeId={resolvedType}");
+                    Console.WriteLine($"[Warn] Unknown typeId={typeId}");
                     break;
             }
         }

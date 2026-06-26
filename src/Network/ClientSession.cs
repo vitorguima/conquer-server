@@ -23,8 +23,10 @@ namespace Conquer.Network
         public void Send(byte[] packet)
         {
             if (!Stream.CanWrite) return;
-            if (IsAuthenticated && packet.Length > 2)
-                Cipher.Encrypt(packet, 2, packet.Length - 2);  // skip length prefix, encrypt rest
+            // TQCipher is a continuous counter-based stream cipher: the client decrypts
+            // the entire inbound stream (length prefix included) from the very first byte.
+            // So encrypt the WHOLE packet from offset 0, on every send, from connect.
+            Cipher.Encrypt(packet, 0, packet.Length);
             Stream.Write(packet, 0, packet.Length);
         }
 

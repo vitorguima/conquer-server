@@ -70,7 +70,7 @@ namespace Redux
             {
                 while (!ct.IsCancellationRequested)
                 {
-                    (typeId, var payload) = _router.ReadPacket(session.Stream);
+                    (typeId, var payload) = _router.ReadPacket(session);
                     _router.Dispatch(session, typeId, payload);
                 }
             }
