@@ -1,13 +1,53 @@
-// TODO-M1: Win-Forms removed — headless server startup stub
-// Original WinForms entry point replaced for .NET 8 headless server
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Conquer.Database;
+using Conquer.Maps;
+using Conquer.Network;
+using Conquer.Packets;
+using Microsoft.Extensions.Configuration;
+
 namespace Redux
 {
-    static class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            // Entry point replaced in task 1.25 with IConfiguration wire-up
-            System.Console.WriteLine("Redux server starting (headless mode)...");
+            // Build IConfiguration from appsettings.json + environment variables
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+                .AddEnvironmentVariables()
+                .Build();
+
+            // Load maps (optional — server starts even without map files)
+            string mapsDir = config["MapsDirectory"] ?? "./maps";
+            MapRegistry.Load(mapsDir);
+
+            // Manual DI — instantiate all components
+            var factory   = new ConnectionFactory(config);
+            Console.WriteLine("[Startup] Database connected");
+
+            var accounts   = new AccountRepository(factory);
+            var characters = new CharacterRepository(factory);
+            var router     = new PacketRouter(accounts, characters, config);
+            var listener   = new NetworkListener(config, router);
+
+            // Graceful shutdown on Ctrl+C
+            using var cts = new CancellationTokenSource();
+            Console.CancelKeyPress += (_, e) =>
+            {
+                e.Cancel = true;
+                cts.Cancel();
+            };
+
+            Console.WriteLine("[Startup] Starting listeners...");
+            await Task.WhenAll(
+                listener.RunAuthAsync(cts.Token),
+                listener.RunGameAsync(cts.Token)
+            ).ConfigureAwait(false);
+
+            Console.WriteLine("[Shutdown] Server stopped.");
         }
     }
 }

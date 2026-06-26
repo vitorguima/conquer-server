@@ -508,7 +508,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(config): add appsettings.json with ports, DB string, maps directory`
   - _Requirements: FR-15, AC-1.1_
 
-- [ ] 1.25 Rewrite `Program.cs` — IConfiguration wire-up and listener startup
+- [x] 1.25 Rewrite `Program.cs` — IConfiguration wire-up and listener startup
   - **Do**:
     1. Replace the entire body of `Program.cs` with the wire-up from design.md Configuration Design / Program.cs Wire-Up section:
        - Build `IConfiguration` from `appsettings.json` + env vars
