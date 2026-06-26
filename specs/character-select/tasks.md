@@ -118,7 +118,7 @@ Focus: get crypto correct (KAT-gated first), then wire the handshake + char flow
   - **Done when**: Build succeeds; all crypto tests pass.
   - **Commit**: `chore(character-select): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.9 Port packet helpers (NetStringPacker, PacketBuilder, ChatType, MsgTalk, HeroInformation)
+- [x] 1.9 Port packet helpers (NetStringPacker, PacketBuilder, ChatType, MsgTalk, HeroInformation)
   - **Do**:
     1. `src/Packets/NetStringPacker.cs` — `[count][len][bytes]...` packer (managed `Span`/`BinaryPrimitives`, no unsafe/memcpy).
     2. `src/Packets/PacketBuilder.cs` — `AppendHeader` writing length = `size - 8`, type at +2.
