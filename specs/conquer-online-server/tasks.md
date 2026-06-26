@@ -277,7 +277,7 @@ Focus: Fork Redux, retarget to .NET 8, strip native DLLs, fix compilation, add D
   - **Commit**: `feat(db): add ConnectionFactory for MySqlConnection per-operation`
   - _Requirements: FR-1_
 
-- [ ] 1.15 [P] Create `Database/AccountRepository.cs` — account table queries
+- [x] 1.15 [P] Create `Database/AccountRepository.cs` — account table queries
   - **Do**:
     1. Create `AccountRepository.cs` with namespace `Conquer.Database`
     2. Implement exactly per design.md:
