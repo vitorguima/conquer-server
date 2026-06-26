@@ -315,7 +315,7 @@ Clean up structure, harden error handling. No new features. Type/build must pass
 
 xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All tests must pass.
 
-- [ ] 3.1 Scaffold ClientPatcher.Tests.csproj + add to sln
+- [x] 3.1 Scaffold ClientPatcher.Tests.csproj + add to sln
   - **Do**: Create `src/ClientPatcher.Tests/ClientPatcher.Tests.csproj`: `net8.0`, xUnit (xunit + xunit.runner.visualstudio + Microsoft.NET.Test.Sdk), `ProjectReference` to ClientPatcher. Add project to `src/ClientPatcher.sln`.
   - **Files**: src/ClientPatcher.Tests/ClientPatcher.Tests.csproj, src/ClientPatcher.sln
   - **Done when**: Test project builds and is in the solution.
