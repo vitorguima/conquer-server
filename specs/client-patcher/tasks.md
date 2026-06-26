@@ -367,7 +367,7 @@ xUnit + synthetic in-memory fixtures (NFR-4/5, AC-6.2). No real TQ assets. All t
   - **Commit**: `test(client-patcher): add InputValidator tests (incl. AC-5.1 LAN substring)`
   - _Requirements: FR-5/FR-10 · AC-4.1/4.2/4.3/5.1_ _Design: Test Strategy (Validator)_
 
-- [ ] 3.8 ArgumentParserTests
+- [x] 3.8 ArgumentParserTests
   - **Do**: Create `src/ClientPatcher.Tests/ArgumentParserTests.cs`: defaults `127.0.0.1`/`9958` when flags omitted (AC-1.2); all flags parsed; `--help`/`-h` sets `ShowHelp`; unknown flag throws `ArgParseException`.
   - **Files**: src/ClientPatcher.Tests/ArgumentParserTests.cs
   - **Done when**: All parser tests pass.
