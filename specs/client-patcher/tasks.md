@@ -62,7 +62,7 @@ Focus: prove the core works end-to-end fast. POC milestone = PatchEngine does co
   - **Commit**: `feat(client-patcher): add ExitCode enum`
   - _Requirements: FR-12_ _Design: §8 exit-code table_
 
-- [ ] 1.6 [P] PatchOptions model
+- [x] 1.6 [P] PatchOptions model
   - **Do**: Create `src/ClientPatcher/PatchOptions.cs` per design §1: `ClientDir`, `Find`, `Ip="127.0.0.1"`, `Port=9958`, `OutDir`, `ShowHelp`.
   - **Files**: src/ClientPatcher/PatchOptions.cs
   - **Done when**: Defaults `127.0.0.1`/`9958` present (AC-1.2).
