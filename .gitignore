@@ -14,6 +14,9 @@ obj/
 # Map data (sourced separately)
 data/maps/
 
+# E2E fixture scratch (dockerized client-patcher runtime verification)
+.e2e-tmp/
+
 # OS
 Thumbs.db
 .DS_Store

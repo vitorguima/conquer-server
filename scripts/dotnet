@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Run `dotnet` inside the .NET 8 SDK container instead of requiring a local SDK.
+#
+# The server is dockerized (see src/Dockerfile) and this repo has no local
+# `dotnet` on macOS. The client-patcher is cross-platform net8.0, so it builds
+# and tests fine on Linux in a container. This wrapper keeps that toolchain in
+# Docker too: it mounts the repo root and a persistent NuGet cache volume, then
+# forwards all arguments to `dotnet` in mcr.microsoft.com/dotnet/sdk:8.0.
+#
+# Usage (run from the repo root):
+#   scripts/dotnet build src/ClientPatcher.sln
+#   scripts/dotnet test  src/ClientPatcher.sln
+#   scripts/dotnet run --project src/ClientPatcher/ClientPatcher.csproj -- --help
+#
+# Paths are relative to the repo root, which is mounted at /repo. Anything the
+# command needs to read/write at runtime (e.g. E2E fixture dirs) must live under
+# the repo tree so it is visible inside the container — use ./.e2e-tmp (gitignored).
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SDK_IMAGE="${DOTNET_SDK_IMAGE:-mcr.microsoft.com/dotnet/sdk:8.0}"
+NUGET_VOLUME="${DOTNET_NUGET_VOLUME:-conquer-nuget}"
+
+exec docker run --rm \
+  -v "${REPO_ROOT}:/repo" \
+  -v "${NUGET_VOLUME}:/root/.nuget/packages" \
+  -w /repo \
+  "${SDK_IMAGE}" \
+  dotnet "$@"
