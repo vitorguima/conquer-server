@@ -132,3 +132,37 @@ On any non-zero path, **no patched output is written** for the failing condition
   AV-injector surface.
 - Source files under `--client` are never opened for write; backups are written before patched
   output.
+
+## Manual operator E2E (out of CI)
+
+The tool's automated tests and the in-memory E2E run against **synthetic fixtures only** — no real
+TQ assets live in this repo (NFR-5). The true end-to-end test against an actual `Conquer.exe` is
+**operator-verified on Windows and is NOT automated in CI**. Run this checklist on the operator's
+Windows machine against a real 5065 client:
+
+1. **Supply a real 5065 client.** Copy the operator's own `Conquer.exe` and/or `server.dat` into a
+   working folder (e.g. `C:\co5065\client`). Nothing in this repo provides them.
+2. **Delete the `tqantivirus` folder** inside the client directory (and add an AV exclusion for the
+   folder). The patched client will not launch with the anti-cheat present.
+3. **Determine the build-specific retail auth host string** stored in the client (the current
+   hardcoded login host/IP). This is the value to pass as `--find` — it is per-build, so confirm it
+   against the operator's actual files (e.g. with a hex/strings inspection).
+4. **Run the patcher** against the client, repointing to your auth server. Example template
+   (replace `<RETAIL_AUTH_HOST>` and the output path; use `127.0.0.1` for a local auth server or
+   your server's IP otherwise):
+
+   ```bash
+   scripts/dotnet run --project src/ClientPatcher/ClientPatcher.csproj -- \
+     --client C:\co5065\client --find "<RETAIL_AUTH_HOST>" --ip 127.0.0.1 --port 9958 \
+     --out C:\co5065\client-patched
+   ```
+
+   (On a Windows box with a local .NET 8 SDK, the equivalent `dotnet run …` works without the
+   `scripts/dotnet` Docker wrapper.)
+5. **Copy the patched files back** from the output dir over the client (keep the `.bak` backups),
+   then **launch the patched client** and confirm it **reaches auth on `127.0.0.1:9958`** (or the
+   operator's server IP/port). A successful login screen / auth handshake confirms the repoint.
+
+> This step is **operator-verified on Windows** and intentionally **out of CI** — the repo ships no
+> real client and cannot run the actual game. If a LAN/private auth IP triggers
+> "Server.dat is damaged", apply the manual LAN exe hex patch (not automated by v1).

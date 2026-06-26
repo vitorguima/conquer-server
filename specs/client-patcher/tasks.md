@@ -411,26 +411,26 @@ All local checks pass, README written, PR created, CI verified. Never push to de
   - **Commit**: `docs(client-patcher): add operator README`
   - _Requirements: FR-10 · AC-5.2 · Operator Notes_ _Design: §Security/Legal, File Structure_
 
-- [ ] 4.2 [VERIFY] Quality checkpoint: README + build
+- [x] 4.2 [VERIFY] Quality checkpoint: README + build
   - **Do**: Run `scripts/dotnet build src/ClientPatcher.sln`.
   - **Verify**: `scripts/dotnet build src/ClientPatcher.sln && echo PASS`
   - **Done when**: Build succeeds.
   - **Commit**: `chore(client-patcher): pass quality checkpoint` (only if fixes needed)
 
-- [ ] V4 [VERIFY] Full local CI: build + test
+- [x] V4 [VERIFY] Full local CI: build + test
   - **Do**: Run complete local suite for this solution: `scripts/dotnet build src/ClientPatcher.sln && scripts/dotnet test src/ClientPatcher.sln`. (Repo has no lint/typecheck targets; compiler enforces types via build.)
   - **Verify**: Both commands exit 0.
   - **Done when**: Build succeeds and all tests pass.
   - **Commit**: `chore(client-patcher): pass local CI` (if fixes needed)
   - _Requirements: NFR-1/NFR-4 · AC-6.1/6.2_
 
-- [ ] V6 [VERIFY] AC checklist
+- [x] V6 [VERIFY] AC checklist
   - **Do**: Read requirements.md; programmatically confirm each AC-* is satisfied by code/tests. Map: AC-1.1/1.2 (defaults + host patch) → ArgumentParserTests/EndpointBuilderTests; AC-1.3 → PatchEngineTests no-collateral; AC-2.1/2.2/2.3/2.4 → IntegrationTests; AC-3.1/3.2/3.3/3.4 → PatchEngineTests; AC-4.1/4.2/4.3 → InputValidatorTests; AC-5.1/5.2 → InputValidatorTests + README; AC-6.1/6.2 → net8.0 build + test run.
   - **Verify**: `scripts/dotnet test src/ClientPatcher.sln` green AND `grep -q 'Server.dat is damaged' src/ClientPatcher.Tests/InputValidatorTests.cs` AND README grep from 4.1 → all pass.
   - **Done when**: Every AC confirmed met via automated checks.
   - **Commit**: None
 
-- [ ] VE1 [VERIFY] E2E in-memory: build + patch synthetic fixtures in temp dir
+- [x] VE1 [VERIFY] E2E in-memory: build + patch synthetic fixtures in temp dir
   - **Do**:
     1. `scripts/dotnet build src/ClientPatcher.sln` (build artifact).
     2. Create a temp dir **under the repo** at `./.e2e-tmp/ve1` (gitignored; must be inside the repo tree so the dockerized container can see it); write synthetic stub `Conquer.exe` + `server.dat` (each containing `192.168.0.10\0` among filler) — same fixture bytes FixtureFactory uses.
@@ -441,13 +441,13 @@ All local checks pass, README written, PR created, CI verified. Never push to de
   - **Commit**: None
   - _Requirements: FR-1/FR-8/FR-9 · AC-2.1/2.2/2.3/2.4 · NFR-1_
 
-- [ ] VE-cleanup [VERIFY] E2E cleanup: remove temp fixture dir
+- [x] VE-cleanup [VERIFY] E2E cleanup: remove temp fixture dir
   - **Do**: Remove the temp fixture directory created in VE1 (`rm -rf ./.e2e-tmp`). No long-running process/port to free (CLI tool). Runs even if VE1 failed.
   - **Verify**: `[ ! -d "./.e2e-tmp" ] && echo VE_CLEANUP_PASS`
   - **Done when**: Temp fixture dir removed; no artifacts left in repo.
   - **Commit**: None
 
-- [ ] VE-manual [VERIFY] Document operator E2E checklist (out of CI)
+- [x] VE-manual [VERIFY] Document operator E2E checklist (out of CI)
   - **Do**: Append a "Manual operator E2E (out of CI)" checklist to `src/ClientPatcher/README.md`: (1) operator supplies real 5065 `Conquer.exe`/`server.dat`; (2) delete `tqantivirus`; (3) run patcher with their build-specific `--find` retail host; (4) launch patched client; (5) confirm it reaches auth on `127.0.0.1:9958`. State this is operator-verified, NOT automated in CI (NFR-5, no TQ assets in repo).
   - **Files**: src/ClientPatcher/README.md
   - **Verify**: `grep -qi 'operator' src/ClientPatcher/README.md && grep -q '9958' src/ClientPatcher/README.md && echo PASS`
