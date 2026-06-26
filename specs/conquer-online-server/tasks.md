@@ -683,7 +683,7 @@ Focus: Clean up POC shortcuts. Improve error handling. Externalize remaining har
   - **Commit**: `fix(config): route GameServerIP and GamePort through IConfiguration in auth handler`
   - _Requirements: FR-15, AC-4.1_
 
-- [ ] 2.6 Add `maps/` placeholder and `.gitkeep` — ensure Docker volume mount point exists
+- [x] 2.6 Add `maps/` placeholder and `.gitkeep` — ensure Docker volume mount point exists
   - **Do**:
     1. Create `C:/Users/Windows/conquer-server/src/maps/.gitkeep` (empty file)
     2. Create `C:/Users/Windows/conquer-server/src/.gitignore` (or update if exists) to include `maps/*.dmap` so operator-supplied maps are not committed

@@ -397,3 +397,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Conquer Online map files (operator-supplied, not committed)
+maps/*.dmap
+maps/*.cqmap
+
+# Environment secrets
+.env
