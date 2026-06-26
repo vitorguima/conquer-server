@@ -672,7 +672,7 @@ Focus: Clean up POC shortcuts. Improve error handling. Externalize remaining har
   - **Commit**: `fix(auth): correct SHA1 comparison format to match Redux account table`
   - _Requirements: FR-8, AC-3.2, NFR-8_
 
-- [ ] 2.5 Config cleanup — ensure `GameServerIP` and `ServerName` flow from config into MsgConnectEx
+- [x] 2.5 Config cleanup — ensure `GameServerIP` and `ServerName` flow from config into MsgConnectEx
   - **Do**:
     1. In `AuthHandler.Handle` (in `MsgAccount.cs`), read `gameServerIp = config["GameServerIP"] ?? "127.0.0.1"` and `gamePort = config.GetValue<ushort>("GamePort")` from `IConfiguration`
     2. Pass these to `MsgConnectEx.Build(token, gameServerIp, gamePort)`
