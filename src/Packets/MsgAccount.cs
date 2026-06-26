@@ -1,4 +1,6 @@
 using System;
+using System.Buffers.Binary;
+using System.Security.Cryptography;
 using System.Text;
 using Conquer.Crypto;
 using Conquer.Database;
@@ -16,8 +18,8 @@ namespace Conquer.Packets
         public AuthHandler(AccountRepository accounts, IConfiguration config)
         {
             _accounts = accounts;
-            _gameIp   = config["GameServer:Ip"] ?? "127.0.0.1";
-            _gamePort = ushort.TryParse(config["GameServer:Port"], out var p) ? p : (ushort)5816;
+            _gameIp   = config["GameServer:Ip"] ?? config["GameServerIP"] ?? string.Empty;
+            _gamePort = ushort.TryParse(config["GameServer:Port"] ?? config["GamePort"], out var p) ? p : (ushort)0;
         }
 
         public void Handle(ClientSession session, byte[] payload)
@@ -51,7 +53,7 @@ namespace Conquer.Packets
                 return;
             }
 
-            ulong token = (ulong)Random.Shared.NextInt64();
+            ulong token = BinaryPrimitives.ReadUInt64LittleEndian(RandomNumberGenerator.GetBytes(8));
             TokenStore.Add(token, account.AccountId);
             Console.WriteLine($"[Auth] OK username={username} token={token}");
 

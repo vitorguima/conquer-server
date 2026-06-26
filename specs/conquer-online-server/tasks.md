@@ -640,7 +640,7 @@ Focus: Clean up POC shortcuts. Improve error handling. Externalize remaining har
   - **Commit**: `fix(network): add typeId to error logs and packet length sanity check`
   - _Requirements: NFR-7, NFR-9_
 
-- [ ] V11 [VERIFY] Quality checkpoint: refactored network layer builds clean
+- [x] V11 [VERIFY] Quality checkpoint: refactored network layer builds clean
   - **Do**: Build check after network refactors
   - **Verify**: `cd C:/Users/Windows/conquer-server/src; dotnet build --no-incremental 2>&1 | tail -3`
   - **Done when**: "Build succeeded", zero errors
@@ -649,7 +649,7 @@ Focus: Clean up POC shortcuts. Improve error handling. Externalize remaining har
 
 ---
 
-- [ ] 2.3 Externalize token generation — use `RandomNumberGenerator` instead of `Random.Shared`
+- [x] 2.3 Externalize token generation — use `RandomNumberGenerator` instead of `Random.Shared`
   - **Do**:
     1. In `MsgAccount.cs` `AuthHandler.Handle`, replace `(ulong)Random.Shared.NextInt64()` with `BinaryPrimitives.ReadUInt64LittleEndian(RandomNumberGenerator.GetBytes(8))` for cryptographically random tokens
     2. Add `using System.Security.Cryptography;` if not already present
