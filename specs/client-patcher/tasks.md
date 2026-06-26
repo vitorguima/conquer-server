@@ -459,22 +459,13 @@ All local checks pass, README written, PR created, CI verified. Never push to de
 
 ## Phase 5: PR Lifecycle
 
-Autonomous PR management until all completion criteria met. Work is already on the `feat/client-patcher` feature branch (pushed continuously per the Execution Policy); never push to the default branch `modernize/m1`.
+**Revised by operator decision**: instead of a separate PR, `feat/client-patcher` was merged (`--no-ff`, commit `24ce567`) into `modernize/m1`, so the work flows through the **existing PR #1 (`modernize/m1 → master`)**. `gh`/CI are unavailable in the build environment; status reflects that.
 
-- [ ] 5.1 Create PR
-  - **Do**:
-    1. Confirm on a feature branch: `git branch --show-current` (not the default branch; if it is, STOP and alert user).
-    2. Push: `git push -u origin <branch>`.
-    3. `gh pr create --title "feat(client-patcher): cross-platform auth-endpoint client patcher" --body "<summary: auth-only byte-rewriter, isolated ClientPatcher.sln, no server deps, xUnit synthetic fixtures; note Nullable/ImplicitUsings deviation>"`.
-  - **Verify**: `gh pr view --json url -q .url && echo PASS`
-  - **Done when**: PR exists.
-  - **Commit**: None
+- [x] 5.1 Create PR → delivered via merge into PR #1
+  - **Done**: `feat/client-patcher` (37 commits) merged into `modernize/m1` and pushed; the client-patcher work now appears in https://github.com/vitorguima/conquer-server/pull/1. No separate PR created (operator already had PR #1 open).
 
-- [ ] 5.2 Monitor CI and fix failures
-  - **Do**: Watch CI: `gh pr checks --watch`. On failure: read details, fix locally (build/test), `git push`, re-watch. Repeat until green.
-  - **Verify**: `gh pr checks` shows all green.
-  - **Done when**: All CI checks pass.
-  - **Commit**: `fix(client-patcher): resolve CI failures` (if fixes needed)
+- [x] 5.2 Monitor CI and fix failures → N/A
+  - **Done**: repo has no `.github/workflows`, so there is no CI to monitor. (Follow-up candidate: add a dockerless `dotnet build && dotnet test` workflow.)
 
 - [ ] 5.3 Resolve review comments + final validation
   - **Do**: Address any review comments; confirm zero test regressions (`scripts/dotnet test src/ClientPatcher.sln` green), code modular, no server-project refs, no TQ assets vendored. Push fixes.
