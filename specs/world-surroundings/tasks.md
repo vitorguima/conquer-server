@@ -67,7 +67,7 @@ Focus: the send lock (correctness prerequisite, FR-1/AD-3) + the world layer exi
   - _Requirements: FR-4, AC-1.2_
   - _Design: PlayerEntity sketch, ScreenDiff, AD-5_
 
-- [ ] 1.6 Create MapInstance.cs + World.cs (FR-2, FR-10, AD-1/AD-2/AD-4)
+- [x] 1.6 Create MapInstance.cs + World.cs (FR-2, FR-10, AD-1/AD-2/AD-4)
   - **Do**:
     1. Create `src/World/MapInstance.cs`: `ConcurrentDictionary<uint,PlayerEntity> Roster` + a `Grid`; `Register(e)` (roster + grid add); `Deregister(uid)` returns the last-screen occupants then removes; `Move(e,newX,newY)` (set live coords always; on cell cross do atomic TryRemove old + TryAdd new, diff old-9 vs new-9 → ScreenDiff; within-cell → ScreenDiff.Empty, no grid write); `QueryScreen(cellX,cellY)` union of the 9 cells; `Broadcast(center,packet,includeSelf)` build-once fan-out over the 3×3 block calling each recipient `Session.SendGame`. Lock-free reads, atomic per-cell writes, NO global lock.
     2. Create `src/World/World.cs`: `ConcurrentDictionary<int,MapInstance>` + `GetOrAdd(mapId)`; facade `Register/Deregister/Move/QueryScreen` by `(mapId,uid)`.
