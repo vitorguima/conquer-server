@@ -165,7 +165,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
 
 ## Phase 3: Click → Static Dialog
 
-- [ ] 3.1 Create NpcDialog control builders (2032)
+- [x] 3.1 Create NpcDialog control builders (2032)
   - **Do**:
     1. Create `src/Packets/NpcDialog.cs`: private `Build(byte action, ushort id, byte linkback, string? text)` — body `12 + strings`, `AppendHeader(s, body+8, 2032)`, UID@4=0 (v1 default-place), ID@8, Linkback@10 (u8), Action@11 (u8), Strings@12 (NetStringPacker, omitted if empty) — per design §NpcDialog.
     2. `enum DialogAction`: Dialog/Text=1, Option=2, Avatar=4, Finish=100.
