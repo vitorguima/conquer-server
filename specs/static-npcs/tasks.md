@@ -23,7 +23,7 @@ Phase 1 (IWorldEntity retype, regression-critical): 8 · Phase 2 (NPCs visible):
 
 This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION: player behavior must stay byte-identical. The Phase-1 [VERIFY] is the regression gate — ALL existing surroundings/chat/world tests MUST still pass.
 
-- [ ] 1.1 Create IWorldEntity + EntityKind
+- [x] 1.1 Create IWorldEntity + EntityKind
   - **Do**:
     1. Create `src/World/IWorldEntity.cs` with `enum EntityKind : byte { Player=0, Npc=1, Monster=2, GroundItem=3 }`.
     2. Define `interface IWorldEntity { uint Uid; int MapId; ushort X; ushort Y; int CellX {get;set;}; int CellY {get;set;}; EntityKind Kind; }` (per design §IWorldEntity — `CellX/Y` are `{get;set;}` because `MapInstance.Move` writes them).
