@@ -81,7 +81,7 @@ Focus: one UPDATE per session on disconnect → relog spawns at last position en
   - **Commit**: `feat(redux): wire CharacterRepository into NetworkListener`
   - _Requirements: FR-8_ · _Design: NetworkListener flush + wiring, Components_
 
-- [ ] 2.4 [VERIFY] Quality checkpoint: build after persistence wiring
+- [x] 2.4 [VERIFY] Quality checkpoint: build after persistence wiring
   - **Do**: `scripts/dotnet build src/Conquer.sln`.
   - **Verify**: `scripts/dotnet build src/Conquer.sln` exits 0 with 0 warnings / 0 errors.
   - **Done when**: Full solution builds clean with persistence path wired.
