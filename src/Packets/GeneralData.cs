@@ -26,6 +26,7 @@ namespace Conquer.Packets
         private const ushort MsgGeneralDataType = 1010;
         private const ushort SetLocationAction = 74;
         private const ushort JumpAction = 133;
+        private const ushort RemoveEntityAction = 132;
 
         public static byte[] BuildSetLocation(uint uid, uint mapId, ushort x, ushort y)
         {
@@ -66,6 +67,30 @@ namespace Conquer.Packets
             BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(16), 0);                         // Data2
             BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(20), 0);                         // Data3
             BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(22), JumpAction);                // Action = 133
+            // 24-27 pad (zero)
+
+            return buffer;
+        }
+
+        /// <summary>
+        /// Builds the despawn frame (Action=132 RemoveEntity, FR-12): same 1010 layout as
+        /// <see cref="BuildJump"/> with NO coordinates — just the leaver's UID. Broadcast to a
+        /// player's last screen on disconnect, or to a viewer when the entity scrolls off-screen
+        /// (the enter/leave diff). Body length = 28 (AppendHeader(36) writes 28 @0).
+        /// </summary>
+        public static byte[] BuildRemoveEntity(uint uid)
+        {
+            const int bodyLength = 28;
+            var buffer = new byte[bodyLength];
+            Span<byte> span = buffer;
+
+            PacketBuilder.AppendHeader(span, (ushort)(bodyLength + 8), MsgGeneralDataType);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(4), 0);                          // Timestamp
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(8), uid);                        // UID (despawn)
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(12), 0);                         // Data1
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(16), 0);                         // Data2
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(20), 0);                         // Data3
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(22), RemoveEntityAction);        // Action = 132
             // 24-27 pad (zero)
 
             return buffer;

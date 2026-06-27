@@ -155,7 +155,7 @@ Focus: register-on-SetLocation + un-gate 114 → mutual 1014. POC = a newcomer s
 
 Focus: walk(1005)/jump(133) broadcast, enter/leave diff, deregister + RemoveEntity(132) on disconnect.
 
-- [ ] 3.1 Add Walk.BuildBroadcast (framed 1005) + BuildRemoveEntity (1010/132)
+- [x] 3.1 Add Walk.BuildBroadcast (framed 1005) + BuildRemoveEntity (1010/132)
   - **Do**:
     1. Create `src/Packets/Walk.cs` with `public static byte[] BuildBroadcast(uint uid, byte dir, byte mode)` — framed outbound 1005, `AppendHeader(span,20,1005)` (writes 12@0, 1005@2), UID@4, Dir@8, Mode@9, Unknown1@10=0; body 20. Span + BinaryPrimitives, NO unsafe. NOT the prefix-stripped inbound.
     2. In `GeneralData.cs` add `public static byte[] BuildRemoveEntity(uint uid)` — clone of `BuildJump` with no coords: 1010, UID@8=uid, Action@22=132, body 28 (`AppendHeader(span,36,1010)` → len@0=28). REVIEWER NIT: body length = 28, not 20.
