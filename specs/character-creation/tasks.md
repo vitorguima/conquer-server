@@ -15,7 +15,7 @@ Build/test is DOCKERIZED. Every [VERIFY] uses `scripts/dotnet ...` from repo roo
 
 Focus: prove the end-to-end create path — enum → handler (parse+validate+build+insert+ANSWER_OK) → router case → build green. Skip tests until Phase 3.
 
-- [ ] 1.1 Add `Register = 2100` to ChatType enum
+- [x] 1.1 Add `Register = 2100` to ChatType enum
   - **Do**:
     1. Edit `src/Packets/ChatType.cs`: add `Register = 2100,` before `Entrance = 2101`.
   - **Files**: src/Packets/ChatType.cs
