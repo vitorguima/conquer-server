@@ -31,7 +31,7 @@ namespace Redux
             var accounts   = new AccountRepository(factory);
             var characters = new CharacterRepository(factory);
             var router     = new PacketRouter(accounts, characters, config);
-            var listener   = new NetworkListener(config, router);
+            var listener   = new NetworkListener(config, router, characters);
 
             // Graceful shutdown on Ctrl+C
             using var cts = new CancellationTokenSource();

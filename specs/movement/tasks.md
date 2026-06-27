@@ -73,7 +73,7 @@ Focus: one UPDATE per session on disconnect → relog spawns at last position en
   - **Commit**: `feat(network): flush live position to DB on disconnect`
   - _Requirements: FR-8, AC-2.1, AC-2.3_ · _Design: NetworkListener flush, AD-2_
 
-- [ ] 2.3 Wire CharacterRepository into NetworkListener ctor in Program.cs
+- [x] 2.3 Wire CharacterRepository into NetworkListener ctor in Program.cs
   - **Do**: `src/Redux/Program.cs`: pass the already-constructed `characters` repo into the listener: `new NetworkListener(config, router, characters)`. No other wiring change.
   - **Files**: src/Redux/Program.cs
   - **Done when**: Program.cs compiles with the new 3-arg listener ctor.
