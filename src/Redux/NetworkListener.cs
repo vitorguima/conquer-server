@@ -153,8 +153,13 @@ namespace Redux
                 try
                 {
                     if (session.PositionLoaded && session.Character != null)
+                    {
                         _characters.UpdatePosition(session.Character.CharacterID,
                                                    session.CurrentMap, session.CurrentX, session.CurrentY);
+                        // TEMP diagnostic — confirms the disconnect flush fired with live
+                        // coords; remove before PR merge.
+                        Console.WriteLine($"[Game] flush pos char={session.Character.CharacterID} -> map={session.CurrentMap} ({session.CurrentX},{session.CurrentY})");
+                    }
                 }
                 catch (Exception ex)
                 {
