@@ -46,7 +46,7 @@ This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION
   - _Requirements: FR-1, AC-1.2_
   - _Design: PlayerEntity_
 
-- [ ] 1.3 Create NpcEntity
+- [x] 1.3 Create NpcEntity
   - **Do**:
     1. Create `src/World/NpcEntity.cs`: `public sealed class NpcEntity : IWorldEntity`, `Kind => EntityKind.Npc`, NO `ClientSession`.
     2. Carry `Uid/MapId/X/Y` + spawn-source `ushort Mesh`, `ushort NpcType`, `string Name`; `CellX/CellY` settable.
