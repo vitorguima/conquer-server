@@ -178,7 +178,7 @@ Focus: walk(1005)/jump(133) broadcast, enter/leave diff, deregister + RemoveEnti
   - _Requirements: FR-11, FR-15, AC-2.2, AC-2.3, AC-4.1, AC-4.2_
   - _Design: ApplyDiff, ScreenDiff, FR-15 ordering_
 
-- [ ] 3.3 [VERIFY] Quality checkpoint: build after builders + ApplyDiff (3.1-3.2)
+- [x] 3.3 [VERIFY] Quality checkpoint: build after builders + ApplyDiff (3.1-3.2)
   - **Do**: Run dockerized build; confirm 0 warnings / 0 errors.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qiE "Build succeeded" && ! scripts/dotnet build src/Conquer.sln 2>&1 | grep -qi "warning" && echo PASS`
   - **Done when**: Build succeeds, 0 warnings.
