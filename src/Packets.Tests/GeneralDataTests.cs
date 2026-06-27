@@ -33,5 +33,27 @@ namespace Conquer.Packets.Tests
 
             Assert.Equal(74, BinaryPrimitives.ReadUInt16LittleEndian(body.AsSpan(22))); // Action = 74
         }
+
+        [Fact]
+        public void GeneralData_JumpEcho_Layout()
+        {
+            const uint uid = 123456;
+            const ushort x = 74;
+            const ushort y = 100;
+
+            byte[] body = GeneralData.BuildJump(uid, x, y);
+
+            Assert.Equal(28, body.Length);
+            Assert.Equal(28, BinaryPrimitives.ReadUInt16LittleEndian(body.AsSpan(0)));    // length field
+            Assert.Equal(1010, BinaryPrimitives.ReadUInt16LittleEndian(body.AsSpan(2)));  // type
+            Assert.Equal(uid, BinaryPrimitives.ReadUInt32LittleEndian(body.AsSpan(8)));   // UID
+
+            uint data1 = BinaryPrimitives.ReadUInt32LittleEndian(body.AsSpan(12));        // Data1 = (Y<<16)|X
+            Assert.Equal((uint)(((uint)y << 16) | (x & 0xFFFFu)), data1);
+            Assert.Equal(x, (ushort)(data1 & 0xFFFF));         // Data1Low = X
+            Assert.Equal(y, (ushort)(data1 >> 16));            // Data1High = Y
+
+            Assert.Equal(133, BinaryPrimitives.ReadUInt16LittleEndian(body.AsSpan(22)));  // Action = 133 Jump
+        }
     }
 }

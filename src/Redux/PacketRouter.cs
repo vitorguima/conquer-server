@@ -15,6 +15,7 @@ namespace Redux
         private readonly GameHandler _game;
         private readonly Conquer.Packets.ActionHandler _action;
         private readonly Conquer.Packets.RegisterHandler _register;
+        private readonly Conquer.Packets.WalkHandler _walk;
 
         public PacketRouter(AccountRepository accounts, CharacterRepository characters, IConfiguration config)
         {
@@ -22,6 +23,7 @@ namespace Redux
             _game     = new GameHandler(characters, config);
             _action   = new Conquer.Packets.ActionHandler();
             _register = new Conquer.Packets.RegisterHandler(characters);
+            _walk     = new Conquer.Packets.WalkHandler();
         }
 
         public (ushort typeId, byte[] payload) ReadPacket(ClientSession session)
@@ -63,6 +65,9 @@ namespace Redux
                     break;
                 case 1001:
                     _register.Handle(session, payload);
+                    break;
+                case 1005:
+                    _walk.Handle(session, payload);
                     break;
                 default:
                     Console.WriteLine($"[Warn] Unknown typeId={typeId}");

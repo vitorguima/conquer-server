@@ -48,6 +48,13 @@ namespace Conquer.Packets
             session.Character = character;
             if (character != null)
             {
+                // Seed the live authoritative position (in-memory) from the persisted
+                // character. WalkHandler mutates these; flushed once on disconnect.
+                session.CurrentMap     = character.MapID;
+                session.CurrentX       = (ushort)character.X;
+                session.CurrentY       = (ushort)character.Y;
+                session.PositionLoaded = true;
+
                 // Valid token + existing char: ANSWER_OK then HeroInformation(1006).
                 // Use SendGame (NOT Send) — game frames need the 8-byte seal + Blowfish.
                 session.SendGame(MsgTalk.Build(ChatType.Entrance, "ANSWER_OK"));
