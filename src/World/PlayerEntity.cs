@@ -11,10 +11,13 @@ namespace Conquer.World
     /// fields via <c>SpawnEntity.Build</c>, which keeps World free of a Packets dependency.
     /// Live coordinates are mutated only through <see cref="MapInstance.Move"/>.
     /// </summary>
-    public sealed class PlayerEntity
+    public sealed class PlayerEntity : IWorldEntity
     {
         public uint Uid { get; }
         public int MapId { get; }
+
+        /// <summary>Kind discriminator (always Player). Lets the spawn branch / broadcast guard dispatch.</summary>
+        public EntityKind Kind => EntityKind.Player;
 
         /// <summary>Live authoritative X. Mutated only via <see cref="SetPosition"/> (MapInstance.Move).</summary>
         public ushort X { get; private set; }
@@ -22,9 +25,9 @@ namespace Conquer.World
         public ushort Y { get; private set; }
 
         /// <summary>Cached cell index (X/18), used to detect a boundary cross without recomputing.</summary>
-        public int CellX { get; internal set; }
+        public int CellX { get; set; }
         /// <summary>Cached cell index (Y/18).</summary>
-        public int CellY { get; internal set; }
+        public int CellY { get; set; }
 
         /// <summary>Owning session — World refs Network, so a ClientSession field is legal.</summary>
         public ClientSession Session { get; }

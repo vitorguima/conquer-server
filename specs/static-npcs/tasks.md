@@ -34,7 +34,7 @@ This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION
   - _Requirements: FR-1, AC-1.1_
   - _Design: IWorldEntity_
 
-- [ ] 1.2 PlayerEntity implements IWorldEntity
+- [x] 1.2 PlayerEntity implements IWorldEntity
   - **Do**:
     1. Change to `public sealed class PlayerEntity : IWorldEntity`.
     2. Add `public EntityKind Kind => EntityKind.Player;`.
