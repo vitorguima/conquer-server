@@ -278,7 +278,7 @@ Focus: cover the spatial math + packet byte layouts (NFR-13). No socket/DB.
 
 > NEVER push to master/main directly. Already on `feat/surroundings`. If on the default branch, STOP and alert the user.
 
-- [ ] 5.1 [VERIFY] Full local CI gate + push + PR
+- [x] 5.1 [VERIFY] Full local CI gate + push + PR
   - **Do**:
     1. Run full dockerized gate: `scripts/dotnet build src/Conquer.sln` (0/0 strict) && `scripts/dotnet test src/Conquer.sln` (all pass).
     2. Confirm branch: `git branch --show-current` is `feat/surroundings` (NOT master); if master, STOP.
