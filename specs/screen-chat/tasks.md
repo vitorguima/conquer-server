@@ -44,7 +44,7 @@ Focus: a typed local message fans out to the sender's 3×3 screen. ChatType.Talk
   - _Requirements: FR-2, FR-5, FR-6, FR-7, FR-8, AC-2.1, AC-2.3, AC-3.1, AC-3.2, AC-3.3, AC-3.4, AC-3.5, AC-3.6, AC-4.1, AC-4.2, AC-4.3_
   - _Design: ChatHandler_
 
-- [ ] 1.4 Wire `case 1004` in `PacketRouter`
+- [x] 1.4 Wire `case 1004` in `PacketRouter`
   - **Do**: In `src/Redux/PacketRouter.cs`: add `private readonly Conquer.Packets.ChatHandler _chat;` field; in the ctor (World already a param) add `_chat = new Conquer.Packets.ChatHandler(world);`; in `Dispatch` add `case 1004: _chat.Handle(session, payload); break;` (mirror `_walk` case 1005). NO `Program.cs` change.
   - **Files**: `src/Redux/PacketRouter.cs`
   - **Done when**: 1004 routes to `ChatHandler.Handle`; mirrors the `_walk` wiring.
