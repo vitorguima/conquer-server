@@ -1,10 +1,10 @@
 {
   "version": "1.0",
-  "updated": "2026-06-27T02:36:31Z",
+  "updated": "2026-06-27T16:43:10Z",
   "directories": [
     {
       "path": "./specs",
-      "specsCount": 5,
+      "specsCount": 7,
       "isDefault": true
     }
   ],
@@ -33,10 +33,16 @@
     {
       "name": "character-creation",
       "path": "./specs/character-creation",
-      "phase": "execution",
-      "taskIndex": 14,
-      "totalTasks": 15,
-      "awaitingApproval": true
+      "phase": "completed",
+      "taskIndex": 15,
+      "totalTasks": 15
+    },
+    {
+      "name": "movement",
+      "path": "./specs/movement",
+      "phase": "completed",
+      "taskIndex": 16,
+      "totalTasks": 16
     },
     {
       "name": "client-patcher",
@@ -44,6 +50,14 @@
       "phase": "execution",
       "taskIndex": 58,
       "totalTasks": 59
+    },
+    {
+      "name": "world-surroundings",
+      "path": "./specs/world-surroundings",
+      "phase": "execution",
+      "taskIndex": 25,
+      "totalTasks": 26,
+      "awaitingApproval": true
     }
   ]
 }

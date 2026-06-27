@@ -289,7 +289,7 @@ Focus: cover the spatial math + packet byte layouts (NFR-13). No socket/DB.
   - **Commit**: `chore(world-surroundings): pass local CI gate` (only if fixes needed)
   - _Requirements: NFR-7, NFR-12, Success Criteria_
 
-- [ ] 5.2 [VERIFY] M2 operator gate — two clients see each other live
+- [x] 5.2 [VERIFY] M2 operator gate — two clients see each other live
   - **Do**:
     1. AUTOMATED proxy (the part this agent can verify): 114 un-gated + register-on-SetLocation + walk/jump broadcast + deregister/132 wired + full xUnit suite green (already asserted Phases 2-4).
     2. CI: if no CI workflow exists, this is a no-op (note it); else `gh pr checks` must be green.
