@@ -55,7 +55,7 @@ Focus: the send lock (correctness prerequisite, FR-1/AD-3) + the world layer exi
   - **Done when**: Build succeeds with 0 warnings.
   - **Commit**: `chore(world): pass build gate after send-lock + grid` (only if fixes needed)
 
-- [ ] 1.5 Create PlayerEntity.cs + ScreenDiff.cs (FR-4, AD-5)
+- [x] 1.5 Create PlayerEntity.cs + ScreenDiff.cs (FR-4, AD-5)
   - **Do**:
     1. Create `src/World/ScreenDiff.cs`: `public readonly record struct ScreenDiff(IReadOnlyList<PlayerEntity> Entered, IReadOnlyList<PlayerEntity> Left)` + a static `Empty`.
     2. Create `src/World/PlayerEntity.cs`: `Uid`, `MapId`, live `X/Y` (ushort, private set), cached `CellX/CellY`, `ClientSession Session`, appearance `Mesh/Avatar/Level/Hp/Name`, `ConcurrentDictionary<uint,byte> Visible`.
