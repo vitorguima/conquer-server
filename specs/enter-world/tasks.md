@@ -109,7 +109,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
 
 ## Phase 2: Refactoring
 
-- [ ] 2.1 Add gated SpawnEntity(1014) self builder + harden ActionHandler edges
+- [x] 2.1 Add gated SpawnEntity(1014) self builder + harden ActionHandler edges
   - **Do**:
     1. Create `src/Packets/SpawnEntity.cs`: `BuildSelf(DbCharacter ch)` → 1014 body per layout (UID@4=`CharacterID`, Lookface@8=`Mesh`, Life@48=`HealthPoints`, Level@50/@62=`Level`, X@52=`X`, Y@54=`Y`, Hair@56=`Avatar`, Dir@58=0, Action@59=0 stand, name@90 via NetStringPacker; bytes 12-47/61/63-89 zero). Built but NOT wired (gated fallback).
     2. In `ActionHandler`, confirm all error paths from design are present and clean (short frame, null character, unknown subtype) — refactor for readability without changing behavior; keep gated `// case 102`/`// case 114` commented.
@@ -120,7 +120,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: FR-6, FR-7, FR-11, NFR-4, US-4, AC-4.3_
   - _Design: SpawnEntity, Error Handling, Edge Cases_
 
-- [ ] 2.2 [VERIFY] Quality checkpoint: build clean after refactor
+- [x] 2.2 [VERIFY] Quality checkpoint: build clean after refactor
   - **Do**: Build; confirm no behavior change to the live 74 path; gated 1014 unused.
   - **Verify**: `scripts/dotnet build src/Conquer.sln && echo PASS`
   - **Done when**: 0 build errors.
@@ -129,7 +129,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
 
 ## Phase 3: Testing
 
-- [ ] 3.1 Create Packets.Tests xUnit project + add to solution
+- [x] 3.1 Create Packets.Tests xUnit project + add to solution
   - **Do**:
     1. Create `src/Packets.Tests/Packets.Tests.csproj` (xUnit, mirror `src/Crypto.Tests/Crypto.Tests.csproj`) referencing `src/Packets/Packets.csproj` and `src/Database/Database.csproj` (for `DbCharacter` fixtures).
     2. Add the project to `src/Conquer.sln` (`dotnet sln` via `scripts/dotnet`, or edit the .sln).
@@ -141,7 +141,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: NFR-2_
   - _Design: Test Strategy, File Structure_
 
-- [ ] 3.2 Builder-layout + Action-parse@20 unit tests
+- [x] 3.2 Builder-layout + Action-parse@20 unit tests
   - **Do**:
     1. `GeneralData_SetLocationEcho_Layout`: assert body=28, length@0=28, type@2=1010, UID@8, Data1@12=MapID, Data2@16=`(Y<<16)|X` (assert both byte pairs: low16=X, high16=Y), Action@22=74.
     2. `MapStatus_Layout`: body=16, type@2=1110, UID@4=ID@8=MapID, Type@12=0.
@@ -154,7 +154,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: FR-3, FR-4, FR-5, FR-6, NFR-2, NFR-4, AC-2.2, AC-3.1, AC-3.2_
   - _Design: Test Strategy (Unit Tests)_
 
-- [ ] 3.3 [VERIFY] Quality checkpoint: build + test green
+- [x] 3.3 [VERIFY] Quality checkpoint: build + test green
   - **Do**: Run full build + test suite (existing Crypto.Tests/ClientPatcher.Tests + new Packets.Tests).
   - **Verify**: `scripts/dotnet build src/Conquer.sln && scripts/dotnet test src/Conquer.sln && echo PASS`
   - **Done when**: Build clean; all tests pass.
@@ -165,7 +165,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
 
 NEVER push to master. Stay on `feat/enter-world`. Branch was set at startup (1.1).
 
-- [ ] 4.1 Strip diagnostics (FR-10)
+- [x] 4.1 Strip diagnostics (FR-10)
   - **Do**: Remove the diagnostic logs added/kept through this work: the new `[Game] SetLocation -> map/x/y`, the `[Game] 1010 Action=... unhandled` / short / no-char logs, and the full inbound 1010 frame dump in `ActionHandler`; also strip `[Game][DH]` and `[Game][frame]` in `GameConnection` (logging lines ONLY — do NOT touch the frame-split/crypto logic). Keep all functional behavior.
   - **Files**: src/Packets/ActionHandler.cs, src/Redux/GameConnection.cs
   - **Done when**: No `[Game][DH]`, `[Game][frame]`, or new `[Game] SetLocation`/frame-dump log lines remain; build clean; behavior unchanged.
