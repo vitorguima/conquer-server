@@ -65,7 +65,7 @@ Focus: one UPDATE per session on disconnect → relog spawns at last position en
   - **Commit**: `feat(database): add CharacterRepository.UpdatePosition`
   - _Requirements: FR-7, AC-2.2_ · _Design: CharacterRepository.UpdatePosition_
 
-- [ ] 2.2 Inject CharacterRepository into NetworkListener + disconnect flush
+- [x] 2.2 Inject CharacterRepository into NetworkListener + disconnect flush
   - **Do**: `src/Redux/NetworkListener.cs`: add `private readonly CharacterRepository _characters;`, change ctor to `(IConfiguration config, PacketRouter router, CharacterRepository characters)` and assign it. In `ServeGameAsync` finally, BEFORE `session.Disconnect()`: `if (session.PositionLoaded && session.Character != null) _characters.UpdatePosition(session.Character.CharacterID, session.CurrentMap, session.CurrentX, session.CurrentY);`. Exactly one UPDATE/session (AD-2). Do not touch handshake/read-loop logic.
   - **Files**: src/Redux/NetworkListener.cs
   - **Done when**: Flush guarded by `PositionLoaded && Character != null`, runs once before Disconnect.

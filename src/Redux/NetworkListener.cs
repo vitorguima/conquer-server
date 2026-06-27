@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Conquer.Database;
 using Conquer.Network;
 using Microsoft.Extensions.Configuration;
 
@@ -13,11 +14,13 @@ namespace Redux
     {
         private readonly IConfiguration _config;
         private readonly PacketRouter _router;
+        private readonly CharacterRepository _characters;
 
-        public NetworkListener(IConfiguration config, PacketRouter router)
+        public NetworkListener(IConfiguration config, PacketRouter router, CharacterRepository characters)
         {
             _config = config;
             _router = router;
+            _characters = characters;
         }
 
         public async Task RunAuthAsync(CancellationToken ct)
@@ -144,6 +147,20 @@ namespace Redux
             }
             finally
             {
+                // Flush the session's live position exactly once (AD-2). Guard against
+                // a never-loaded/null position. Wrapped so a DB failure can't throw out
+                // of teardown.
+                try
+                {
+                    if (session.PositionLoaded && session.Character != null)
+                        _characters.UpdatePosition(session.Character.CharacterID,
+                                                   session.CurrentMap, session.CurrentX, session.CurrentY);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Error] (game) {endpoint} position flush: {ex.Message}");
+                }
+
                 session.Disconnect();
                 Console.WriteLine($"[Disconnect] (game) {endpoint}");
             }
