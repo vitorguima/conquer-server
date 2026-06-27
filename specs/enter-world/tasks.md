@@ -165,7 +165,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
 
 NEVER push to master. Stay on `feat/enter-world`. Branch was set at startup (1.1).
 
-- [ ] 4.1 Strip diagnostics (FR-10)
+- [x] 4.1 Strip diagnostics (FR-10)
   - **Do**: Remove the diagnostic logs added/kept through this work: the new `[Game] SetLocation -> map/x/y`, the `[Game] 1010 Action=... unhandled` / short / no-char logs, and the full inbound 1010 frame dump in `ActionHandler`; also strip `[Game][DH]` and `[Game][frame]` in `GameConnection` (logging lines ONLY — do NOT touch the frame-split/crypto logic). Keep all functional behavior.
   - **Files**: src/Packets/ActionHandler.cs, src/Redux/GameConnection.cs
   - **Done when**: No `[Game][DH]`, `[Game][frame]`, or new `[Game] SetLocation`/frame-dump log lines remain; build clean; behavior unchanged.

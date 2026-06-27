@@ -16,10 +16,6 @@ namespace Conquer.Packets
     {
         public void HandleAction(ClientSession session, byte[] payload)
         {
-            // Diagnostic (A3 confirm): dump the full inbound 1010 frame head as hex so the
-            // operator can verify Action @payload[20] == 74. Stripped before final PR (FR-10).
-            Console.WriteLine($"[Game] 1010 frame: {BitConverter.ToString(payload, 0, Math.Min(28, payload.Length))}");
-
             if (payload.Length < 22)
             {
                 Console.WriteLine("[Game] short 1010");
