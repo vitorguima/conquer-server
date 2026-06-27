@@ -89,7 +89,7 @@ Handle `MsgRegister(1001)` on the game connection so a fresh account can create 
 - **ChatType.Register (2100)**: The chat channel the creation screen listens on. `MsgTalk` on this channel carries either a rejection reason or `"ANSWER_OK"`.
 - **NEW_ROLE**: `MsgTalk(Entrance, "NEW_ROLE")` the server already sends at `MsgConnect(1052)` when the account has no character → client shows the creation screen.
 - **ANSWER_OK**: `MsgTalk(Register, "ANSWER_OK")` the server replies after a successful INSERT → client treats creation as accepted.
-- **Reconnect flow**: After `ANSWER_OK`, the client reconnects and re-auths → new `MsgConnect(1052)` → the existing existing-character path finds the new char and spawns it in-world. The register handler does NOT enter-world on its socket.
+- **Reconnect flow**: After `ANSWER_OK`, the client reconnects and re-auths → new `MsgConnect(1052)` → the existing-character path finds the new char and spawns it in-world. The register handler does NOT enter-world on its socket.
 - **session.AccountId**: Authenticated account id, already set on the `ClientSession` from the 1052 on this same game connection; used as `DbCharacter.AccountID`.
 
 ## Out of Scope
