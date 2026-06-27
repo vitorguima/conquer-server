@@ -237,14 +237,14 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
 
 Branch management handled at startup; already on `feat/npcs`. If on the default branch, STOP and alert the user.
 
-- [ ] 5.1 [VERIFY] Full local CI gate
+- [x] 5.1 [VERIFY] Full local CI gate
   - **Do**: Run the complete local CI suite.
   - **Verify**: `scripts/dotnet build src/Conquer.sln` 0/0 (nullable-clean strict gate, NFR-6) AND `scripts/dotnet test src/Conquer.sln` green.
   - **Done when**: Build 0/0, all tests pass.
   - **Commit**: `chore(npcs): pass full local CI gate` (only if fixes needed)
   - _Requirements: AC-1.6, NFR-6, NFR-7_
 
-- [ ] 5.2 Push + PR to master with operator E2E checklist
+- [x] 5.2 Push + PR to master with operator E2E checklist
   - **Do**:
     1. Confirm feature branch: `git branch --show-current` (must be `feat/npcs`, NOT default). Do NOT stage `src/docker-compose.yml`.
     2. `git push -u origin feat/npcs`.
