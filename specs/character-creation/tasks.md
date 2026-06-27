@@ -126,7 +126,7 @@ xUnit in `src/Packets.Tests/` (mirror `ActionParseTests.cs`). Tests target only 
   - **Done when**: All tests pass (no regressions; new parse tests green).
   - **Commit**: `chore(quality): pass test checkpoint — full suite green` (only if fixes needed)
 
-- [ ] 3.3 [VERIFY] Confirm additive scope — no forbidden files changed
+- [x] 3.3 [VERIFY] Confirm additive scope — no forbidden files changed
   - **Do**: Diff the branch against `master` and confirm only the 4 allowed files changed (RegisterHandler.cs, ChatType.cs, PacketRouter.cs, RegisterParseTests.cs) plus spec files. Catch accidental edits to auth/crypto/GameConnection/SendGame/MsgConnect/GameHandler/ActionHandler/CharacterRepository.
   - **Verify**: `git diff --name-only master -- src | grep -vE 'src/Packets/RegisterHandler.cs|src/Packets/ChatType.cs|src/Redux/PacketRouter.cs|src/Packets.Tests/RegisterParseTests.cs' | grep . && echo FORBIDDEN_CHANGE || echo VERIFY_PASS`
   - **Done when**: No source file outside the 4 allowed appears in the diff (NFR-1).
