@@ -97,13 +97,13 @@ Focus: pure xUnit for the builder layout + the bounded inbound parser; assert `B
 
 NEVER push to master directly via raw git on a default branch — already on `feat/chat`. PR target = master.
 
-- [ ] 3.1 [VERIFY] Full local CI gate (0/0 + tests)
+- [x] 3.1 [VERIFY] Full local CI gate (0/0 + tests)
   - **Do**: Run the complete local gate: `scripts/dotnet build src/Conquer.sln` then `scripts/dotnet test src/Conquer.sln`. Fix any failure in the chat files only.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qE '0 Warning' && scripts/dotnet build src/Conquer.sln 2>&1 | grep -qE '0 Error' && scripts/dotnet test src/Conquer.sln 2>&1 | grep -qE 'Passed!|Passed:' && echo CI_PASS`
   - **Done when**: 0 warnings / 0 errors / all tests pass.
   - **Commit**: `chore(chat): pass local CI gate` (only if fixes needed)
 
-- [ ] 3.2 Push `feat/chat` + open PR to master (operator E2E checklist)
+- [x] 3.2 Push `feat/chat` + open PR to master (operator E2E checklist)
   - **Do**:
     1. Confirm branch: `git -C /Users/vitor/conquer-server branch --show-current` == `feat/chat` (stacked on `feat/surroundings`). If on master, STOP — should not happen.
     2. Push: `git push -u origin feat/chat`.
@@ -112,7 +112,7 @@ NEVER push to master directly via raw git on a default branch — already on `fe
   - **Done when**: PR open against master with the operator E2E checklist in the body.
   - **Commit**: None
 
-- [ ] 3.3 [VERIFY] CI no-op + M2 operator gate (automated proxy)
+- [x] 3.3 [VERIFY] CI no-op + M2 operator gate (automated proxy)
   - **Do**:
     1. CI: `gh pr checks --watch` (or `gh pr checks`) — all green.
     2. M2 automated proxy (operator E2E is human-run from the 3.2 checklist; the automatable gate here): assert `case 1004` is wired AND the full suite is green — proving inbound chat reaches `ChatHandler` and the build/parse logic is verified. (Two-client self-echo / max-length capture remain operator-captured live-unknowns recorded on the PR.)
