@@ -143,7 +143,7 @@ Focus: register-on-SetLocation + un-gate 114 → mutual 1014. POC = a newcomer s
   - _Requirements: FR-6, AC-1.1, AC-1.2, AC-1.3, AC-1.4_
   - _Design: login sequence diagram, Handler hooks (114)_
 
-- [ ] 2.6 [VERIFY] POC milestone checkpoint: build + 114-wired proxy (M1)
+- [x] 2.6 [VERIFY] POC milestone checkpoint: build + 114-wired proxy (M1)
   - **Do**: Run dockerized build; programmatically confirm the POC wiring exists (register at SetLocation + un-gated 114 + live-coord Build) — the automated proxy for "newcomer sees players already on screen". Operator live-confirm deferred to Phase 5.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qiE "Build succeeded" && grep -q "case 114" src/Packets/ActionHandler.cs && grep -q "Register(" src/Packets/ActionHandler.cs && grep -q "public static byte\[\] Build(" src/Packets/SpawnEntity.cs && echo POC_PASS`
   - **Done when**: build green; 114 un-gated, register wired, Build live-coord present.
