@@ -25,6 +25,7 @@ namespace Conquer.Packets
     {
         private const ushort MsgGeneralDataType = 1010;
         private const ushort SetLocationAction = 74;
+        private const ushort JumpAction = 133;
 
         public static byte[] BuildSetLocation(uint uid, uint mapId, ushort x, ushort y)
         {
@@ -40,6 +41,31 @@ namespace Conquer.Packets
                 (uint)(((uint)y << 16) | (x & 0xFFFFu)));                                        // Data2 = (Y<<16)|X
             BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(20), 0);                         // Data3
             BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(22), SetLocationAction);         // Action = 74
+            // 24-27 pad (zero)
+
+            return buffer;
+        }
+
+        /// <summary>
+        /// Builds the jump echo (Action=133): same 1010 layout, the jump target packed in
+        /// Data1 (Data1Low=X, Data1High=Y) exactly as the client sent it. The original
+        /// re-broadcasts the jump packet including self (SendToScreen(..., true)), so the
+        /// jumping client needs this echo for the jump to complete.
+        /// </summary>
+        public static byte[] BuildJump(uint uid, ushort x, ushort y)
+        {
+            const int bodyLength = 28;
+            var buffer = new byte[bodyLength];
+            Span<byte> span = buffer;
+
+            PacketBuilder.AppendHeader(span, (ushort)(bodyLength + 8), MsgGeneralDataType);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(4), 0);                          // Timestamp
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(8), uid);                        // UID
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(12),
+                (uint)(((uint)y << 16) | (x & 0xFFFFu)));                                        // Data1 = (Y<<16)|X
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(16), 0);                         // Data2
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(20), 0);                         // Data3
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(22), JumpAction);                // Action = 133
             // 24-27 pad (zero)
 
             return buffer;

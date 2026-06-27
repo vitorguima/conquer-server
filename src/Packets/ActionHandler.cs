@@ -28,6 +28,9 @@ namespace Conquer.Packets
                 case 74:
                     HandleSetLocation(session, payload);
                     break;
+                case 133:
+                    HandleJump(session, payload);
+                    break;
                 // GATED (off by default — uncomment per live observation):
                 // case 102: HandleInvisibleEntity(session); break;   // FR-7 self-1014 fallback
                 // case 114: /* no-op empty surroundings */ break;    // FR-8 GetSurroundings
@@ -51,6 +54,28 @@ namespace Conquer.Packets
             session.SendGame(GeneralData.BuildSetLocation(
                 (uint)ch.CharacterID, (uint)ch.MapID, (ushort)ch.X, (ushort)ch.Y));
             session.SendGame(MapStatus.Build((uint)ch.MapID));
+        }
+
+        // Jump (Action=133): the client sends the target packed in Data1 — Data1Low=X
+        // (payload @10), Data1High=Y (payload @12). Update the live in-memory position
+        // (same store WalkHandler uses → persists via the disconnect flush) and echo the
+        // jump back so it completes (the original includes self in SendToScreen). No
+        // collision check (out of scope — trust the client, the client enforces its own).
+        private void HandleJump(ClientSession session, byte[] payload)
+        {
+            var ch = session.Character;
+            if (ch == null || !session.PositionLoaded)
+                return;
+
+            ushort x = BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(10, 2));
+            ushort y = BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(12, 2));
+
+            session.CurrentX = x;
+            session.CurrentY = y;
+            // TEMP diagnostic — remove before PR merge.
+            Console.WriteLine($"[Game] jump -> ({x},{y})");
+
+            session.SendGame(GeneralData.BuildJump((uint)ch.CharacterID, x, y));
         }
     }
 }
