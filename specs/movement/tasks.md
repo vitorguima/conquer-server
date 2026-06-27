@@ -57,7 +57,7 @@ Focus: prove the server tracks the player's authoritative (x,y) as they walk —
 
 Focus: one UPDATE per session on disconnect → relog spawns at last position end to end.
 
-- [ ] 2.1 Add CharacterRepository.UpdatePosition
+- [x] 2.1 Add CharacterRepository.UpdatePosition
   - **Do**: In `src/Database/CharacterRepository.cs` add `public void UpdatePosition(int characterId, int mapId, int x, int y)` running a single Dapper `conn.Execute("UPDATE characters SET MapID=@MapID, X=@X, Y=@Y WHERE CharacterID=@Id", new { MapID = mapId, X = x, Y = y, Id = characterId });` via the existing connection factory (mirror Insert/FindByAccountId). Do not touch existing methods.
   - **Files**: src/Database/CharacterRepository.cs
   - **Done when**: UpdatePosition present, single UPDATE, nullable-clean.

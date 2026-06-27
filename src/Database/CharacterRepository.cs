@@ -52,5 +52,13 @@ namespace Conquer.Database
                           @Silver, @Strength, @Agility, @Vitality, @Spirit, @HealthPoints, @ManaPoints)",
                 character);
         }
+
+        public void UpdatePosition(int characterId, int mapId, int x, int y)
+        {
+            using var conn = _factory.Create();
+            conn.Execute(
+                "UPDATE characters SET MapID=@MapID, X=@X, Y=@Y WHERE CharacterID=@Id",
+                new { MapID = mapId, X = x, Y = y, Id = characterId });
+        }
     }
 }
