@@ -177,7 +177,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
   - _Requirements: FR-16, AC-6.6_
   - _Design: NpcDialog_
 
-- [ ] 3.2 Create NpcHandler + route case 2031
+- [x] 3.2 Create NpcHandler + route case 2031
   - **Do**:
     1. Create `src/Packets/NpcHandler.cs`: World-injected ctor; `Handle(ClientSession, byte[] payload)` — guard `payload.Length < 16` (Rule 7); cast `session.WorldEntity is not PlayerEntity p → return`; read `npcUid=ReadUInt32LE(@4)`, `action=ReadUInt16LE(@12)`; `if (action != 0) return` (Activate only); look up `_world.GetOrAdd(p.MapId).Roster[npcUid]` → must be `NpcEntity` else return; send static sequence `Avatar(1)` + `Text("Hello, I am {npc.Name}.")` + `Text("Welcome, traveler.")` + `Finish()` to `session.SendGame` (clicker only) — per design §NpcHandler.
     2. `src/Redux/PacketRouter.cs`: add `private readonly NpcHandler _npc;`, `_npc = new NpcHandler(world);`, and `case 2031: _npc.Handle(session, payload); break;`.
