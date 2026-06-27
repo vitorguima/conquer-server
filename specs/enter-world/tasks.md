@@ -109,7 +109,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
 
 ## Phase 2: Refactoring
 
-- [ ] 2.1 Add gated SpawnEntity(1014) self builder + harden ActionHandler edges
+- [x] 2.1 Add gated SpawnEntity(1014) self builder + harden ActionHandler edges
   - **Do**:
     1. Create `src/Packets/SpawnEntity.cs`: `BuildSelf(DbCharacter ch)` → 1014 body per layout (UID@4=`CharacterID`, Lookface@8=`Mesh`, Life@48=`HealthPoints`, Level@50/@62=`Level`, X@52=`X`, Y@54=`Y`, Hair@56=`Avatar`, Dir@58=0, Action@59=0 stand, name@90 via NetStringPacker; bytes 12-47/61/63-89 zero). Built but NOT wired (gated fallback).
     2. In `ActionHandler`, confirm all error paths from design are present and clean (short frame, null character, unknown subtype) — refactor for readability without changing behavior; keep gated `// case 102`/`// case 114` commented.
@@ -120,7 +120,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: FR-6, FR-7, FR-11, NFR-4, US-4, AC-4.3_
   - _Design: SpawnEntity, Error Handling, Edge Cases_
 
-- [ ] 2.2 [VERIFY] Quality checkpoint: build clean after refactor
+- [x] 2.2 [VERIFY] Quality checkpoint: build clean after refactor
   - **Do**: Build; confirm no behavior change to the live 74 path; gated 1014 unused.
   - **Verify**: `scripts/dotnet build src/Conquer.sln && echo PASS`
   - **Done when**: 0 build errors.
