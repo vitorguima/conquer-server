@@ -196,7 +196,7 @@ Focus: walk(1005)/jump(133) broadcast, enter/leave diff, deregister + RemoveEnti
   - _Requirements: FR-8, FR-10, FR-14, AC-3.1, AC-3.2, AC-3.4, AC-3.5_
   - _Design: walk sequence diagram, Handler hooks (Walk)_
 
-- [ ] 3.5 Jump broadcast: Move + BuildJump fan-out + diff (FR-9, AC-3.3)
+- [x] 3.5 Jump broadcast: Move + BuildJump fan-out + diff (FR-9, AC-3.3)
   - **Do**:
     1. In `ActionHandler.HandleJump` (133), AFTER the existing self-send of `BuildJump` (do NOT remove it) and the position update: resolve mover entity; `var diff = mi.Move(e, x, y);`.
     2. `mi.Broadcast(e, GeneralData.BuildJump(uid,x,y), includeSelf:false)` (already self-sent → fan out to the rest of the screen).

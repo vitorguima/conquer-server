@@ -168,6 +168,21 @@ namespace Conquer.Packets
             session.CurrentX = x;
             session.CurrentY = y;
             session.SendGame(GeneralData.BuildJump((uint)ch.CharacterID, x, y));
+
+            // ADDITIVE (FR-9/FR-10): after the unchanged own-position update + self-echo, broadcast
+            // the jump to the REST of the mover's 3x3 screen and apply the enter/leave diff. Skip if
+            // the player isn't registered in the World yet (114 not reached).
+            if (session.WorldEntity is not Conquer.World.PlayerEntity e)
+                return;
+
+            var mi = _world.GetOrAdd(e.MapId);
+            var diff = mi.Move(e, x, y);
+
+            // Reuse the existing BuildJump packet (built ONCE), fanned to the screen EXCLUDING self
+            // (the mover already received its own echo above).
+            mi.Broadcast(e, GeneralData.BuildJump(e.Uid, x, y), includeSelf:false);
+
+            ApplyDiff(e, diff);
         }
     }
 }
