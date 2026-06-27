@@ -17,7 +17,7 @@ One commit per task; message body ends with a blank line then `Co-Authored-By: C
 
 Focus: a typed local message fans out to the sender's 3×3 screen. ChatType.Talk + BuildChat + ChatHandler + router wiring.
 
-- [ ] 1.1 [P] Add `ChatType.Talk = 2000`
+- [x] 1.1 [P] Add `ChatType.Talk = 2000`
   - **Do**: In `src/Packets/ChatType.cs`, add `Talk = 2000` to the enum. KEEP `Register = 2100`, `Entrance = 2101` unchanged. Update the xml-doc to note Talk is the local channel.
   - **Files**: `src/Packets/ChatType.cs`
   - **Done when**: Enum exposes `Talk=2000, Register=2100, Entrance=2101`; nothing else changed.
