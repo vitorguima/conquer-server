@@ -78,7 +78,7 @@ Focus: pure xUnit for the builder layout + the bounded inbound parser; assert `B
   - _Requirements: FR-9, AC-5.1, AC-5.2_
   - _Design: Test Strategy — MsgTalkBuildChatTests_
 
-- [ ] 2.2 [P] `ChatParseTests` — bounded inbound parser
+- [x] 2.2 [P] `ChatParseTests` — bounded inbound parser
   - **Do**: Create `src/Packets.Tests/ChatParseTests.cs` (xUnit). Build synthetic 1004 payloads with `BinaryPrimitives` (type@0=1004, channel@6, string-list@22). Assert: valid 4-string payload → `TryReadMessage` returns index-3 `Words`; short payload (`<23`) → false, no throw; per-string `[len]` running past `payload.Length` → false, no over-read; `count` < 4 (no Words index) → false; pathological `count=255` does not over-iterate (capped `i<8`), no throw; `Handle(null!, shortPayload)` → no throw (length guard first, mirror `WalkParseTests`). Channel/`/`/empty rejection are covered in `Handle` (non-Talk and `/`-prefix → no broadcast) — assert via the static parser + the guard ordering where socket-free.
   - **Files**: `src/Packets.Tests/ChatParseTests.cs`
   - **Done when**: All inbound-parser bound/reject cases green, no throws.
