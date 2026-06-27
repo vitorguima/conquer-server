@@ -154,7 +154,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
   - **Done when**: Build 0/0, all tests pass.
   - **Commit**: `chore(npcs): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 2.5 POC milestone checkpoint: NPCs visible (automated proxy)
+- [x] 2.5 POC milestone checkpoint: NPCs visible (automated proxy)
   - **Do**: Confirm the M1 path is wired end-to-end via automated checks (operator E2E "SEE 2 NPCs" happens at the gate — here we prove the code path is complete): `EntitySpawn.For` returns 2030 for NpcEntity, NPCs are registered at startup, 114 + enter-screen diff call `EntitySpawn.For`.
   - **Verify**: `grep -q 'EntitySpawn.For' src/Packets/ActionHandler.cs && grep -q 'Register(npc)' src/Redux/Program.cs && scripts/dotnet build src/Conquer.sln && echo POC_M1_PASS`
   - **Done when**: NPC spawn path complete; POC M1 = NPCs appear at login (114) + on walk (enter-screen diff). Operator E2E deferred to Phase 5 gate.
