@@ -53,7 +53,7 @@ Focus: a typed local message fans out to the sender's 3×3 screen. ChatType.Talk
   - _Requirements: FR-1_
   - _Design: PacketRouter wiring_
 
-- [ ] 1.5 [VERIFY] Build gate: chat path compiles 0/0
+- [x] 1.5 [VERIFY] Build gate: chat path compiles 0/0
   - **Do**: `scripts/dotnet build src/Conquer.sln`. Fix any warning/error in the chat files only.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | tail -5` shows `0 Warning(s)` / `0 Error(s)`.
   - **Done when**: Build is 0 warnings / 0 errors with all four chat changes present.
