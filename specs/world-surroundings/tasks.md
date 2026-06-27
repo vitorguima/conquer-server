@@ -264,7 +264,7 @@ Focus: cover the spatial math + packet byte layouts (NFR-13). No socket/DB.
   - _Requirements: NFR-13, AC-1.2, AC-3.2, AC-4.1_
   - _Design: wire layouts, reviewer nit (132 body=28)_
 
-- [ ] 4.4 [VERIFY] Full suite + additive-scope diff
+- [x] 4.4 [VERIFY] Full suite + additive-scope diff
   - **Do**:
     1. Run the full dockerized test suite — all green.
     2. Verify NFR-11 additive scope: the diff must NOT touch forbidden files (auth/crypto/handshake/GameConnection, enter-world spawn ECHO logic, character creation, movement's OWN-position update). The send-lock + register/broadcast hooks are additive.
