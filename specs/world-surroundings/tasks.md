@@ -184,7 +184,7 @@ Focus: walk(1005)/jump(133) broadcast, enter/leave diff, deregister + RemoveEnti
   - **Done when**: Build succeeds, 0 warnings.
   - **Commit**: `chore(packets): pass build gate after broadcast builders` (only if fixes needed)
 
-- [ ] 3.4 Walk broadcast: Move + BuildBroadcast fan-out + diff (FR-8, FR-10, AC-3.1)
+- [x] 3.4 Walk broadcast: Move + BuildBroadcast fan-out + diff (FR-8, FR-10, AC-3.1)
   - **Do**:
     1. In `WalkHandler`, AFTER the existing bound-checked CurrentX/Y own-position update (do NOT touch it): resolve mover entity; `var diff = mi.Move(e, nx, ny);`.
     2. Build the outbound 1005 ONCE via `Walk.BuildBroadcast(uid,dir,mode)`; `mi.Broadcast(e, packet, includeSelf:true)` — fan out to the 3×3 block.

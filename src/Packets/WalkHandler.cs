@@ -42,7 +42,7 @@ namespace Conquer.Packets
             if (session.Character == null || !session.PositionLoaded)
                 return;
 
-            var (_, rawDir, _) = ParseWalk(payload);
+            var (_, rawDir, mode) = ParseWalk(payload);
 
             // The 5065 client sends the direction as a raw byte whose low 3 bits are the
             // compass direction (high bits are a rolling counter/flags). Normalize with
@@ -55,6 +55,22 @@ namespace Conquer.Packets
 
             session.CurrentX = (ushort)nx;
             session.CurrentY = (ushort)ny;
+
+            // ADDITIVE (FR-8/FR-10): after the unchanged own-position update, broadcast the
+            // walk to the mover's 3x3 screen and apply the enter/leave diff. Skip if the player
+            // isn't registered in the World yet (114 not reached).
+            if (session.WorldEntity is not Conquer.World.PlayerEntity e)
+                return;
+
+            var mi = _world.GetOrAdd(e.MapId);
+            var diff = mi.Move(e, (ushort)nx, (ushort)ny);
+
+            // Build the outbound 1005 ONCE; fan out to the WHOLE screen incl self (other clients
+            // render the walk, the mover's own client already predicted it but tolerates the echo).
+            byte[] walk = Walk.BuildBroadcast(e.Uid, dir, mode);
+            mi.Broadcast(e, walk, includeSelf: true);
+
+            ActionHandler.ApplyDiff(e, diff);
         }
 
         /// <summary>
