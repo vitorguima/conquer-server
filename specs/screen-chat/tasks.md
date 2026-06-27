@@ -59,7 +59,7 @@ Focus: a typed local message fans out to the sender's 3×3 screen. ChatType.Talk
   - **Done when**: Build is 0 warnings / 0 errors with all four chat changes present.
   - **Commit**: `chore(chat): pass build gate` (only if fixes needed)
 
-- [ ] 1.6 POC checkpoint: 1004 wired end-to-end
+- [x] 1.6 POC checkpoint: 1004 wired end-to-end
   - **Do**: Confirm the inbound→broadcast path is statically wired: `case 1004` dispatches to `ChatHandler.Handle`, which calls `MsgTalk.BuildChat` once and `MapInstance.Broadcast(e, talk, includeSelf:false)`. (Live two-client fan-out is the Phase-3 operator gate; here prove the code path is complete and builds.)
   - **Verify**: `grep -q 'case 1004' src/Redux/PacketRouter.cs && grep -q 'Broadcast(e, talk' src/Packets/ChatHandler.cs && scripts/dotnet build src/Conquer.sln 2>&1 | grep -qE '0 Error' && echo POC_PASS`
   - **Done when**: Full inbound path present and compiling; ready for tests.
