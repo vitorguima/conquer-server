@@ -87,7 +87,7 @@ Focus: pure xUnit for the builder layout + the bounded inbound parser; assert `B
   - _Requirements: FR-5, FR-9, AC-3.2, AC-5.3_
   - _Design: Test Strategy — ChatParseTests_
 
-- [ ] 2.3 [VERIFY] Full suite + additive-scope diff
+- [x] 2.3 [VERIFY] Full suite + additive-scope diff
   - **Do**: `scripts/dotnet build src/Conquer.sln` (0/0) + `scripts/dotnet test src/Conquer.sln` (green). Then confirm the diff is additive: only `ChatType.cs`, `MsgTalk.cs`, `ChatHandler.cs`, `PacketRouter.cs`, and the two new test files changed — and `MsgTalk.Build` is byte-identical (its regression test passes; its source lines unchanged).
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qE '0 Error' && scripts/dotnet test src/Conquer.sln 2>&1 | grep -qE 'Passed!|Passed:' && git diff --name-only origin/feat/surroundings...HEAD -- 'src/**/*.cs' | grep -vqE 'ChatType\.cs|MsgTalk\.cs|ChatHandler\.cs|PacketRouter\.cs|MsgTalkBuildChatTests\.cs|ChatParseTests\.cs' && echo UNEXPECTED_FILE || echo PASS`
   - **Done when**: Build 0/0, all tests green, no non-chat `.cs` touched, `Build` regression test passes.
