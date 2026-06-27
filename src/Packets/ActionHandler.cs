@@ -95,6 +95,7 @@ namespace Conquer.Packets
                 if (a.Uid == b.Uid)
                     continue;
 
+                Console.WriteLine($"[DBG] 114 uid={b.Uid} cell=({b.CellX},{b.CellY}) sees uid={a.Uid} kind={a.Kind}");
                 session.SendGame(EntitySpawn.For(a));            // a's 1014 OR 2030 (one-way to B)
 
                 if (a is Conquer.World.PlayerEntity ap)          // MUTUAL spawn + Visible-seed only for players
@@ -102,6 +103,10 @@ namespace Conquer.Packets
                     ap.Session.SendGame(bSpawn);
                     b.Visible[a.Uid] = 1;
                     ap.Visible[b.Uid] = 1;
+                }
+                else                                             // NPC: track so ApplyDiff never re-spawns it
+                {
+                    b.Visible.TryAdd(a.Uid, 1);
                 }
             }
         }
@@ -117,6 +122,9 @@ namespace Conquer.Packets
         /// </summary>
         public static void ApplyDiff(Conquer.World.PlayerEntity mover, Conquer.World.ScreenDiff diff)
         {
+            if (diff.Entered.Count > 0 || diff.Left.Count > 0)
+                Console.WriteLine($"[DBG] applydiff mover={mover.Uid} cell=({mover.CellX},{mover.CellY}) entered={diff.Entered.Count} left={diff.Left.Count}");
+
             byte[]? moverSpawn = null;
 
             foreach (var other in diff.Entered)
@@ -124,17 +132,20 @@ namespace Conquer.Packets
                 if (other.Uid == mover.Uid)
                     continue;
 
-                moverSpawn ??= SpawnEntity.Build(
-                    mover.Uid, mover.Mesh, mover.Avatar, mover.Level, mover.Hp, mover.X, mover.Y, mover.Name);
+                Console.WriteLine($"[DBG] ENTER mover={mover.Uid} other={other.Uid} kind={other.Kind}");
 
-                // mover sees other (1014 OR 2030).
-                mover.Session.SendGame(EntitySpawn.For(other));
-
-                if (other is Conquer.World.PlayerEntity op)        // MUTUAL spawn + Visible-seed only for players
+                if (other is Conquer.World.PlayerEntity op)        // PLAYER: mutual spawn + Visible-seed
                 {
+                    moverSpawn ??= SpawnEntity.Build(
+                        mover.Uid, mover.Mesh, mover.Avatar, mover.Level, mover.Hp, mover.X, mover.Y, mover.Name);
+                    mover.Session.SendGame(EntitySpawn.For(other));
                     op.Session.SendGame(moverSpawn);
                     mover.Visible[other.Uid] = 1;
                     op.Visible[mover.Uid] = 1;
+                }
+                else if (mover.Visible.TryAdd(other.Uid, 1))       // NPC: spawn ONCE, never re-spawn/remove
+                {
+                    mover.Session.SendGame(EntitySpawn.For(other)); // client retains it + culls view itself
                 }
             }
 
@@ -145,13 +156,11 @@ namespace Conquer.Packets
                 if (other.Uid == mover.Uid)
                     continue;
 
-                moverRemove ??= GeneralData.BuildRemoveEntity(mover.Uid);
-
-                // mover drops other (132 for player OR npc, FR-13).
-                mover.Session.SendGame(GeneralData.BuildRemoveEntity(other.Uid));
-
-                if (other is Conquer.World.PlayerEntity op2)        // reverse drop + Visible-clear only for players
+                // NPCs are spawned-once-and-kept (client retains + view-culls) → do NOT 132 them.
+                if (other is Conquer.World.PlayerEntity op2)        // PLAYER: mutual drop + Visible-clear
                 {
+                    moverRemove ??= GeneralData.BuildRemoveEntity(mover.Uid);
+                    mover.Session.SendGame(GeneralData.BuildRemoveEntity(other.Uid));
                     op2.Session.SendGame(moverRemove);
                     mover.Visible.TryRemove(other.Uid, out _);
                     op2.Visible.TryRemove(mover.Uid, out _);

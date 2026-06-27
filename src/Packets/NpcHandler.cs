@@ -29,16 +29,20 @@ namespace Conquer.Packets
         /// <summary>Guard-first; validate UID + kind; static dialog to the clicker. Never disconnects.</summary>
         public void Handle(ClientSession session, byte[] payload)
         {
-            if (payload.Length < 16) return;                                      // length guard (Rule 7)
+            if (payload.Length < 14) return;                                      // length guard (Rule 7)
             if (session.WorldEntity is not Conquer.World.PlayerEntity p) return;  // not in world yet
 
-            uint   npcUid = BinaryPrimitives.ReadUInt32LittleEndian(payload.AsSpan(4, 4));
-            ushort action = BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(12, 2));
-            if (action != 0) return;                                              // Activate only
+            // Payload has the 2-byte length prefix stripped → body offset − 2:
+            // body UID@4 → payload@2, body Action@12 → payload@10 (mirrors WalkHandler UID@2).
+            uint   npcUid = BinaryPrimitives.ReadUInt32LittleEndian(payload.AsSpan(2, 4));
+            ushort action = BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(10, 2));
 
             var map = _world.GetOrAdd(p.MapId);
-            if (!map.Roster.TryGetValue(npcUid, out var e) ||
-                e is not Conquer.World.NpcEntity npc) return;                     // validate UID + kind
+            bool found = map.Roster.TryGetValue(npcUid, out var e) && e is Conquer.World.NpcEntity;
+            Console.WriteLine($"[DBG] 2031 click npcUid={npcUid} action={action} found={found}");
+
+            if (action != 0) return;                                              // Activate only
+            if (!found || e is not Conquer.World.NpcEntity npc) return;           // validate UID + kind
 
             byte[][] dialog = NpcDialog.StaticSequence(
                 1,                                  // face = placeholder (live-capture)
