@@ -25,7 +25,7 @@ Focus: prove the end-to-end create path — enum → handler (parse+validate+bui
   - _Requirements: FR-10_
   - _Design: ChatType_
 
-- [ ] 1.2 Create RegisterHandler — parse 1001 payload
+- [x] 1.2 Create RegisterHandler — parse 1001 payload
   - **Do**:
     1. CREATE `src/Packets/RegisterHandler.cs`: `public sealed class RegisterHandler` in `namespace Conquer.Packets`, ctor-injected `CharacterRepository _characters`, `public void Handle(ClientSession session, byte[] payload)`.
     2. Guard `if (payload.Length < 60) { Console.WriteLine("[Game] short 1001"); return; }` (mirror ActionHandler).
