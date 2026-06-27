@@ -148,7 +148,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
   - _Requirements: FR-8, AC-4.4, AC-4.5_
   - _Design: Startup Load_
 
-- [ ] 2.4 [VERIFY] Quality checkpoint: NPC load path builds + tests green
+- [x] 2.4 [VERIFY] Quality checkpoint: NPC load path builds + tests green
   - **Do**: Run strict gate after repository/seed/startup-load land.
   - **Verify**: `scripts/dotnet build src/Conquer.sln` 0/0 AND `scripts/dotnet test src/Conquer.sln` green.
   - **Done when**: Build 0/0, all tests pass.
