@@ -89,7 +89,7 @@ Focus: one UPDATE per session on disconnect → relog spawns at last position en
 
 ## Phase 3: Testing
 
-- [ ] 3.1 Create WalkParseTests (parse + delta + bounds + guards)
+- [x] 3.1 Create WalkParseTests (parse + delta + bounds + guards)
   - **Do**: Create `src/Packets.Tests/WalkParseTests.cs` (xUnit), mirroring `ActionParseTests.cs` (pure static, synth ≥8-byte payload via BinaryPrimitives, no socket/DB). Cover: (1) ParseWalk offsets — write Dir@6, Mode@7, UID@2 → assert returned tuple; (2) ComputeStep all 8 dirs vs the table; (3) bounds-reject — (0,0) dir 3 → negative candidate; (65535,65535) dir 7 → over-max; (4) short-packet guard `payload.Length == 7` → Handle no-ops (no throw); (5) dir>7 (`Direction = 8`) → no move; (6) seed-source regression (AC-4.2): assert/comment SetLocation echo source is `Character`, not `CurrentX/Y`.
   - **Files**: src/Packets.Tests/WalkParseTests.cs
   - **Done when**: Tests cover all 6 cases; no socket/DB.
