@@ -103,6 +103,54 @@ namespace Conquer.Packets
             }
         }
 
+        /// <summary>
+        /// Applies a <see cref="Conquer.World.ScreenDiff"/> after a move (FR-11, FR-15): for each
+        /// newly-Entered player send a MUTUAL 1014 (mover-&gt;viewer, viewer-&gt;mover) and seed both
+        /// Visible sets; for each Left player send a MUTUAL RemoveEntity(132) both ways and prune both
+        /// Visible sets. Spawn-before-move (FR-15) is honored by ordering: the move broadcast is fanned
+        /// out by the caller BEFORE this diff, but the diff targets only the strip of cells that
+        /// scrolled in/out — a newly-entered viewer never received the move (it was off the OLD screen),
+        /// so it receives its 1014 first here. Shared by walk + jump. Build-once per recipient (AD-4).
+        /// </summary>
+        public static void ApplyDiff(Conquer.World.PlayerEntity mover, Conquer.World.ScreenDiff diff)
+        {
+            byte[]? moverSpawn = null;
+
+            foreach (var other in diff.Entered)
+            {
+                if (other.Uid == mover.Uid)
+                    continue;
+
+                moverSpawn ??= SpawnEntity.Build(
+                    mover.Uid, mover.Mesh, mover.Avatar, mover.Level, mover.Hp, mover.X, mover.Y, mover.Name);
+
+                // mover -> viewer (other sees the mover), viewer -> mover (mover sees other).
+                other.Session.SendGame(moverSpawn);
+                mover.Session.SendGame(SpawnEntity.Build(
+                    other.Uid, other.Mesh, other.Avatar, other.Level, other.Hp, other.X, other.Y, other.Name));
+
+                mover.Visible[other.Uid] = 1;
+                other.Visible[mover.Uid] = 1;
+            }
+
+            byte[]? moverRemove = null;
+
+            foreach (var other in diff.Left)
+            {
+                if (other.Uid == mover.Uid)
+                    continue;
+
+                moverRemove ??= GeneralData.BuildRemoveEntity(mover.Uid);
+
+                // mover -> viewer (viewer drops the mover), viewer -> mover (mover drops other).
+                other.Session.SendGame(moverRemove);
+                mover.Session.SendGame(GeneralData.BuildRemoveEntity(other.Uid));
+
+                mover.Visible.TryRemove(other.Uid, out _);
+                other.Visible.TryRemove(mover.Uid, out _);
+            }
+        }
+
         // Jump (Action=133): the client sends the target packed in Data1 — Data1Low=X
         // (payload @10), Data1High=Y (payload @12). Update the live in-memory position
         // (same store WalkHandler uses → persists via the disconnect flush) and echo the

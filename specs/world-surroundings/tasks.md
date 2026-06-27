@@ -166,7 +166,7 @@ Focus: walk(1005)/jump(133) broadcast, enter/leave diff, deregister + RemoveEnti
   - _Requirements: FR-8, FR-12, AC-3.2, AC-4.1_
   - _Design: 1005 + 132 wire layouts, reviewer nit (132 body=28)_
 
-- [ ] 3.2 Add shared ApplyDiff helper (enter/leave → mutual 1014 / RemoveEntity 132) (FR-11, FR-15)
+- [x] 3.2 Add shared ApplyDiff helper (enter/leave → mutual 1014 / RemoveEntity 132) (FR-11, FR-15)
   - **Do**:
     1. Add an `ApplyDiff(PlayerEntity mover, ScreenDiff diff)` helper usable by both handlers (e.g. in a shared static or each handler) honoring spawn-before-move ordering (FR-15: send 1014 before any forwarded move).
     2. For each `Entered`: send mutual 1014 (mover→viewer, viewer→mover via `SpawnEntity.Build` live coords) and seed both `Visible` sets.
