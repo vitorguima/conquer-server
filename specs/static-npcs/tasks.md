@@ -224,7 +224,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
   - _Requirements: AC-2.1, AC-5.3, AC-5.4, AC-6.2, AC-6.3, AC-6.4, AC-6.5, AC-6.6_
   - _Design: Test Strategy (Packets.Tests)_
 
-- [ ] 4.3 [VERIFY] Full suite green + additive-scope diff
+- [x] 4.3 [VERIFY] Full suite green + additive-scope diff
   - **Do**: Run full gate; confirm the diff is additive (no auth/crypto/handshake/GameConnection/char-creation/movement-own-position/chat behavior changed; GeneralData.cs untouched).
   - **Verify**: `scripts/dotnet build src/Conquer.sln` 0/0 AND `scripts/dotnet test src/Conquer.sln` green AND `git diff --name-only origin/feat/npcs..HEAD | grep -qv 'GeneralData.cs' && echo SCOPE_OK`.
   - **Done when**: Full suite green; scope confirmed additive.
