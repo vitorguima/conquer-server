@@ -93,7 +93,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - **Commit**: `chore(enter-world): pass quality checkpoint` (only if fixes needed); push branch: `git push -u origin feat/enter-world`
   - _Requirements: NFR-1_
 
-- [ ] 1.7 POC checkpoint — operator-manual: loading clears on real client (M1)
+- [x] 1.7 POC checkpoint — operator-manual: loading clears on real client (M1)
   - **Do**: (OPERATOR-MANUAL, out-of-CI — definitive POC gate)
     1. `scripts/dotnet build src/Conquer.sln` then `docker compose -f src/docker-compose.yml up -d --build` on 192.168.0.252.
     2. `docker compose -f src/docker-compose.yml logs -f server` while the operator logs in with the real Windows 5065 client.
