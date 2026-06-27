@@ -35,7 +35,7 @@ Focus: a typed local message fans out to the sender's 3×3 screen. ChatType.Talk
   - _Requirements: FR-4, AC-5.1, AC-5.2_
   - _Design: MsgTalk.BuildChat_
 
-- [ ] 1.3 Create `ChatHandler` (parse + validate + build + broadcast)
+- [x] 1.3 Create `ChatHandler` (parse + validate + build + broadcast)
   - **Do**: Create `src/Packets/ChatHandler.cs`, namespace `Conquer.Packets`, mirror `WalkHandler`. Inject `Conquer.World.World _world` via ctor. `Handle(ClientSession session, byte[] payload)`: guard `payload.Length < 23 → return`; `session.WorldEntity is not Conquer.World.PlayerEntity e → return`; read `channel = ReadUInt16LE(payload @6)`, `channel != (ushort)ChatType.Talk → return`; `TryReadMessage(payload, out raw)` false → return; `message = Sanitize(raw)` (drop chars `< 0x20`, ASCII); empty → return; `message[0]=='/'` → return; cap `message[..255]` if longer; `byte[] talk = MsgTalk.BuildChat(ChatType.Talk, e.Name, "ALLUSERS", message)`; `_world.GetOrAdd(e.MapId).Broadcast(e, talk, includeSelf: false)`. Add static `public static bool TryReadMessage(byte[] p, out string msg)` walking the string-list @ `p[22]`: `count=p[o++]`, loop `i<count && i<8`, bound the `[len]` byte and `o+len > p.Length → false`, return index-3 (`Words`); else false. Never disconnect.
   - **Files**: `src/Packets/ChatHandler.cs`
   - **Done when**: File compiles; `Handle` + static `TryReadMessage` + `Sanitize` present; never throws on bad input.
