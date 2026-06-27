@@ -58,7 +58,7 @@ This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION
   - _Requirements: FR-5, AC-3.1, AC-3.3_
   - _Design: NpcEntity_
 
-- [ ] 1.4 [VERIFY] Quality checkpoint: World entities compile + existing tests green
+- [x] 1.4 [VERIFY] Quality checkpoint: World entities compile + existing tests green
   - **Do**: Run strict gate after the new World types land.
   - **Verify**: `scripts/dotnet build src/Conquer.sln` 0/0 AND `scripts/dotnet test src/Conquer.sln` green.
   - **Done when**: Build 0 warnings/0 errors, all existing tests pass (interface added, no retype yet).
