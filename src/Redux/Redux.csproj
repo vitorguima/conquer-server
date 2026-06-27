@@ -6,7 +6,6 @@
     <RootNamespace>Redux</RootNamespace>
     <AssemblyName>Redux</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>

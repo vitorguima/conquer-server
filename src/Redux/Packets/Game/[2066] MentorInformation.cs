@@ -70,7 +70,7 @@ namespace Redux.Packets.Game
                 MSVCRT.memcpy(ptr + 79 + packet.MentorName.Length, packet._mentorspouse, packet.MentorSpouse.Length);
                 *((byte*)(ptr + 79 + packet.MentorName.Length + packet.MentorSpouse.Length)) = (byte)packet.ApprenticeName.Length;
                 MSVCRT.memcpy(ptr + 80 + packet.MentorName.Length + packet.MentorSpouse.Length, packet._apprenticename, packet.ApprenticeName.Length);*/
-                int Counter = 0;
+                //int Counter = 0;
 
                 /*for (Int32 i = 0; i < packet.Strings.Length; i++)
                 {
@@ -248,7 +248,7 @@ namespace Redux.Packets.Game
                 MSVCRT.memcpy(ptr + 79 + packet.MentorName.Length, packet._mentorspouse, packet.MentorSpouse.Length);
                 *((byte*)(ptr + 79 + packet.MentorName.Length + packet.MentorSpouse.Length)) = (byte)packet.ApprenticeName.Length;
                 MSVCRT.memcpy(ptr + 80 + packet.MentorName.Length + packet.MentorSpouse.Length, packet._apprenticename, packet.ApprenticeName.Length);*/
-                int Counter = 0;
+                //int Counter = 0;
 
                 /*for (Int32 i = 0; i < packet.Strings.Length; i++)
                 {

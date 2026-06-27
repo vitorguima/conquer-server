@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <LangVersion>latest</LangVersion>
+    <!--
+      Nullable reference types stay ENABLED (above) so the analysis runs and new
+      code is held to it. The nullable *diagnostic codes* below (CS86xx) are
+      deferred for now: the legacy Redux game server has ~274 pre-existing sites
+      whose proper fixing risks behavior changes and would balloon this hardening
+      diff. They are suppressed (not promoted to errors) so the build is a clean
+      0-warning/0-error gate today; everything else (analyzers, style, all other
+      compiler warnings) stays warnings-as-errors. Burn these down incrementally,
+      then delete this NoWarn line. See CLAUDE.md "Engineering Principles".
+    -->
+    <NoWarn>$(NoWarn);CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8625</NoWarn>
+  </PropertyGroup>
+</Project>
