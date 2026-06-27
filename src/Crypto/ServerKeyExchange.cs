@@ -63,8 +63,8 @@ namespace Conquer.Crypto
             _agreement.Init(_pair.Private);
         }
 
-        /// <summary>The shared secret derived in <see cref="HandleClientKeyPacket"/>, or null.</summary>
-        public byte[] SharedSecret { get; private set; }
+        /// <summary>The shared secret derived in <see cref="HandleClientKeyPacket"/>, or null before the exchange completes.</summary>
+        public byte[]? SharedSecret { get; private set; }
 
         /// <summary>
         /// Builds the server-key packet (exact original layout) and encrypts the
