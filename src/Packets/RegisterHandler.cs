@@ -48,16 +48,19 @@ namespace Conquer.Packets
 
             if (!NameRegex.IsMatch(name) || name.ToLower().Contains("admin"))
             {
+                Console.WriteLine($"[Game] 1001 reject name acct={session.AccountId}");
                 session.SendGame(MsgTalk.Build(ChatType.Register, "Invalid character name"));
                 return;
             }
             if (!ValidMeshes.Contains(mesh))
             {
+                Console.WriteLine($"[Game] 1001 reject mesh={mesh} acct={session.AccountId}");
                 session.SendGame(MsgTalk.Build(ChatType.Register, "Invalid character mesh"));
                 return;
             }
             if (!ValidProfessions.Contains(prof))
             {
+                Console.WriteLine($"[Game] 1001 reject prof={prof} acct={session.AccountId}");
                 session.SendGame(MsgTalk.Build(ChatType.Register, "Invalid character profession"));
                 return;
             }
@@ -75,6 +78,7 @@ namespace Conquer.Packets
                 return;
             }
 
+            Console.WriteLine($"[Game] 1001 create name={name} mesh={mesh} acct={session.AccountId}");
             session.SendGame(MsgTalk.Build(ChatType.Register, "ANSWER_OK"));
         }
 

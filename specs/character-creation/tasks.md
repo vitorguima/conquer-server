@@ -94,7 +94,7 @@ After POC proves out, make parse/build unit-testable and tidy logging. Keep beha
   - **Commit**: `refactor(packets): extract static ParseRegister/BuildCharacter for testability`
   - _Design: Test Strategy (unit-testable surface)_
 
-- [ ] 2.2 Tidy operational logging
+- [x] 2.2 Tidy operational logging
   - **Do**:
     1. One concise log line on create success (e.g. `[Game] 1001 create name=<name> mesh=<mesh> acct=<id>`) and on reject (reason). No hex dumps — consistent with the lightweight logs kept elsewhere.
   - **Files**: src/Packets/RegisterHandler.cs
