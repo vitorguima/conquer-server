@@ -120,7 +120,7 @@ xUnit in `src/Packets.Tests/` (mirror `ActionParseTests.cs`). Tests target only 
   - _Requirements: NFR-5, FR-2, AC-3.1, AC-3.2, AC-3.3, AC-3.4_
   - _Design: Test Strategy / Unit tests_
 
-- [ ] 3.2 [VERIFY] Full dockerized test suite green
+- [x] 3.2 [VERIFY] Full dockerized test suite green
   - **Do**: Run the whole xUnit suite — existing 11 tests + new RegisterParseTests must all pass.
   - **Verify**: `scripts/dotnet test src/Conquer.sln 2>&1 | tee /tmp/test.log; grep -Eq 'Passed!|Failed: *0' /tmp/test.log && ! grep -q 'Failed: *[1-9]' /tmp/test.log && echo VERIFY_PASS`
   - **Done when**: All tests pass (no regressions; new parse tests green).
