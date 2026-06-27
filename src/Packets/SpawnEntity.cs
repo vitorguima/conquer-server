@@ -34,31 +34,44 @@ namespace Conquer.Packets
         private const ushort MsgSpawnEntityType = 1014;
         private const int NameOffset = 90;
 
-        public static byte[] BuildSelf(DbCharacter ch)
+        /// <summary>
+        /// Builds a 1014 SpawnEntity frame from EXPLICIT fields, so it can render ANY player
+        /// from LIVE coordinates (not just the owning character's DB snapshot). The wire layout
+        /// is byte-identical to <see cref="BuildSelf"/> for the same field values.
+        /// </summary>
+        public static byte[] Build(
+            uint uid, int mesh, int avatar, int level, int hp, ushort x, ushort y, string name)
         {
-            if (ch == null) throw new ArgumentNullException(nameof(ch));
-
-            var names = new NetStringPacker(ch.Name ?? string.Empty);
+            var names = new NetStringPacker(name ?? string.Empty);
             int bodyLength = NameOffset + names.Length;
 
             var buffer = new byte[bodyLength];
             Span<byte> span = buffer;
 
             PacketBuilder.AppendHeader(span, (ushort)(bodyLength + 8), MsgSpawnEntityType);
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(4), (uint)ch.CharacterID);   // UID
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(8), (uint)ch.Mesh);          // Lookface
-            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(48), (ushort)ch.HealthPoints); // Life
-            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(50), (ushort)ch.Level);      // Level
-            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(52), (ushort)ch.X);          // PositionX
-            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(54), (ushort)ch.Y);          // PositionY
-            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(56), (ushort)ch.Avatar);     // Hair
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(4), uid);                    // UID
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(8), (uint)mesh);             // Lookface
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(48), (ushort)hp);            // Life
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(50), (ushort)level);         // Level
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(52), x);                     // PositionX (live)
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(54), y);                     // PositionY (live)
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(56), (ushort)avatar);        // Hair
             span[58] = 0;                                                                    // Direction
             span[59] = 0;                                                                    // Action = stand
             span[60] = 0;                                                                    // RebornCount
-            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(62), (ushort)ch.Level);      // Level
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(62), (ushort)level);         // Level
             names.Write(span.Slice(NameOffset));                                             // Names = [Name]
 
             return buffer;
+        }
+
+        public static byte[] BuildSelf(DbCharacter ch)
+        {
+            if (ch == null) throw new ArgumentNullException(nameof(ch));
+
+            return Build(
+                (uint)ch.CharacterID, ch.Mesh, ch.Avatar, ch.Level, ch.HealthPoints,
+                (ushort)ch.X, (ushort)ch.Y, ch.Name);
         }
     }
 }

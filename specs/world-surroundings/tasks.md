@@ -90,7 +90,7 @@ Focus: the send lock (correctness prerequisite, FR-1/AD-3) + the world layer exi
 
 Focus: register-on-SetLocation + un-gate 114 → mutual 1014. POC = a newcomer sees players already standing on screen, and they see the newcomer.
 
-- [ ] 2.1 Generalize SpawnEntity.Build for live coords (FR-5, AC-1.2)
+- [x] 2.1 Generalize SpawnEntity.Build for live coords (FR-5, AC-1.2)
   - **Do**:
     1. Add `public static byte[] Build(uint uid,int mesh,int avatar,int level,int hp,ushort x,ushort y,string name)` building the 1014 from explicit fields per the wire layout (UID@4, Lookface@8, Life@48, Level@50, X@52, Y@54, Hair/avatar@56, Dir@58=0, Action@59=0, Level@62, names@90; body = 90 + encoded name). Confirm offsets against existing `BuildSelf`.
     2. Rewrite `BuildSelf(DbCharacter ch)` to delegate: `Build((uint)ch.CharacterID, ch.Mesh, ch.Avatar, ch.Level, ch.HealthPoints, (ushort)ch.X, (ushort)ch.Y, ch.Name)` — byte-identical to before.
