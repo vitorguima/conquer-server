@@ -38,9 +38,11 @@ namespace Conquer.Packets
                 case 133:
                     HandleJump(session, payload);
                     break;
+                case 114:
+                    HandleGetSurroundings(session);
+                    break;
                 // GATED (off by default — uncomment per live observation):
                 // case 102: HandleInvisibleEntity(session); break;   // FR-7 self-1014 fallback
-                // case 114: /* no-op empty surroundings */ break;    // FR-8 GetSurroundings
                 default:
                     Console.WriteLine($"[Game] 1010 Action={action} unhandled — no-op");
                     break;
@@ -74,6 +76,31 @@ namespace Conquer.Packets
             _world.GetOrAdd(entity.MapId).Register(entity);
             session.WorldEntity = entity;
             session.Uid = entity.Uid;
+        }
+
+        // GetSurroundings (Action=114, FR-6): the newcomer B asks who is on screen. Resolve B's
+        // entity, query its 3x3 cell block, and for every OTHER on-screen player A send a MUTUAL
+        // 1014: B <- A's 1014 (A's LIVE coords) AND A <- B's 1014. Seed both Visible sets so the
+        // enter/leave diff (Phase 3) is consistent. B's own 1014 is built ONCE and reused for the
+        // fan-out (build-once, AD-4). Empty screen -> sends nothing, no error.
+        private void HandleGetSurroundings(ClientSession session)
+        {
+            if (session.WorldEntity is not Conquer.World.PlayerEntity b)
+                return;
+
+            byte[] bSpawn = SpawnEntity.Build(b.Uid, b.Mesh, b.Avatar, b.Level, b.Hp, b.X, b.Y, b.Name);
+
+            foreach (var a in _world.GetOrAdd(b.MapId).QueryScreen(b.CellX, b.CellY))
+            {
+                if (a.Uid == b.Uid)
+                    continue;
+
+                session.SendGame(SpawnEntity.Build(a.Uid, a.Mesh, a.Avatar, a.Level, a.Hp, a.X, a.Y, a.Name));
+                a.Session.SendGame(bSpawn);
+
+                b.Visible[a.Uid] = 1;
+                a.Visible[b.Uid] = 1;
+            }
         }
 
         // Jump (Action=133): the client sends the target packed in Data1 — Data1Low=X

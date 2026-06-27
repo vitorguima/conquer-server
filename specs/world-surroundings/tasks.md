@@ -131,7 +131,7 @@ Focus: register-on-SetLocation + un-gate 114 → mutual 1014. POC = a newcomer s
   - _Requirements: FR-7, NFR-11, AC-2.1_
   - _Design: Handler hooks (Register), AD-5_
 
-- [ ] 2.5 Un-gate case 114 → mutual 1014 per on-screen player (FR-6, AC-1.1/1.3/1.4)
+- [x] 2.5 Un-gate case 114 → mutual 1014 per on-screen player (FR-6, AC-1.1/1.3/1.4)
   - **Do**:
     1. Un-gate `case 114: HandleGetSurroundings(session); break;` in `ActionHandler`.
     2. `HandleGetSurroundings`: resolve requester entity B; `QueryScreen` B's 3×3; for each OTHER player A: `session.SendGame(SpawnEntity.Build(A.Uid,A.Mesh,A.Avatar,A.Level,A.Hp,A.X,A.Y,A.Name))` AND `A.Session.SendGame(SpawnEntity.Build(B...))` (mutual); seed `B.Visible[A.Uid]` and `A.Visible[B.Uid]`.
