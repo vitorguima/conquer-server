@@ -211,7 +211,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
   - _Requirements: AC-1.5, AC-2.5_
   - _Design: Test Strategy (World.Tests)_
 
-- [ ] 4.2 [P] Packets.Tests: EntitySpawn.For branch + SpawnNpc + NpcDialog + NpcHandler layouts
+- [x] 4.2 [P] Packets.Tests: EntitySpawn.For branch + SpawnNpc + NpcDialog + NpcHandler layouts
   - **Do**:
     1. `EntitySpawn.For(player)` == `SpawnEntity.Build(player fields)` byte-for-byte (AC-2.1 regression); `For(npc)` → 2030 (type@2==2030).
     2. `SpawnNpc.Build`: assert every offset (UID@4/X@8/Y@10/Mesh@12/Type@14/Unknown1@16=0/Name@18), body == `18 + names.Length` (AC-5.3).
