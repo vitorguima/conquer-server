@@ -24,7 +24,7 @@ Focus: the send lock (correctness prerequisite, FR-1/AD-3) + the world layer exi
   - _Requirements: FR-1, AC-5.1, AC-5.3_
   - _Design: AD-3, AD-5_
 
-- [ ] 1.2 Create src/World project + sln wiring + ref direction (FR-2, AD-5)
+- [x] 1.2 Create src/World project + sln wiring + ref direction (FR-2, AD-5)
   - **Do**:
     1. Create `src/World/World.csproj` (net8.0, inherits Directory.Build.props strict gate); add `ProjectReference` to `../Network/Network.csproj` and `../Database/Database.csproj`.
     2. Add World project to `src/Conquer.sln`.
