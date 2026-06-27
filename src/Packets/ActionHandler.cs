@@ -61,6 +61,19 @@ namespace Conquer.Packets
             session.SendGame(GeneralData.BuildSetLocation(
                 (uint)ch.CharacterID, (uint)ch.MapID, (ushort)ch.X, (ushort)ch.Y));
             session.SendGame(MapStatus.Build((uint)ch.MapID));
+
+            // ADDITIVE (FR-7): after the unchanged echo + MapStatus, register the player into
+            // the World at its LIVE position so 114/movement can see/broadcast it. Guard on a
+            // loaded position; back-ref the entity on the session for teardown + later hooks.
+            if (!session.PositionLoaded)
+                return;
+
+            var entity = new Conquer.World.PlayerEntity(
+                (uint)ch.CharacterID, session.CurrentMap, session.CurrentX, session.CurrentY,
+                session, ch.Mesh, ch.Avatar, ch.Level, ch.HealthPoints, ch.Name);
+            _world.GetOrAdd(entity.MapId).Register(entity);
+            session.WorldEntity = entity;
+            session.Uid = entity.Uid;
         }
 
         // Jump (Action=133): the client sends the target packed in Data1 — Data1Low=X

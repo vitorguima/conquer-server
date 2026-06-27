@@ -119,7 +119,7 @@ Focus: register-on-SetLocation + un-gate 114 → mutual 1014. POC = a newcomer s
   - **Done when**: Build succeeds, 0 warnings.
   - **Commit**: `chore(packets): pass build gate after Build + World injection` (only if fixes needed)
 
-- [ ] 2.4 Register player into World at HandleSetLocation (FR-7, AC-2.1)
+- [x] 2.4 Register player into World at HandleSetLocation (FR-7, AC-2.1)
   - **Do**:
     1. In `ActionHandler.HandleSetLocation`, AFTER the existing SetLocation echo + MapStatus (do NOT touch the echo), build a `PlayerEntity` from `session.Character` + live `CurrentMap/CurrentX/CurrentY`.
     2. `_world.GetOrAdd(map).Register(e)`; set `session.WorldEntity = e` and `session.Uid = e.Uid`.
