@@ -136,13 +136,13 @@ xUnit in `src/Packets.Tests/` (mirror `ActionParseTests.cs`). Tests target only 
 
 NEVER push to the protected default `master`. Push `feat/character-creation` and merge via PR.
 
-- [ ] 4.1 [VERIFY] Final full local CI gate
+- [x] 4.1 [VERIFY] Final full local CI gate
   - **Do**: Run the complete dockerized gate: build clean + full test suite green. No lint in this repo (confirmed). Fix any issue and re-run until green.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -q 'Build succeeded\|0 Error' && scripts/dotnet test src/Conquer.sln 2>&1 | grep -Eq 'Passed!|Failed: *0' && echo VERIFY_PASS`
   - **Done when**: Build succeeds AND all tests pass.
   - **Commit**: `chore(quality): pass full local CI gate` (only if fixes needed)
 
-- [ ] 4.2 Push branch + create PR with operator E2E checklist
+- [x] 4.2 Push branch + create PR with operator E2E checklist
   - **Do**:
     1. Confirm branch: `git branch --show-current` (must be `feat/character-creation`, NOT master — if master, STOP and alert).
     2. `git push -u origin feat/character-creation`.
@@ -153,7 +153,7 @@ NEVER push to the protected default `master`. Push `feat/character-creation` and
   - **Commit**: None
   - _Requirements: NFR-1, Success Criteria_
 
-- [ ] 4.3 [VERIFY] CI pipeline passes
+- [x] 4.3 [VERIFY] CI pipeline passes
   - **Do**: After push, confirm GitHub Actions / CI checks on the PR. Fix locally + push if red; re-check.
   - **Verify**: `gh pr checks 2>&1 | grep -viE 'pass|✓|success|no checks' | grep -iE 'fail|✗|error' && echo CI_RED || echo VERIFY_PASS`
   - **Done when**: All CI checks green (or repo has no CI workflow — then this is a no-op pass).
