@@ -113,7 +113,7 @@ Focus: register-on-SetLocation + un-gate 114 → mutual 1014. POC = a newcomer s
   - _Requirements: FR-2, NFR-9, NFR-10, AC-6.1, AC-6.2_
   - _Design: AD-5, Handler hooks_
 
-- [ ] 2.3 [VERIFY] Quality checkpoint: build after Build + injection (2.1-2.2)
+- [x] 2.3 [VERIFY] Quality checkpoint: build after Build + injection (2.1-2.2)
   - **Do**: Run dockerized build; confirm 0 warnings / 0 errors.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qiE "Build succeeded" && ! scripts/dotnet build src/Conquer.sln 2>&1 | grep -qi "warning" && echo PASS`
   - **Done when**: Build succeeds, 0 warnings.
