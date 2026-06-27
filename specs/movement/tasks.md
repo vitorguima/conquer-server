@@ -39,7 +39,7 @@ Focus: prove the server tracks the player's authoritative (x,y) as they walk —
   - **Commit**: `feat(packets): add guard-first WalkHandler.Handle with in-memory mutation`
   - _Requirements: FR-4, FR-9, FR-10, AC-1.3, AC-1.4, AC-3.1, AC-3.2, AC-3.3, AC-3.4_ · _Design: Error Handling, Data Flow (walk hot path), AD-3, AD-4_
 
-- [ ] 1.4 [VERIFY] Quality checkpoint: build after WalkHandler
+- [x] 1.4 [VERIFY] Quality checkpoint: build after WalkHandler
   - **Do**: `scripts/dotnet build src/Conquer.sln`.
   - **Verify**: `scripts/dotnet build src/Conquer.sln` exits 0 with 0 warnings / 0 errors.
   - **Done when**: Build clean; WalkHandler + ClientSession fields compile nullable-clean.
