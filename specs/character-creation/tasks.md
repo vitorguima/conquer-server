@@ -49,7 +49,7 @@ Focus: prove the end-to-end create path — enum → handler (parse+validate+bui
   - _Requirements: FR-3, FR-5, FR-6, AC-2.1, AC-2.3, AC-2.4_
   - _Design: Validation table_
 
-- [ ] 1.4 [VERIFY] Build checkpoint: handler+enum compile
+- [x] 1.4 [VERIFY] Build checkpoint: handler+enum compile
   - **Do**: Run dockerized build (catches enum/handler compile errors early before wiring).
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | tee /tmp/build.log; grep -q 'Build succeeded\|0 Error' /tmp/build.log && echo VERIFY_PASS`
   - **Done when**: Solution builds clean with new enum value + RegisterHandler.
