@@ -125,7 +125,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
   - _Requirements: FR-7, AC-4.3_
   - _Design: NpcRepository_
 
-- [ ] 2.2 Add cq_npc table + 2 seed NPCs to init.sql
+- [x] 2.2 Add cq_npc table + 2 seed NPCs to init.sql
   - **Do**:
     1. `src/init.sql`: add `CREATE TABLE IF NOT EXISTS cq_npc` (`UID` PK, `Name`, `MapID`, `X`, `Y`, `Mesh`, `Type`, `BaseId` nullable; `idx_npc_map`; latin1/InnoDB) before `SET FOREIGN_KEY_CHECKS = 1;`.
     2. `INSERT IGNORE` 2 NPCs: `(90001,'Guide',1010,63,109,Mesh,2,NULL)`, `(90002,'Greeter',1010,60,111,2,NULL)` — UID band ≥90000 (no CharacterID collision), `Type=2` (Task/clickable), a plausible VISIBLE `Mesh` (placeholder; flag live-capture — exact humanoid mesh id is an Unresolved Question).
