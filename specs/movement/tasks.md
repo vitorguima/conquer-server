@@ -23,7 +23,7 @@ Focus: prove the server tracks the player's authoritative (x,y) as they walk —
   - **Commit**: `feat(network): add live-position fields to ClientSession`
   - _Requirements: FR-5, AC-4.1_ · _Design: AD-1, ClientSession additions_
 
-- [ ] 1.2 Create WalkHandler (parse + ComputeStep)
+- [x] 1.2 Create WalkHandler (parse + ComputeStep)
   - **Do**: Create `src/Packets/WalkHandler.cs`, namespace `Conquer.Packets`, `public sealed class WalkHandler`. Add LOCAL `private static readonly sbyte[] DeltaX = { 0,-1,-1,-1,0,1,1,1 };` and `DeltaY = { 1,1,0,-1,-1,-1,0,1 };` (index 8 dropped). `public static (uint uid, byte dir, byte mode) ParseWalk(byte[] payload)` reading UID@2 via `BinaryPrimitives.ReadUInt32LittleEndian(payload.AsSpan(2,4))`, Direction@6 (`payload[6]`), Mode@7 (`payload[7]`). `public static (int nx, int ny) ComputeStep(int curX, int curY, byte dir)` returning `(curX + DeltaX[dir%8], curY + DeltaY[dir%8])` as ints. No `Handle` yet, no SendGame, no repo, no per-call alloc.
   - **Files**: src/Packets/WalkHandler.cs
   - **Done when**: ParseWalk + ComputeStep compile, nullable-clean, no Redux.Common import.
