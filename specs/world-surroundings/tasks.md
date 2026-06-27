@@ -242,7 +242,7 @@ Focus: cover the spatial math + packet byte layouts (NFR-13). No socket/DB.
   - _Requirements: NFR-13, AC-3.5_
   - _Design: Test Strategy (unit), Grid math_
 
-- [ ] 4.2 MapInstance register/move/query + enter/leave diff tests (NFR-13)
+- [x] 4.2 MapInstance register/move/query + enter/leave diff tests (NFR-13)
   - **Do**:
     1. Create `src/World.Tests/ScreenDiffTests.cs` (+ MapInstance coverage): Register then `QueryScreen` returns only the 9-cell occupants, excludes far players; within-cell Move → `ScreenDiff.Empty` (no grid mutation); boundary cross → atomic remove+add; scroll-in cells → `Entered`, scroll-out → `Left`, stationary overlap → neither.
   - **Files**: src/World.Tests/ScreenDiffTests.cs
