@@ -21,6 +21,41 @@ namespace Conquer.Packets
         private static readonly sbyte[] DeltaY = { 1,  1,  0, -1, -1, -1, 0, 1 };
 
         /// <summary>
+        /// Guard-first; mutate session live pos; log. No SendGame, no repo, no echo, no
+        /// per-packet alloc. Never disconnects on a bad walk — log + ignore (US-3).
+        /// </summary>
+        public void Handle(ClientSession session, byte[] payload)
+        {
+            if (payload.Length < 8)
+            {
+                Console.WriteLine("[Game] short 1005");
+                return;
+            }
+
+            if (session.Character == null || !session.PositionLoaded)
+                return;
+
+            var (_, dir, mode) = ParseWalk(payload);
+
+            if (dir > 7)
+            {
+                Console.WriteLine($"[Game] 1005 bad dir={dir}");
+                return;
+            }
+
+            var (nx, ny) = ComputeStep(session.CurrentX, session.CurrentY, dir);
+            if (nx < 0 || ny < 0 || nx > ushort.MaxValue || ny > ushort.MaxValue)
+            {
+                Console.WriteLine($"[Game] 1005 oob ({nx},{ny})");
+                return;
+            }
+
+            session.CurrentX = (ushort)nx;
+            session.CurrentY = (ushort)ny;
+            Console.WriteLine($"[Game] walk dir={dir} mode={mode} -> ({session.CurrentX},{session.CurrentY})");
+        }
+
+        /// <summary>
         /// Pure parse (no socket/DB). Caller guards <c>payload.Length &gt;= 8</c>.
         /// UID u32 LE @2, Direction u8 @6, Mode u8 @7.
         /// </summary>

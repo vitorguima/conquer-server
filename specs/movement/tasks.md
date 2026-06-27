@@ -31,7 +31,7 @@ Focus: prove the server tracks the player's authoritative (x,y) as they walk —
   - **Commit**: `feat(packets): add WalkHandler ParseWalk + ComputeStep`
   - _Requirements: FR-1, FR-3, AC-1.1, AC-1.2_ · _Design: WalkHandler interfaces, AD-4, Delta Table, Payload Offsets_
 
-- [ ] 1.3 Add guard-first WalkHandler.Handle (in-mem mutate + log)
+- [x] 1.3 Add guard-first WalkHandler.Handle (in-mem mutate + log)
   - **Do**: In `src/Packets/WalkHandler.cs` add `public void Handle(ClientSession session, byte[] payload)`. Guard order (early-return each, log + ignore, NEVER disconnect): `payload.Length < 8` → `[Game] short 1005`; `session.Character == null || !session.PositionLoaded` → return; `ParseWalk` → `dir > 7` → `[Game] 1005 bad dir=N`; `ComputeStep(CurrentX, CurrentY, dir)` → `nx<0 || ny<0 || nx>ushort.MaxValue || ny>ushort.MaxValue` → `[Game] 1005 oob (nx,ny)` (reject, leave pos unchanged); valid → `session.CurrentX=(ushort)nx; session.CurrentY=(ushort)ny;` + log `[Game] walk dir=N mode=M -> (x,y)`. ~≤40 lines. No SendGame, no repo, no echo, no alloc.
   - **Files**: src/Packets/WalkHandler.cs
   - **Done when**: All 5 guards present; valid path mutates CurrentX/Y + logs incl. Mode; bounds = reject not clamp.
