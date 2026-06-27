@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Tests", "Crypto.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Packets.Tests", "Packets.Tests\Packets.Tests.csproj", "{AA674604-9E8F-4ED1-8068-853DF0CBDB30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "World.Tests", "World.Tests\World.Tests.csproj", "{A4E4730C-6C87-4AEA-8CFF-B02D00BA24C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{AA674604-9E8F-4ED1-8068-853DF0CBDB30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA674604-9E8F-4ED1-8068-853DF0CBDB30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA674604-9E8F-4ED1-8068-853DF0CBDB30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4E4730C-6C87-4AEA-8CFF-B02D00BA24C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4E4730C-6C87-4AEA-8CFF-B02D00BA24C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4E4730C-6C87-4AEA-8CFF-B02D00BA24C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4E4730C-6C87-4AEA-8CFF-B02D00BA24C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B55D2819-34BD-415B-9190-F85F347A305F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B55D2819-34BD-415B-9190-F85F347A305F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B55D2819-34BD-415B-9190-F85F347A305F}.Release|Any CPU.ActiveCfg = Release|Any CPU

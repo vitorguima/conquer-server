@@ -231,7 +231,7 @@ Focus: walk(1005)/jump(133) broadcast, enter/leave diff, deregister + RemoveEnti
 
 Focus: cover the spatial math + packet byte layouts (NFR-13). No socket/DB.
 
-- [ ] 4.1 Create src/World.Tests project + grid math tests (NFR-13)
+- [x] 4.1 Create src/World.Tests project + grid math tests (NFR-13)
   - **Do**:
     1. Create `src/World.Tests/World.Tests.csproj` (xUnit, mirrors Packets.Tests, refs World); add to `src/Conquer.sln`.
     2. Create `src/World.Tests/GridMathTests.cs`: CellKey round-trip + distinct cells → distinct keys + negative-safe `(uint)` cast; `CellOf` boundaries (17→0, 18→1, 35→1, 36→2); `Cells3x3` yields exactly 9 keys centered on the cell.
