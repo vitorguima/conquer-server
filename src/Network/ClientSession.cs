@@ -52,6 +52,13 @@ namespace Conquer.Network
         /// <summary>Authenticated character, set at MsgConnect(1052); null until then or if none found.</summary>
         public Conquer.Database.DbCharacter? Character { get; set; }
 
+        /// <summary>Live authoritative position (in-memory). Seeded from Character at 1052,
+        /// mutated by WalkHandler, flushed once on disconnect. NOT the Character (init-only) store.</summary>
+        public int    CurrentMap     { get; set; }
+        public ushort CurrentX       { get; set; }
+        public ushort CurrentY       { get; set; }
+        public bool   PositionLoaded { get; set; }
+
         public ClientSession(TcpClient tcp)
         {
             TcpClient = tcp;

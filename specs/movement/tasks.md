@@ -15,7 +15,7 @@ Strict gate ON. Every [VERIFY] uses `scripts/dotnet build src/Conquer.sln` (0 wa
 
 Focus: prove the server tracks the player's authoritative (x,y) as they walk — logs only, no DB.
 
-- [ ] 1.1 Add live-position fields to ClientSession
+- [x] 1.1 Add live-position fields to ClientSession
   - **Do**: In `src/Network/ClientSession.cs` add four mutable auto-props (AD-1): `public int CurrentMap { get; set; }`, `public ushort CurrentX { get; set; }`, `public ushort CurrentY { get; set; }`, `public bool PositionLoaded { get; set; }`. Value types — no null handling. Add the design's doc-comment (live authoritative pos, seeded at 1052, NOT the Character store).
   - **Files**: src/Network/ClientSession.cs
   - **Done when**: Four fields present; file is nullable-clean; no other member touched.
