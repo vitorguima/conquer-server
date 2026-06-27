@@ -13,29 +13,29 @@ namespace Conquer.World
     public sealed class MapInstance
     {
         /// <summary>Whole-map roster, keyed by UID.</summary>
-        public ConcurrentDictionary<uint, PlayerEntity> Roster { get; } = new();
+        public ConcurrentDictionary<uint, IWorldEntity> Roster { get; } = new();
 
-        private readonly Grid<PlayerEntity> _grid = new();
+        private readonly Grid<IWorldEntity> _grid = new();
 
         /// <summary>Add an entity to the roster and its current cell.</summary>
-        public void Register(PlayerEntity e)
+        public void Register(IWorldEntity e)
         {
             Roster[e.Uid] = e;
-            _grid.TryAdd(Grid<PlayerEntity>.CellKey(e.CellX, e.CellY), e.Uid, e);
+            _grid.TryAdd(Grid<IWorldEntity>.CellKey(e.CellX, e.CellY), e.Uid, e);
         }
 
         /// <summary>
         /// Remove an entity from the roster and grid; returns its last-screen occupants
         /// (excluding itself) so the caller can broadcast a despawn. Idempotent.
         /// </summary>
-        public IReadOnlyCollection<PlayerEntity> Deregister(uint uid)
+        public IReadOnlyCollection<IWorldEntity> Deregister(uint uid)
         {
             if (!Roster.TryRemove(uid, out var e))
             {
-                return System.Array.Empty<PlayerEntity>();
+                return System.Array.Empty<IWorldEntity>();
             }
 
-            var screen = new List<PlayerEntity>();
+            var screen = new List<IWorldEntity>();
             foreach (var other in QueryScreen(e.CellX, e.CellY))
             {
                 if (other.Uid != uid)
@@ -44,7 +44,7 @@ namespace Conquer.World
                 }
             }
 
-            _grid.TryRemove(Grid<PlayerEntity>.CellKey(e.CellX, e.CellY), uid);
+            _grid.TryRemove(Grid<IWorldEntity>.CellKey(e.CellX, e.CellY), uid);
             return screen;
         }
 
@@ -53,30 +53,30 @@ namespace Conquer.World
         /// between cells and diff the old vs new 3x3 block into a <see cref="ScreenDiff"/>;
         /// within-cell moves return <see cref="ScreenDiff.Empty"/> with no grid write.
         /// </summary>
-        public ScreenDiff Move(PlayerEntity e, ushort newX, ushort newY)
+        public ScreenDiff Move(IWorldEntity e, ushort newX, ushort newY)
         {
-            int newCx = Grid<PlayerEntity>.CellOf(newX);
-            int newCy = Grid<PlayerEntity>.CellOf(newY);
+            int newCx = Grid<IWorldEntity>.CellOf(newX);
+            int newCy = Grid<IWorldEntity>.CellOf(newY);
             int oldCx = e.CellX;
             int oldCy = e.CellY;
 
-            e.SetPosition(newX, newY);
+            ((PlayerEntity)e).SetPosition(newX, newY);   // Move is player-only (WalkHandler/jump); NPCs never Move
 
             if (newCx == oldCx && newCy == oldCy)
             {
                 return ScreenDiff.Empty;
             }
 
-            var old9 = new HashSet<long>(Grid<PlayerEntity>.Cells3x3(oldCx, oldCy));
-            var new9 = new HashSet<long>(Grid<PlayerEntity>.Cells3x3(newCx, newCy));
+            var old9 = new HashSet<long>(Grid<IWorldEntity>.Cells3x3(oldCx, oldCy));
+            var new9 = new HashSet<long>(Grid<IWorldEntity>.Cells3x3(newCx, newCy));
 
             // Atomic per-cell move.
-            _grid.TryRemove(Grid<PlayerEntity>.CellKey(oldCx, oldCy), e.Uid);
-            _grid.TryAdd(Grid<PlayerEntity>.CellKey(newCx, newCy), e.Uid, e);
+            _grid.TryRemove(Grid<IWorldEntity>.CellKey(oldCx, oldCy), e.Uid);
+            _grid.TryAdd(Grid<IWorldEntity>.CellKey(newCx, newCy), e.Uid, e);
             e.CellX = newCx;
             e.CellY = newCy;
 
-            var entered = new List<PlayerEntity>();
+            var entered = new List<IWorldEntity>();
             foreach (long key in new9)
             {
                 if (old9.Contains(key))
@@ -93,7 +93,7 @@ namespace Conquer.World
                 }
             }
 
-            var left = new List<PlayerEntity>();
+            var left = new List<IWorldEntity>();
             foreach (long key in old9)
             {
                 if (new9.Contains(key))
@@ -114,9 +114,9 @@ namespace Conquer.World
         }
 
         /// <summary>Lock-free union of the occupants of the 3x3 cell block around (cellX, cellY).</summary>
-        public IEnumerable<PlayerEntity> QueryScreen(int cellX, int cellY)
+        public IEnumerable<IWorldEntity> QueryScreen(int cellX, int cellY)
         {
-            foreach (long key in Grid<PlayerEntity>.Cells3x3(cellX, cellY))
+            foreach (long key in Grid<IWorldEntity>.Cells3x3(cellX, cellY))
             {
                 foreach (var e in _grid.Occupants(key))
                 {
@@ -129,7 +129,7 @@ namespace Conquer.World
         /// Build-once fan-out (AD-4): send the same packet to every player on
         /// <paramref name="center"/>'s 3x3 screen, optionally skipping the center itself.
         /// </summary>
-        public void Broadcast(PlayerEntity center, byte[] packet, bool includeSelf)
+        public void Broadcast(IWorldEntity center, byte[] packet, bool includeSelf)
         {
             foreach (var e in QueryScreen(center.CellX, center.CellY))
             {
@@ -138,7 +138,10 @@ namespace Conquer.World
                     continue;
                 }
 
-                e.Session.SendGame(packet);
+                if (e is PlayerEntity p)
+                {
+                    p.Session.SendGame(packet);   // NPCs never receive (no Session)
+                }
             }
         }
     }

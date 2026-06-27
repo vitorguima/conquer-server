@@ -64,7 +64,7 @@ This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION
   - **Done when**: Build 0 warnings/0 errors, all existing tests pass (interface added, no retype yet).
   - **Commit**: `chore(world): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.5 Retype MapInstance + ScreenDiff → IWorldEntity (Broadcast guard + Move cast)
+- [x] 1.5 Retype MapInstance + ScreenDiff → IWorldEntity (Broadcast guard + Move cast)
   - **Do**:
     1. `MapInstance.cs`: `Roster` → `ConcurrentDictionary<uint, IWorldEntity>`; `_grid` → `Grid<IWorldEntity>`; retype `Register`/`Deregister`/`Move`/`QueryScreen` params+returns to `IWorldEntity`; all `Grid<PlayerEntity>.*` → `Grid<IWorldEntity>.*` (per design exact diffs).
     2. `Broadcast`: guard `if (e is PlayerEntity p) p.Session.SendGame(packet);` (NPCs never receive).

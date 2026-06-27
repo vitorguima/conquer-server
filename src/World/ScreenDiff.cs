@@ -8,11 +8,11 @@ namespace Conquer.World
     /// (=&gt; RemoveEntity 132). A within-cell step produces <see cref="Empty"/>.
     /// </summary>
     public readonly record struct ScreenDiff(
-        IReadOnlyList<PlayerEntity> Entered,
-        IReadOnlyList<PlayerEntity> Left)
+        IReadOnlyList<IWorldEntity> Entered,
+        IReadOnlyList<IWorldEntity> Left)
     {
         /// <summary>No enter/leave change (within-cell move).</summary>
         public static ScreenDiff Empty { get; } =
-            new(System.Array.Empty<PlayerEntity>(), System.Array.Empty<PlayerEntity>());
+            new(System.Array.Empty<IWorldEntity>(), System.Array.Empty<IWorldEntity>());
     }
 }
