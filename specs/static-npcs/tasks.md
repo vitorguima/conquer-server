@@ -77,7 +77,7 @@ This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION
   - _Requirements: FR-2, FR-4, AC-1.3, AC-1.4, AC-2.5_
   - _Design: MapInstance / World / ScreenDiff retype_
 
-- [ ] 1.6 Retype World.cs → IWorldEntity
+- [x] 1.6 Retype World.cs → IWorldEntity
   - **Do**:
     1. `World.cs`: retype `Register(IWorldEntity)`, `Deregister(...) → IReadOnlyCollection<IWorldEntity>`, `Move(int, IWorldEntity, ...)`, `QueryScreen(...) → IEnumerable<IWorldEntity>`.
     2. Both `System.Array.Empty<PlayerEntity>()` → `<IWorldEntity>()`. Pure type substitution, no logic change.

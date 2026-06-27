@@ -21,22 +21,22 @@ namespace Conquer.World
         public bool TryGetMap(int mapId, out MapInstance? map) => _maps.TryGetValue(mapId, out map);
 
         /// <summary>Register an entity into its map (creating the map if needed).</summary>
-        public void Register(PlayerEntity e) => GetOrAdd(e.MapId).Register(e);
+        public void Register(IWorldEntity e) => GetOrAdd(e.MapId).Register(e);
 
         /// <summary>Deregister a UID from a map; returns its last screen for despawn broadcast.</summary>
-        public IReadOnlyCollection<PlayerEntity> Deregister(int mapId, uint uid) =>
+        public IReadOnlyCollection<IWorldEntity> Deregister(int mapId, uint uid) =>
             TryGetMap(mapId, out var map) && map is not null
                 ? map.Deregister(uid)
-                : System.Array.Empty<PlayerEntity>();
+                : System.Array.Empty<IWorldEntity>();
 
         /// <summary>Move an entity within its map, returning the enter/leave diff.</summary>
-        public ScreenDiff Move(int mapId, PlayerEntity e, ushort newX, ushort newY) =>
+        public ScreenDiff Move(int mapId, IWorldEntity e, ushort newX, ushort newY) =>
             GetOrAdd(mapId).Move(e, newX, newY);
 
         /// <summary>Query the 3x3 screen block around a cell on a map (empty if the map is absent).</summary>
-        public IEnumerable<PlayerEntity> QueryScreen(int mapId, int cellX, int cellY) =>
+        public IEnumerable<IWorldEntity> QueryScreen(int mapId, int cellX, int cellY) =>
             TryGetMap(mapId, out var map) && map is not null
                 ? map.QueryScreen(cellX, cellY)
-                : System.Array.Empty<PlayerEntity>();
+                : System.Array.Empty<IWorldEntity>();
     }
 }

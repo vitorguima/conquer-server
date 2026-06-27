@@ -177,9 +177,12 @@ namespace Redux
                             byte[] remove = Conquer.Packets.GeneralData.BuildRemoveEntity(e.Uid);
                             foreach (var other in screen)
                             {
-                                other.Session.SendGame(remove);
-                                e.Visible.TryRemove(other.Uid, out _);
-                                other.Visible.TryRemove(e.Uid, out _);
+                                if (other is not Conquer.World.PlayerEntity op)   // NPCs have no Session; never receive
+                                    continue;
+
+                                op.Session.SendGame(remove);
+                                e.Visible.TryRemove(op.Uid, out _);
+                                op.Visible.TryRemove(e.Uid, out _);
                             }
                         }
                     }
