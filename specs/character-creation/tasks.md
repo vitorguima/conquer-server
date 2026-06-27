@@ -68,7 +68,7 @@ Focus: prove the end-to-end create path — enum → handler (parse+validate+bui
   - _Requirements: FR-7, FR-8, FR-9, FR-11, AC-1.1, AC-1.2, AC-3.*, AC-4.2_
   - _Design: DbCharacter build, Appearance & Stat Formulas, Error Handling_
 
-- [ ] 1.6 Wire PacketRouter `case 1001:` (POC milestone)
+- [x] 1.6 Wire PacketRouter `case 1001:` (POC milestone)
   - **Do**:
     1. Edit `src/Redux/PacketRouter.cs`: add field `private readonly Conquer.Packets.RegisterHandler _register;`.
     2. In ctor: `_register = new Conquer.Packets.RegisterHandler(characters);` (the SAME `characters` instance GameHandler receives — no new ctor param).
