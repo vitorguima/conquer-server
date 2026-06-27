@@ -219,7 +219,7 @@ Focus: walk(1005)/jump(133) broadcast, enter/leave diff, deregister + RemoveEnti
   - _Requirements: FR-13, NFR-11, AC-4.3, AC-4.4_
   - _Design: Handler hooks (Deregister), Error Handling table_
 
-- [ ] 3.7 [VERIFY] Quality checkpoint: full build after movement+despawn (3.4-3.6)
+- [x] 3.7 [VERIFY] Quality checkpoint: full build after movement+despawn (3.4-3.6)
   - **Do**: Run dockerized build; confirm 0 warnings / 0 errors end-to-end.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qiE "Build succeeded" && ! scripts/dotnet build src/Conquer.sln 2>&1 | grep -qi "warning" && echo PASS`
   - **Done when**: Build succeeds, 0 warnings; movement + despawn wired end-to-end.
