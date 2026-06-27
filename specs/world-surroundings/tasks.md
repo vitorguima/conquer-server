@@ -101,7 +101,7 @@ Focus: register-on-SetLocation + un-gate 114 → mutual 1014. POC = a newcomer s
   - _Requirements: FR-5, AC-1.1, AC-1.2_
   - _Design: 1014 wire layout, File Structure_
 
-- [ ] 2.2 Inject World via Program + PacketRouter into handlers (FR-2, AC-6.1)
+- [x] 2.2 Inject World via Program + PacketRouter into handlers (FR-2, AC-6.1)
   - **Do**:
     1. `Program.cs`: construct `new World()` (mirror CharacterRepository wiring) and pass it into `PacketRouter` and `NetworkListener` ctors.
     2. `PacketRouter.cs`: ctor takes `World`; pass it to `new ActionHandler(world, ...)` and `new WalkHandler(world, ...)`.

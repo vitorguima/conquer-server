@@ -6,6 +6,7 @@ using Conquer.Maps;
 using Conquer.Network;
 using Conquer.Packets;
 using Microsoft.Extensions.Configuration;
+using World = Conquer.World.World;
 
 namespace Redux
 {
@@ -30,8 +31,9 @@ namespace Redux
 
             var accounts   = new AccountRepository(factory);
             var characters = new CharacterRepository(factory);
-            var router     = new PacketRouter(accounts, characters, config);
-            var listener   = new NetworkListener(config, router, characters);
+            var world      = new World();
+            var router     = new PacketRouter(accounts, characters, config, world);
+            var listener   = new NetworkListener(config, router, characters, world);
 
             // Graceful shutdown on Ctrl+C
             using var cts = new CancellationTokenSource();

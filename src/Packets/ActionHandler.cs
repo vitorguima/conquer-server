@@ -14,6 +14,13 @@ namespace Conquer.Packets
     /// </summary>
     public sealed class ActionHandler
     {
+        private readonly Conquer.World.World _world;
+
+        public ActionHandler(Conquer.World.World world)
+        {
+            _world = world;
+        }
+
         public void HandleAction(ClientSession session, byte[] payload)
         {
             if (payload.Length < 22)

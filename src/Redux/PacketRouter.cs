@@ -17,13 +17,13 @@ namespace Redux
         private readonly Conquer.Packets.RegisterHandler _register;
         private readonly Conquer.Packets.WalkHandler _walk;
 
-        public PacketRouter(AccountRepository accounts, CharacterRepository characters, IConfiguration config)
+        public PacketRouter(AccountRepository accounts, CharacterRepository characters, IConfiguration config, Conquer.World.World world)
         {
             _auth     = new AuthHandler(accounts, config);
             _game     = new GameHandler(characters, config);
-            _action   = new Conquer.Packets.ActionHandler();
+            _action   = new Conquer.Packets.ActionHandler(world);
             _register = new Conquer.Packets.RegisterHandler(characters);
-            _walk     = new Conquer.Packets.WalkHandler();
+            _walk     = new Conquer.Packets.WalkHandler(world);
         }
 
         public (ushort typeId, byte[] payload) ReadPacket(ClientSession session)

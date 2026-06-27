@@ -15,12 +15,14 @@ namespace Redux
         private readonly IConfiguration _config;
         private readonly PacketRouter _router;
         private readonly CharacterRepository _characters;
+        private readonly Conquer.World.World _world;
 
-        public NetworkListener(IConfiguration config, PacketRouter router, CharacterRepository characters)
+        public NetworkListener(IConfiguration config, PacketRouter router, CharacterRepository characters, Conquer.World.World world)
         {
             _config = config;
             _router = router;
             _characters = characters;
+            _world = world;
         }
 
         public async Task RunAuthAsync(CancellationToken ct)

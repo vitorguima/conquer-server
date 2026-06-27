@@ -20,6 +20,13 @@ namespace Conquer.Packets
         private static readonly sbyte[] DeltaX = { 0, -1, -1, -1, 0, 1, 1, 1 };
         private static readonly sbyte[] DeltaY = { 1,  1,  0, -1, -1, -1, 0, 1 };
 
+        private readonly Conquer.World.World _world;
+
+        public WalkHandler(Conquer.World.World world)
+        {
+            _world = world;
+        }
+
         /// <summary>
         /// Guard-first; mutate session live pos; log. No SendGame, no repo, no echo, no
         /// per-packet alloc. Never disconnects on a bad walk — log + ignore (US-3).
