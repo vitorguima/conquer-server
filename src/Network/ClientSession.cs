@@ -43,7 +43,7 @@ namespace Conquer.Network
         public ExchangeState State { get; set; } = ExchangeState.AwaitingClientKey;
 
         /// <summary>DH key exchange (set for game connections only; null for auth).</summary>
-        public ServerKeyExchange Exchange { get; set; }
+        public ServerKeyExchange? Exchange { get; set; }
 
         public ulong SessionToken { get; set; }
         public int AccountId { get; set; }

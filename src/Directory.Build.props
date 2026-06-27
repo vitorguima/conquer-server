@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <!--
+    Nullable is fully enforced (warnings-as-errors) for ALL projects via the
+    baseline above. The ONLY exception is the legacy Redux game server, which
+    defers the nullable diagnostic codes in its own csproj (see Redux.csproj) —
+    it carries ~274 pre-existing sites. New/ported library code (Crypto, Packets,
+    Database, Network, Maps) is held to the full nullable bar here.
+  -->
+</Project>

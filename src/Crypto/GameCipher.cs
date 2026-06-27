@@ -48,8 +48,10 @@ namespace Conquer.Crypto
         private byte[] _key;
 
         // Per-direction Blowfish ECB engines used as the CFB-64 keystream generator.
-        private Blowfish _encEngine;
-        private Blowfish _decEngine;
+        // Always assigned by InitEngines() — invoked from the ctor and on every
+        // SetKey re-key — so they are never observed null (null! documents that).
+        private Blowfish _encEngine = null!;
+        private Blowfish _decEngine = null!;
 
         // Per-direction feedback registers (8 bytes) + position within the register.
         // Separate registers per direction, both zeroed at start.

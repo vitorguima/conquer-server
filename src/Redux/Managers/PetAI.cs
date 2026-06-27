@@ -184,7 +184,7 @@ namespace Redux.Managers
                 }
             }
         }
-        private void MotorSystem_TakingDecision(Object Sender, ElapsedEventArgs Args)
+        private void MotorSystem_TakingDecision(Object? Sender, ElapsedEventArgs Args)
         {
             PetOwner = PlayerManager.GetUser(owner.UID);
             if (PetOwner != null)

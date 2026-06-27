@@ -6,9 +6,18 @@
     <RootNamespace>Redux</RootNamespace>
     <AssemblyName>Redux</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!--
+      LEGACY nullable deferral (scoped to this project only). The original
+      COServer-Redux fork carries ~274 pre-existing nullable sites (CS86xx) whose
+      proper fixing risks behavior changes. Nullable analysis stays ENABLED (from
+      Directory.Build.props) but these codes are suppressed here so the build is a
+      clean 0-warning/0-error gate. Everything else stays warnings-as-errors, and
+      all OTHER projects enforce nullable fully. Burn these down incrementally,
+      then delete this line. See CLAUDE.md "Engineering Principles".
+    -->
+    <NoWarn>$(NoWarn);CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8625</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
