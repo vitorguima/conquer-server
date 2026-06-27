@@ -26,7 +26,7 @@ Focus: a typed local message fans out to the sender's 3×3 screen. ChatType.Talk
   - _Requirements: FR-3, AC-5.4_
   - _Design: ChatType.Talk_
 
-- [ ] 1.2 [P] Add `MsgTalk.BuildChat` overload (keep `Build` byte-identical)
+- [x] 1.2 [P] Add `MsgTalk.BuildChat` overload (keep `Build` byte-identical)
   - **Do**: In `src/Packets/MsgTalk.cs`, add `public static byte[] BuildChat(ChatType channel, string from, string to, string message)`: `new NetStringPacker(from, to, string.Empty, message)` (count=4); `bodyLength = 24 + packer.Length`; `AppendHeader(span, (ushort)(bodyLength + 8), MsgTalkType)`; Color u32@4 = `DefaultColor`; channel u16@8; Unknown0 u16@10=0; Time u32@12=0; HearerLookface u32@16=0; SpeakerLookface u32@20=0; `packer.Write(span.Slice(24))`. DO NOT touch the existing `Build` method (shared with the handshake).
   - **Files**: `src/Packets/MsgTalk.cs`
   - **Done when**: `BuildChat` compiles at the verified offsets; `Build` source bytes unchanged.
