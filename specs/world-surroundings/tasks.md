@@ -208,7 +208,7 @@ Focus: walk(1005)/jump(133) broadcast, enter/leave diff, deregister + RemoveEnti
   - _Requirements: FR-9, FR-10, FR-11, AC-3.3, AC-3.4_
   - _Design: jump note, Handler hooks (Jump)_
 
-- [ ] 3.6 Deregister + RemoveEntity(132) on disconnect (FR-13, AC-4.3/4.4)
+- [x] 3.6 Deregister + RemoveEntity(132) on disconnect (FR-13, AC-4.3/4.4)
   - **Do**:
     1. In `NetworkListener.ServeGameAsync` `finally`, BESIDE the existing position flush, in its OWN try/catch (so teardown never throws and the flush still runs): if `session.WorldEntity is PlayerEntity e`, capture the last screen, `mi.Deregister(e.Uid)`, then broadcast `GeneralData.BuildRemoveEntity(e.Uid)` to that last screen.
     2. `NetworkListener` ctor takes the injected `World`.
