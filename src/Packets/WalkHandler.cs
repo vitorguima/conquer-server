@@ -63,14 +63,17 @@ namespace Conquer.Packets
                 return;
 
             var mi = _world.GetOrAdd(e.MapId);
-            var diff = mi.Move(e, (ushort)nx, (ushort)ny);
+            int ocx = e.CellX, ocy = e.CellY;
+            mi.Move(e, (ushort)nx, (ushort)ny);   // updates grid + live position
 
             // Build the outbound 1005 ONCE; fan out to the WHOLE screen incl self (other clients
             // render the walk, the mover's own client already predicted it but tolerates the echo).
             byte[] walk = Walk.BuildBroadcast(e.Uid, dir, mode);
             mi.Broadcast(e, walk, includeSelf: true);
 
-            ActionHandler.ApplyDiff(e, diff);
+            // Visibility only changes on a cell boundary cross — reconcile the full screen then.
+            if (e.CellX != ocx || e.CellY != ocy)
+                ActionHandler.SyncScreen(e, mi);
         }
 
         /// <summary>

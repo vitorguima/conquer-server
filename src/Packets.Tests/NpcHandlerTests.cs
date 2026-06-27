@@ -49,11 +49,11 @@ namespace Conquer.Packets.Tests
 
         private static byte[] ClickPayload(uint npcUid, ushort action)
         {
-            // 2031 inbound (length prefix stripped): typeId@0=2031, UID@4, Data@8, Action@12, Type@14. Min 16.
+            // 2031 inbound (2-byte length prefix stripped): typeId@0=2031, UID@2, Data@6, Action@10, Type@12.
             var p = new byte[16];
-            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(p.AsSpan(2), 2031);
-            System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(p.AsSpan(4), npcUid);
-            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(p.AsSpan(12), action);
+            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(p.AsSpan(0), 2031);
+            System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(p.AsSpan(2), npcUid);
+            System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(p.AsSpan(10), action);
             return p;
         }
 

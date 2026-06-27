@@ -83,88 +83,63 @@ namespace Conquer.Packets
         // 1014: B <- A's 1014 (A's LIVE coords) AND A <- B's 1014. Seed both Visible sets so the
         // enter/leave diff (Phase 3) is consistent. B's own 1014 is built ONCE and reused for the
         // fan-out (build-once, AD-4). Empty screen -> sends nothing, no error.
+        // GetSurroundings (Action=114): the player asks who/what is on screen → reconcile its
+        // screen (spawns everything visible). Same path movement uses (idempotent).
         private void HandleGetSurroundings(ClientSession session)
         {
             if (session.WorldEntity is not Conquer.World.PlayerEntity b)
                 return;
-
-            byte[] bSpawn = SpawnEntity.Build(b.Uid, b.Mesh, b.Avatar, b.Level, b.Hp, b.X, b.Y, b.Name);
-
-            foreach (var a in _world.GetOrAdd(b.MapId).QueryScreen(b.CellX, b.CellY))
-            {
-                if (a.Uid == b.Uid)
-                    continue;
-
-                Console.WriteLine($"[DBG] 114 uid={b.Uid} cell=({b.CellX},{b.CellY}) sees uid={a.Uid} kind={a.Kind}");
-                session.SendGame(EntitySpawn.For(a));            // a's 1014 OR 2030 (one-way to B)
-
-                if (a is Conquer.World.PlayerEntity ap)          // MUTUAL spawn + Visible-seed only for players
-                {
-                    ap.Session.SendGame(bSpawn);
-                    b.Visible[a.Uid] = 1;
-                    ap.Visible[b.Uid] = 1;
-                }
-                else                                             // NPC: track so ApplyDiff never re-spawns it
-                {
-                    b.Visible.TryAdd(a.Uid, 1);
-                }
-            }
+            // The client polls 114 to refresh — force a FULL re-send (ignore dedup) so any
+            // spawn the client previously missed is corrected (self-heal the desync).
+            Console.WriteLine($"[DBG] 114 refresh uid={b.Uid}");
+            SyncScreen(b, _world.GetOrAdd(b.MapId), forceResend: true);
         }
 
         /// <summary>
-        /// Applies a <see cref="Conquer.World.ScreenDiff"/> after a move (FR-11, FR-15): for each
-        /// newly-Entered player send a MUTUAL 1014 (mover-&gt;viewer, viewer-&gt;mover) and seed both
-        /// Visible sets; for each Left player send a MUTUAL RemoveEntity(132) both ways and prune both
-        /// Visible sets. Spawn-before-move (FR-15) is honored by ordering: the move broadcast is fanned
-        /// out by the caller BEFORE this diff, but the diff targets only the strip of cells that
-        /// scrolled in/out — a newly-entered viewer never received the move (it was off the OLD screen),
-        /// so it receives its 1014 first here. Shared by walk + jump. Build-once per recipient (AD-4).
+        /// Full screen reconciliation (replaces the fragile incremental cell-diff). For the
+        /// mover's current 3x3 screen: spawn every entity not already shown (1014 for players —
+        /// mutual; 2030 for NPCs — one-way) and drop every shown entity no longer on screen.
+        /// Idempotent + self-healing — a missed cell transition, a jump, or a transient race is
+        /// corrected on the next move. NO RemoveEntity(132) on screen-leave (the client view-culls
+        /// the off-screen entity; a fresh spawn on re-enter — Visible was cleared — re-renders it);
+        /// 132 is reserved for TRUE removal on disconnect (NetworkListener teardown).
         /// </summary>
-        public static void ApplyDiff(Conquer.World.PlayerEntity mover, Conquer.World.ScreenDiff diff)
+        public static void SyncScreen(Conquer.World.PlayerEntity mover, Conquer.World.MapInstance mi, bool forceResend = false)
         {
-            if (diff.Entered.Count > 0 || diff.Left.Count > 0)
-                Console.WriteLine($"[DBG] applydiff mover={mover.Uid} cell=({mover.CellX},{mover.CellY}) entered={diff.Entered.Count} left={diff.Left.Count}");
-
             byte[]? moverSpawn = null;
+            var onScreen = new System.Collections.Generic.HashSet<uint>();
 
-            foreach (var other in diff.Entered)
+            foreach (var other in mi.QueryScreen(mover.CellX, mover.CellY))
             {
                 if (other.Uid == mover.Uid)
                     continue;
+                onScreen.Add(other.Uid);
 
-                Console.WriteLine($"[DBG] ENTER mover={mover.Uid} other={other.Uid} kind={other.Kind}");
+                bool newlyVisible = mover.Visible.TryAdd(other.Uid, 1);
+                if (newlyVisible || forceResend)                    // dedup during movement; full re-send on 114
+                    mover.Session.SendGame(EntitySpawn.For(other)); // mover sees other (1014 OR 2030)
 
-                if (other is Conquer.World.PlayerEntity op)        // PLAYER: mutual spawn + Visible-seed
+                if (other is Conquer.World.PlayerEntity op)         // MUTUAL: the other player sees the mover
                 {
-                    moverSpawn ??= SpawnEntity.Build(
-                        mover.Uid, mover.Mesh, mover.Avatar, mover.Level, mover.Hp, mover.X, mover.Y, mover.Name);
-                    mover.Session.SendGame(EntitySpawn.For(other));
-                    op.Session.SendGame(moverSpawn);
-                    mover.Visible[other.Uid] = 1;
-                    op.Visible[mover.Uid] = 1;
-                }
-                else if (mover.Visible.TryAdd(other.Uid, 1))       // NPC: spawn ONCE, never re-spawn/remove
-                {
-                    mover.Session.SendGame(EntitySpawn.For(other)); // client retains it + culls view itself
+                    bool otherNewly = op.Visible.TryAdd(mover.Uid, 1);
+                    if (otherNewly || forceResend)
+                    {
+                        moverSpawn ??= SpawnEntity.Build(
+                            mover.Uid, mover.Mesh, mover.Avatar, mover.Level, mover.Hp, mover.X, mover.Y, mover.Name);
+                        op.Session.SendGame(moverSpawn);
+                    }
                 }
             }
 
-            byte[]? moverRemove = null;
-
-            foreach (var other in diff.Left)
+            // Drop everything the mover currently shows that's no longer on its screen (no 132).
+            foreach (var uid in mover.Visible.Keys)
             {
-                if (other.Uid == mover.Uid)
+                if (onScreen.Contains(uid))
                     continue;
-
-                // NPCs are spawned-once-and-kept (client retains + view-culls) → do NOT 132 them.
-                if (other is Conquer.World.PlayerEntity op2)        // PLAYER: mutual drop + Visible-clear
-                {
-                    moverRemove ??= GeneralData.BuildRemoveEntity(mover.Uid);
-                    mover.Session.SendGame(GeneralData.BuildRemoveEntity(other.Uid));
-                    op2.Session.SendGame(moverRemove);
-                    mover.Visible.TryRemove(other.Uid, out _);
+                mover.Visible.TryRemove(uid, out _);
+                // For players, clear the reverse link so a future re-encounter re-spawns the mover.
+                if (mi.Roster.TryGetValue(uid, out var e) && e is Conquer.World.PlayerEntity op2)
                     op2.Visible.TryRemove(mover.Uid, out _);
-                }
             }
         }
 
@@ -193,13 +168,16 @@ namespace Conquer.Packets
                 return;
 
             var mi = _world.GetOrAdd(e.MapId);
-            var diff = mi.Move(e, x, y);
+            int ocx = e.CellX, ocy = e.CellY;
+            mi.Move(e, x, y);   // updates grid + live position (jump can cross several cells)
 
             // Reuse the existing BuildJump packet (built ONCE), fanned to the screen EXCLUDING self
             // (the mover already received its own echo above).
-            mi.Broadcast(e, GeneralData.BuildJump(e.Uid, x, y), includeSelf:false);
+            mi.Broadcast(e, GeneralData.BuildJump(e.Uid, x, y), includeSelf: false);
 
-            ApplyDiff(e, diff);
+            // Reconcile the full screen after a jump (it may cross several cells at once).
+            if (e.CellX != ocx || e.CellY != ocy)
+                SyncScreen(e, mi);
         }
     }
 }
