@@ -159,7 +159,7 @@ NEVER push to the protected default `master`. Push `feat/character-creation` and
   - **Done when**: All CI checks green (or repo has no CI workflow — then this is a no-op pass).
   - **Commit**: None
 
-- [ ] 4.4 [VERIFY] M2 Operator gate — manual E2E is the real acceptance
+- [x] 4.4 [VERIFY] M2 Operator gate — manual E2E is the real acceptance
   - **Do**: This is the authoritative acceptance, **operator-run on the dockerized server (192.168.0.252) with the real 5065 client — NOT automatable here.** Document the checklist in the PR/issue for the operator and pause for sign-off:
     1. Delete seeded "Vitor" (or use a fresh account) so `NEW_ROLE` fires → creation screen shows.
     2. Create a character in the real client.
