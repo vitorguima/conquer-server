@@ -141,7 +141,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: NFR-2_
   - _Design: Test Strategy, File Structure_
 
-- [ ] 3.2 Builder-layout + Action-parse@20 unit tests
+- [x] 3.2 Builder-layout + Action-parse@20 unit tests
   - **Do**:
     1. `GeneralData_SetLocationEcho_Layout`: assert body=28, length@0=28, type@2=1010, UID@8, Data1@12=MapID, Data2@16=`(Y<<16)|X` (assert both byte pairs: low16=X, high16=Y), Action@22=74.
     2. `MapStatus_Layout`: body=16, type@2=1110, UID@4=ID@8=MapID, Type@12=0.
@@ -154,7 +154,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
   - _Requirements: FR-3, FR-4, FR-5, FR-6, NFR-2, NFR-4, AC-2.2, AC-3.1, AC-3.2_
   - _Design: Test Strategy (Unit Tests)_
 
-- [ ] 3.3 [VERIFY] Quality checkpoint: build + test green
+- [x] 3.3 [VERIFY] Quality checkpoint: build + test green
   - **Do**: Run full build + test suite (existing Crypto.Tests/ClientPatcher.Tests + new Packets.Tests).
   - **Verify**: `scripts/dotnet build src/Conquer.sln && scripts/dotnet test src/Conquer.sln && echo PASS`
   - **Done when**: Build clean; all tests pass.
