@@ -69,7 +69,7 @@ Focus: a typed local message fans out to the sender's 3×3 screen. ChatType.Talk
 
 Focus: pure xUnit for the builder layout + the bounded inbound parser; assert `Build` byte-identical + additive-only diff.
 
-- [ ] 2.1 [P] `MsgTalkBuildChatTests` — BuildChat layout + `Build` regression
+- [x] 2.1 [P] `MsgTalkBuildChatTests` — BuildChat layout + `Build` regression
   - **Do**: Create `src/Packets.Tests/MsgTalkBuildChatTests.cs` (namespace `Conquer.Packets.Tests`, xUnit). Build via `MsgTalk.BuildChat(ChatType.Talk, "Alice", "ALLUSERS", "hi")` and assert: type id u16@2 == 1004; channel u16@8 == 2000; color u32@4 == `0x00FFFFFF`; header length u16@0 == `bodyLength` (= `buffer.Length - 0`... i.e. equals `24 + packer.Length`); string-list @24 = `[count=4][len][ascii]…` parsing back to `["Alice","ALLUSERS","","hi"]`. Add a regression test: capture `MsgTalk.Build(ChatType.Entrance, "ANSWER_OK")` bytes and assert the exact known byte array is unchanged (handshake byte-identical, NFR-8/AC-5.2).
   - **Files**: `src/Packets.Tests/MsgTalkBuildChatTests.cs`
   - **Done when**: Tests assert BuildChat offsets/order + count=4 AND `Build` regression bytes.
