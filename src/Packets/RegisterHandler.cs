@@ -63,6 +63,43 @@ namespace Conquer.Packets
                 session.SendGame(MsgTalk.Build(ChatType.Register, "Invalid character profession"));
                 return;
             }
+
+            // Appearance: face range per body mesh (original exclusive .Next bounds).
+            var rng = new Random();
+            int face = (mesh == 1003 || mesh == 1004) ? rng.Next(50) : rng.Next(201, 250);
+            int avatar = rng.Next(3, 9) * 100 + rng.Next(30, 51);
+
+            var ch = new DbCharacter
+            {
+                AccountID = session.AccountId,
+                Name = name,
+                Mesh = mesh + face * 10000,
+                Avatar = avatar,
+                Level = 1,
+                Silver = 1000,
+                MapID = 1010,
+                X = 61,
+                Y = 109,
+                Strength = 4,
+                Agility = 6,
+                Vitality = 12,
+                Spirit = 0,
+                HealthPoints = 318,
+                ManaPoints = 0
+            };
+
+            try
+            {
+                _characters.Insert(ch);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"[Game] 1001 Insert failed for name={name}: {e.Message}");
+                session.SendGame(MsgTalk.Build(ChatType.Register, "Character name already in use"));
+                return;
+            }
+
+            session.SendGame(MsgTalk.Build(ChatType.Register, "ANSWER_OK"));
         }
     }
 }

@@ -55,7 +55,7 @@ Focus: prove the end-to-end create path — enum → handler (parse+validate+bui
   - **Done when**: Solution builds clean with new enum value + RegisterHandler.
   - **Commit**: `chore(quality): pass build checkpoint — handler compiles` (only if fixes needed)
 
-- [ ] 1.5 RegisterHandler — build DbCharacter + Insert + ANSWER_OK
+- [x] 1.5 RegisterHandler — build DbCharacter + Insert + ANSWER_OK
   - **Do**:
     1. Appearance: face = mesh∈{1003,1004} → `Random.Next(50)` (0..49), mesh∈{2001,2002} → `Random.Next(201,250)` (201..249). Avatar = `Random.Next(3,9)*100 + Random.Next(30,51)`.
     2. Build level-1 `DbCharacter` (object-initializer; `init` setters): `AccountID=session.AccountId`, `Name=name`, `Mesh=mesh + face*10000`, `Avatar`, `Level=1`, `Silver=1000`, `MapID=1010`, `X=61`, `Y=109`, `Strength=4, Agility=6, Vitality=12, Spirit=0`, `HealthPoints=318`, `ManaPoints=0`.
