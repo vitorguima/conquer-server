@@ -36,7 +36,7 @@ Focus: the send lock (correctness prerequisite, FR-1/AD-3) + the world layer exi
   - _Requirements: FR-2, NFR-9, NFR-12, AC-6.1_
   - _Design: AD-5, File Structure_
 
-- [ ] 1.3 Create Grid.cs — pure cell math (FR-3, AD-1)
+- [x] 1.3 Create Grid.cs — pure cell math (FR-3, AD-1)
   - **Do**:
     1. Create `src/World/Grid.cs` with `const int CELL = 18`.
     2. Static `int CellOf(ushort coord) => coord / 18;` and `long CellKey(int cx,int cy) => ((long)cx << 32) | (uint)cy;`.
