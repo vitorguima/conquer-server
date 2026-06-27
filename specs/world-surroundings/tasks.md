@@ -78,7 +78,7 @@ Focus: the send lock (correctness prerequisite, FR-1/AD-3) + the world layer exi
   - _Requirements: FR-2, FR-3, FR-10, FR-11, FR-14, NFR-1, NFR-2, NFR-3, NFR-4, AC-3.4, AC-3.5_
   - _Design: AD-1, AD-2, AD-4, MapInstance sketch, Grid algorithm_
 
-- [ ] 1.7 [VERIFY] Quality checkpoint: full world layer builds (1.5-1.6)
+- [x] 1.7 [VERIFY] Quality checkpoint: full world layer builds (1.5-1.6)
   - **Do**: Run dockerized build; confirm the entire src/World layer compiles nullable-clean.
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qiE "Build succeeded" && ! scripts/dotnet build src/Conquer.sln 2>&1 | grep -qi "warning" && echo PASS`
   - **Done when**: World project builds, 0 warnings; layer exists, no behavior yet.
