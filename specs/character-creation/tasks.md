@@ -107,7 +107,7 @@ After POC proves out, make parse/build unit-testable and tidy logging. Keep beha
 
 xUnit in `src/Packets.Tests/` (mirror `ActionParseTests.cs`). Tests target only pure parse/build logic — no socket/DB.
 
-- [ ] 3.1 Create RegisterParseTests — offset/layout + formula + stat tests
+- [x] 3.1 Create RegisterParseTests — offset/layout + formula + stat tests
   - **Do**:
     1. CREATE `src/Packets.Tests/RegisterParseTests.cs` (xUnit). Build a synthetic 60-byte payload: type@0=1001, ASCII "TestName"@18, Mesh u16 LE @50=1003, Prof u8 @52=10, UID u32 LE @56.
     2. Test (a) layout: `ParseRegister` yields name=="TestName", mesh==1003, prof==10; `payload.Length>=60`.
