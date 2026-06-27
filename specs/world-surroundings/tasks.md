@@ -49,7 +49,7 @@ Focus: the send lock (correctness prerequisite, FR-1/AD-3) + the world layer exi
   - _Requirements: FR-3, NFR-2, NFR-4_
   - _Design: AD-1, AD-2, Grid/cell math_
 
-- [ ] 1.4 [VERIFY] Quality checkpoint: build strict gate (1.1-1.3)
+- [x] 1.4 [VERIFY] Quality checkpoint: build strict gate (1.1-1.3)
   - **Do**: Run dockerized build; confirm 0 warnings / 0 errors (new code nullable-clean).
   - **Verify**: `scripts/dotnet build src/Conquer.sln 2>&1 | grep -qiE "Build succeeded" && ! scripts/dotnet build src/Conquer.sln 2>&1 | grep -qi "warning" && echo PASS`
   - **Done when**: Build succeeds with 0 warnings.
