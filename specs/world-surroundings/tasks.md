@@ -11,7 +11,7 @@ All builds/tests DOCKERIZED: `scripts/dotnet build src/Conquer.sln` (0 warnings 
 
 Focus: the send lock (correctness prerequisite, FR-1/AD-3) + the world layer exists and compiles. No behavior wired yet.
 
-- [ ] 1.1 Add per-session send lock + Uid/WorldEntity to ClientSession (FR-1, AD-3)
+- [x] 1.1 Add per-session send lock + Uid/WorldEntity to ClientSession (FR-1, AD-3)
   - **Do**:
     1. Add `private readonly object _sendLock = new();` to `ClientSession`.
     2. Wrap the existing encrypt+write body of `SendGame` AND `Send` in `lock(_sendLock) { ... }` — purely additive, do NOT alter the copy/encrypt/write logic.
