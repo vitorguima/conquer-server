@@ -45,7 +45,7 @@ Focus: prove the server tracks the player's authoritative (x,y) as they walk —
   - **Done when**: Build clean; WalkHandler + ClientSession fields compile nullable-clean.
   - **Commit**: `chore(movement): pass build checkpoint (WalkHandler)` (only if fixes needed)
 
-- [ ] 1.5 Wire PacketRouter case 1005 + seed live pos at 1052 (POC MILESTONE)
+- [x] 1.5 Wire PacketRouter case 1005 + seed live pos at 1052 (POC MILESTONE)
   - **Do**: (a) `src/Redux/PacketRouter.cs`: add `private readonly Conquer.Packets.WalkHandler _walk;`, `_walk = new Conquer.Packets.WalkHandler();` in ctor (no deps), and `case 1005: _walk.Handle(session, payload); break;` in Dispatch — mirror `_action`/`_register`. (b) `src/Packets/MsgConnect.cs` GameHandler.Handle, INSIDE the existing `if (character != null)` branch right after `session.Character = character`: `session.CurrentMap = character.MapID; session.CurrentX = (ushort)character.X; session.CurrentY = (ushort)character.Y; session.PositionLoaded = true;`. Do NOT touch token/auth/answer/HeroInformation lines. Do NOT touch ActionHandler.HandleSetLocation (AC-4.2 — keeps reading Character).
   - **Files**: src/Redux/PacketRouter.cs, src/Packets/MsgConnect.cs
   - **Done when**: 1005 dispatches to WalkHandler; live pos seeded on 1052. POC: server logs the player's updated (x,y) per walk (authoritative tracking proven), no DB.
