@@ -113,20 +113,20 @@ Focus: one UPDATE per session on disconnect → relog spawns at last position en
 
 NEVER push to protected master — PR only. Already on feat/movement.
 
-- [ ] 4.1 [VERIFY] Full local CI gate
+- [x] 4.1 [VERIFY] Full local CI gate
   - **Do**: `scripts/dotnet build src/Conquer.sln` then `scripts/dotnet test src/Conquer.sln`.
   - **Verify**: Build exits 0 with 0 warnings / 0 errors; tests exit 0. Both via `scripts/dotnet` (NEVER bare dotnet).
   - **Done when**: 0/0 build + all tests green.
   - **Commit**: `chore(movement): pass full local CI gate` (only if fixes needed)
 
-- [ ] 4.2 Push branch + open PR to master with operator E2E checklist
+- [x] 4.2 Push branch + open PR to master with operator E2E checklist
   - **Do**: Confirm `git branch --show-current` == feat/movement (if on master STOP — should not happen). `git push -u origin feat/movement`. `gh pr create --base master --title "feat(movement): server-authoritative MsgWalk(1005)" --body "<summary + operator E2E checklist: walk in 5065 client → [Game] walk dir=N -> (x,y) logs; logoff at non-spawn tile → relog → spawn at last position (one UPDATE/session); malformed 1005 does not crash listener>"`. If gh unavailable, output the PR URL for manual creation.
   - **Files**: (none — git/gh only)
   - **Done when**: Branch pushed; PR open against master with E2E checklist in body.
   - **Verify**: `gh pr view --json url,baseRefName --jq '.baseRefName' | grep -q master && echo PR_PASS`
   - **Commit**: None
 
-- [ ] 4.3 [VERIFY] CI pipeline
+- [x] 4.3 [VERIFY] CI pipeline
   - **Do**: Check CI status on the PR.
   - **Verify**: `gh pr checks 2>&1 | tee /tmp/movement-ci.txt; grep -q 'no checks reported\|no required checks' /tmp/movement-ci.txt && echo NO_CI_NOOP || gh pr checks --watch`
   - **Done when**: All checks green, OR no workflow exists → no-op (this repo has no CI workflow).
