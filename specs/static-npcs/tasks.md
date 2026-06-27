@@ -88,7 +88,7 @@ This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION
   - _Requirements: FR-2, AC-1.4_
   - _Design: World.cs diffs_
 
-- [ ] 1.7 Create EntitySpawn.For + SpawnNpc.Build; branch the 2 ActionHandler spawn sites
+- [x] 1.7 Create EntitySpawn.For + SpawnNpc.Build; branch the 2 ActionHandler spawn sites
   - **Do**:
     1. Create `src/Packets/SpawnNpc.cs`: 2030 builder, body `18 + names.Length`, `AppendHeader(span, bodyLen+8, 2030)`, UID@4/X@8/Y@10/Mesh@12/Type@14/Unknown1@16=0/Name@18 (NetStringPacker) — per design §SpawnNpc.
     2. Create `src/Packets/EntitySpawn.cs`: `static byte[] For(IWorldEntity e)` switch — `NpcEntity n => SpawnNpc.Build(...)`, `PlayerEntity p => SpawnEntity.Build(p.Uid,p.Mesh,p.Avatar,p.Level,p.Hp,p.X,p.Y,p.Name)` (IDENTICAL arg order to today's inline → byte-identical 1014), `_ => throw ArgumentOutOfRangeException`. Lives in Packets (already refs World) → no World→Packets cycle.

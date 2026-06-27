@@ -95,11 +95,14 @@ namespace Conquer.Packets
                 if (a.Uid == b.Uid)
                     continue;
 
-                session.SendGame(SpawnEntity.Build(a.Uid, a.Mesh, a.Avatar, a.Level, a.Hp, a.X, a.Y, a.Name));
-                a.Session.SendGame(bSpawn);
+                session.SendGame(EntitySpawn.For(a));            // a's 1014 OR 2030 (one-way to B)
 
-                b.Visible[a.Uid] = 1;
-                a.Visible[b.Uid] = 1;
+                if (a is Conquer.World.PlayerEntity ap)          // MUTUAL spawn + Visible-seed only for players
+                {
+                    ap.Session.SendGame(bSpawn);
+                    b.Visible[a.Uid] = 1;
+                    ap.Visible[b.Uid] = 1;
+                }
             }
         }
 
@@ -124,13 +127,15 @@ namespace Conquer.Packets
                 moverSpawn ??= SpawnEntity.Build(
                     mover.Uid, mover.Mesh, mover.Avatar, mover.Level, mover.Hp, mover.X, mover.Y, mover.Name);
 
-                // mover -> viewer (other sees the mover), viewer -> mover (mover sees other).
-                other.Session.SendGame(moverSpawn);
-                mover.Session.SendGame(SpawnEntity.Build(
-                    other.Uid, other.Mesh, other.Avatar, other.Level, other.Hp, other.X, other.Y, other.Name));
+                // mover sees other (1014 OR 2030).
+                mover.Session.SendGame(EntitySpawn.For(other));
 
-                mover.Visible[other.Uid] = 1;
-                other.Visible[mover.Uid] = 1;
+                if (other is Conquer.World.PlayerEntity op)        // MUTUAL spawn + Visible-seed only for players
+                {
+                    op.Session.SendGame(moverSpawn);
+                    mover.Visible[other.Uid] = 1;
+                    op.Visible[mover.Uid] = 1;
+                }
             }
 
             byte[]? moverRemove = null;
@@ -142,12 +147,15 @@ namespace Conquer.Packets
 
                 moverRemove ??= GeneralData.BuildRemoveEntity(mover.Uid);
 
-                // mover -> viewer (viewer drops the mover), viewer -> mover (mover drops other).
-                other.Session.SendGame(moverRemove);
+                // mover drops other (132 for player OR npc, FR-13).
                 mover.Session.SendGame(GeneralData.BuildRemoveEntity(other.Uid));
 
-                mover.Visible.TryRemove(other.Uid, out _);
-                other.Visible.TryRemove(mover.Uid, out _);
+                if (other is Conquer.World.PlayerEntity op2)        // reverse drop + Visible-clear only for players
+                {
+                    op2.Session.SendGame(moverRemove);
+                    mover.Visible.TryRemove(other.Uid, out _);
+                    op2.Visible.TryRemove(mover.Uid, out _);
+                }
             }
         }
 
