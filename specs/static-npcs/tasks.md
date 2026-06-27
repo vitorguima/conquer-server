@@ -136,7 +136,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
   - _Requirements: FR-6, FR-9, AC-4.1, AC-4.2, AC-4.6_
   - _Design: DB Schema_
 
-- [ ] 2.3 Load NPCs at startup in Program.cs
+- [x] 2.3 Load NPCs at startup in Program.cs
   - **Do**:
     1. `src/Redux/Program.cs`: after `var world = new World();` (~:34), before listeners, `var npcs = new NpcRepository(factory).All();`.
     2. `foreach` → build `NpcEntity((uint)n.UID, n.MapID, (ushort)n.X, (ushort)n.Y, (ushort)n.Mesh, (ushort)n.Type, n.Name)` and `world.GetOrAdd(npc.MapId).Register(npc)` ONCE.

@@ -32,6 +32,17 @@ namespace Redux
             var accounts   = new AccountRepository(factory);
             var characters = new CharacterRepository(factory);
             var world      = new World();
+
+            // Load static NPCs ONCE into the grid/roster (EPIC-3); they never Move.
+            var npcs = new NpcRepository(factory).All();
+            foreach (var n in npcs)
+            {
+                var npc = new Conquer.World.NpcEntity((uint)n.UID, n.MapID, (ushort)n.X, (ushort)n.Y,
+                                                      (ushort)n.Mesh, (ushort)n.Type, n.Name);
+                world.GetOrAdd(npc.MapId).Register(npc);
+            }
+            Console.WriteLine($"[Startup] Loaded {npcs.Count} NPCs");
+
             var router     = new PacketRouter(accounts, characters, config, world);
             var listener   = new NetworkListener(config, router, characters, world);
 
