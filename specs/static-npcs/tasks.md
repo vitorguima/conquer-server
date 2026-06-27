@@ -188,7 +188,7 @@ EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real 
   - _Requirements: FR-14, FR-15, FR-16, AC-6.1, AC-6.2, AC-6.3, AC-6.4, AC-6.5_
   - _Design: NpcHandler / Router Wiring_
 
-- [ ] 3.3 [VERIFY] Quality checkpoint: dialog path builds + tests green
+- [x] 3.3 [VERIFY] Quality checkpoint: dialog path builds + tests green
   - **Do**: Run strict gate after dialog builders + handler + route land.
   - **Verify**: `scripts/dotnet build src/Conquer.sln` 0/0 AND `scripts/dotnet test src/Conquer.sln` green.
   - **Done when**: Build 0/0, all tests pass; case 2031 wired (automated proxy for "click → dialog").
