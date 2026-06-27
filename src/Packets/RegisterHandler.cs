@@ -44,9 +44,7 @@ namespace Conquer.Packets
                 return;
             }
 
-            string name = Encoding.ASCII.GetString(payload, 18, 16).TrimEnd('\0');
-            ushort mesh = BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(50, 2));
-            byte prof = payload[52];
+            var (name, mesh, prof) = ParseRegister(payload);
 
             if (!NameRegex.IsMatch(name) || name.ToLower().Contains("admin"))
             {
@@ -64,14 +62,47 @@ namespace Conquer.Packets
                 return;
             }
 
+            var ch = BuildCharacter(session.AccountId, name, mesh, prof, new Random());
+
+            try
+            {
+                _characters.Insert(ch);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"[Game] 1001 Insert failed for name={name}: {e.Message}");
+                session.SendGame(MsgTalk.Build(ChatType.Register, "Character name already in use"));
+                return;
+            }
+
+            session.SendGame(MsgTalk.Build(ChatType.Register, "ANSWER_OK"));
+        }
+
+        /// <summary>
+        /// Pure parse of the fixed-layout 1001 payload (no socket/DB). Caller guards
+        /// <c>payload.Length &gt;= 60</c>. Name ASCII[16] @18, Mesh u16 LE @50, Profession u8 @52.
+        /// </summary>
+        public static (string name, ushort mesh, byte prof) ParseRegister(byte[] payload)
+        {
+            string name = Encoding.ASCII.GetString(payload, 18, 16).TrimEnd('\0');
+            ushort mesh = BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(50, 2));
+            byte prof = payload[52];
+            return (name, mesh, prof);
+        }
+
+        /// <summary>
+        /// Pure build of a level-1 <see cref="DbCharacter"/> from validated inputs (no socket/DB).
+        /// Appearance is drawn from <paramref name="rng"/> so tests can seed it deterministically.
+        /// </summary>
+        public static DbCharacter BuildCharacter(int accountId, string name, ushort mesh, byte prof, Random rng)
+        {
             // Appearance: face range per body mesh (original exclusive .Next bounds).
-            var rng = new Random();
             int face = (mesh == 1003 || mesh == 1004) ? rng.Next(50) : rng.Next(201, 250);
             int avatar = rng.Next(3, 9) * 100 + rng.Next(30, 51);
 
-            var ch = new DbCharacter
+            return new DbCharacter
             {
-                AccountID = session.AccountId,
+                AccountID = accountId,
                 Name = name,
                 Mesh = mesh + face * 10000,
                 Avatar = avatar,
@@ -87,19 +118,6 @@ namespace Conquer.Packets
                 HealthPoints = 318,
                 ManaPoints = 0
             };
-
-            try
-            {
-                _characters.Insert(ch);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"[Game] 1001 Insert failed for name={name}: {e.Message}");
-                session.SendGame(MsgTalk.Build(ChatType.Register, "Character name already in use"));
-                return;
-            }
-
-            session.SendGame(MsgTalk.Build(ChatType.Register, "ANSWER_OK"));
         }
     }
 }

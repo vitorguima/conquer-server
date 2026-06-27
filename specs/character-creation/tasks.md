@@ -84,7 +84,7 @@ Focus: prove the end-to-end create path — enum → handler (parse+validate+bui
 
 After POC proves out, make parse/build unit-testable and tidy logging. Keep behavior identical.
 
-- [ ] 2.1 Extract testable static `ParseRegister` + `BuildCharacter`
+- [x] 2.1 Extract testable static `ParseRegister` + `BuildCharacter`
   - **Do**:
     1. In `RegisterHandler.cs`, extract a static `ParseRegister(byte[] payload)` returning `(string name, ushort mesh, byte prof)` (callable without a socket/DB).
     2. Extract a static `BuildCharacter(int accountId, string name, ushort mesh, byte prof, Random rng)` returning the `DbCharacter` (appearance + stats logic). `Handle` now calls both; behavior unchanged.
