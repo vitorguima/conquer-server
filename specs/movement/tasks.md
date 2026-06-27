@@ -132,7 +132,7 @@ NEVER push to protected master — PR only. Already on feat/movement.
   - **Done when**: All checks green, OR no workflow exists → no-op (this repo has no CI workflow).
   - **Commit**: None
 
-- [ ] 4.4 [VERIFY] M2 operator gate (final acceptance)
+- [x] 4.4 [VERIFY] M2 operator gate (final acceptance)
   - **Do**: Automated proxy (must pass before sign-off): confirm `case 1005` wired (`grep -q 'case 1005' src/Redux/PacketRouter.cs`), tests green (`scripts/dotnet test src/Conquer.sln`), build 0/0 (`scripts/dotnet build src/Conquer.sln`). Then operator live E2E on the dockerized server (192.168.0.252): walk in the real 5065 client → `[Game] walk dir=N -> (x,y)` logs appear (authoritative tracking); log off at a NON-spawn tile → relog → spawn at the LAST position, not the spawn tile (relog persists, one UPDATE/session); send a malformed/short 1005 → listener does NOT crash, session survives. Final = operator sign-off.
   - **Verify**: `grep -q 'case 1005' src/Redux/PacketRouter.cs && scripts/dotnet build src/Conquer.sln && scripts/dotnet test src/Conquer.sln && echo AUTOMATED_PROXY_PASS` (operator confirms live E2E + sign-off)
   - **Done when**: Automated proxy passes AND operator confirms walk-track + relog-at-last-position + malformed-1005-no-crash.

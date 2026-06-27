@@ -35,7 +35,7 @@ namespace Conquer.Packets
             if (session.Character == null || !session.PositionLoaded)
                 return;
 
-            var (_, rawDir, mode) = ParseWalk(payload);
+            var (_, rawDir, _) = ParseWalk(payload);
 
             // The 5065 client sends the direction as a raw byte whose low 3 bits are the
             // compass direction (high bits are a rolling counter/flags). Normalize with
@@ -44,16 +44,10 @@ namespace Conquer.Packets
 
             var (nx, ny) = ComputeStep(session.CurrentX, session.CurrentY, dir);
             if (nx < 0 || ny < 0 || nx > ushort.MaxValue || ny > ushort.MaxValue)
-            {
-                Console.WriteLine($"[Game] 1005 oob ({nx},{ny})");
-                return;
-            }
+                return; // out of bounds — ignore (trust+bound-check; client enforces collision)
 
             session.CurrentX = (ushort)nx;
             session.CurrentY = (ushort)ny;
-            // TEMP diagnostic (raw bytes around the dir offset) — confirms the @6 offset is
-            // right; remove before PR merge.
-            Console.WriteLine($"[Game] walk raw[5..7]={payload[5]},{payload[6]},{payload[7]} dir={dir} mode={mode} -> ({session.CurrentX},{session.CurrentY})");
         }
 
         /// <summary>

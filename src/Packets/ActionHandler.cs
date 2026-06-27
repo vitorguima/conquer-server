@@ -72,9 +72,6 @@ namespace Conquer.Packets
 
             session.CurrentX = x;
             session.CurrentY = y;
-            // TEMP diagnostic — remove before PR merge.
-            Console.WriteLine($"[Game] jump -> ({x},{y})");
-
             session.SendGame(GeneralData.BuildJump((uint)ch.CharacterID, x, y));
         }
     }
