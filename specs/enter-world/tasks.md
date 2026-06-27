@@ -129,7 +129,7 @@ Focus: get the SetLocation echo + 1110 onto the wire for a real client login so 
 
 ## Phase 3: Testing
 
-- [ ] 3.1 Create Packets.Tests xUnit project + add to solution
+- [x] 3.1 Create Packets.Tests xUnit project + add to solution
   - **Do**:
     1. Create `src/Packets.Tests/Packets.Tests.csproj` (xUnit, mirror `src/Crypto.Tests/Crypto.Tests.csproj`) referencing `src/Packets/Packets.csproj` and `src/Database/Database.csproj` (for `DbCharacter` fixtures).
     2. Add the project to `src/Conquer.sln` (`dotnet sln` via `scripts/dotnet`, or edit the .sln).
