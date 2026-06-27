@@ -101,7 +101,7 @@ This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION
   - _Requirements: FR-10, FR-11, FR-12, FR-13, AC-2.1, AC-2.2, AC-2.5, AC-5.1, AC-5.2, AC-5.4, AC-5.6_
   - _Design: EntitySpawn / SpawnNpc / ActionHandler spawn-site branches_
 
-- [ ] 1.8 [VERIFY] REGRESSION GATE: retype is byte-identical for players
+- [x] 1.8 [VERIFY] REGRESSION GATE: retype is byte-identical for players
   - **Do**: Run the full strict gate. The ~56 existing surroundings/chat/world/spawn/walk tests MUST still pass — proves the `PlayerEntity`→`IWorldEntity` generalization caused NO player regression (AC-1.6, AC-2.x).
   - **Verify**: `scripts/dotnet build src/Conquer.sln` 0/0 AND `scripts/dotnet test src/Conquer.sln` green (ZERO regressions).
   - **Done when**: Build 0/0; every pre-existing test green; player path proven unchanged.
