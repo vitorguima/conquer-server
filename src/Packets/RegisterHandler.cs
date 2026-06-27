@@ -1,6 +1,8 @@
 using System;
 using System.Buffers.Binary;
+using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Conquer.Database;
 using Conquer.Network;
 
@@ -18,6 +20,15 @@ namespace Conquer.Packets
     /// </summary>
     public sealed class RegisterHandler
     {
+        // Local literals (Packets.csproj does not reference Redux — mirror ClientSession
+        // re-declaring SERVER_SEAL). Do NOT import Redux.Common.
+        private static readonly Regex NameRegex =
+            new Regex("^[a-zA-Z0-9]{4,16}$", RegexOptions.Compiled);
+        private static readonly HashSet<ushort> ValidMeshes =
+            new HashSet<ushort> { 1003, 1004, 2001, 2002 };
+        private static readonly HashSet<byte> ValidProfessions =
+            new HashSet<byte> { 10, 20, 30, 40, 100 };
+
         private readonly CharacterRepository _characters;
 
         public RegisterHandler(CharacterRepository characters)
@@ -36,6 +47,22 @@ namespace Conquer.Packets
             string name = Encoding.ASCII.GetString(payload, 18, 16).TrimEnd('\0');
             ushort mesh = BinaryPrimitives.ReadUInt16LittleEndian(payload.AsSpan(50, 2));
             byte prof = payload[52];
+
+            if (!NameRegex.IsMatch(name) || name.ToLower().Contains("admin"))
+            {
+                session.SendGame(MsgTalk.Build(ChatType.Register, "Invalid character name"));
+                return;
+            }
+            if (!ValidMeshes.Contains(mesh))
+            {
+                session.SendGame(MsgTalk.Build(ChatType.Register, "Invalid character mesh"));
+                return;
+            }
+            if (!ValidProfessions.Contains(prof))
+            {
+                session.SendGame(MsgTalk.Build(ChatType.Register, "Invalid character profession"));
+                return;
+            }
         }
     }
 }

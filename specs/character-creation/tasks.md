@@ -37,7 +37,7 @@ Focus: prove the end-to-end create path — enum → handler (parse+validate+bui
   - _Requirements: FR-2, AC-4.1_
   - _Design: 1001 Payload Offset Table_
 
-- [ ] 1.3 RegisterHandler — validation + per-failure MsgTalk
+- [x] 1.3 RegisterHandler — validation + per-failure MsgTalk
   - **Do**:
     1. Local literals (no Redux ref): compiled `Regex("^[a-zA-Z0-9]{4,16}$")`, `HashSet<ushort>` mesh `{1003,1004,2001,2002}`, `HashSet<byte>` prof `{10,20,30,40,100}`.
     2. Order (return after first fail, no insert): name regex AND `!name.ToLower().Contains("admin")` → `"Invalid character name"`; mesh set → `"Invalid character mesh"`; prof set → `"Invalid character profession"`.
