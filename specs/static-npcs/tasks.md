@@ -114,7 +114,7 @@ This phase adds NPC SUPPORT but no NPCs yet. The retype is a pure GENERALIZATION
 
 EntitySpawn.For already builds 2030 (Phase 1) — now exercised by loading real NPCs.
 
-- [ ] 2.1 Create NpcRepository + DbNpc
+- [x] 2.1 Create NpcRepository + DbNpc
   - **Do**:
     1. Create `src/Database/NpcRepository.cs` mirroring `CharacterRepository`: `DbNpc` POCO (`UID/Name/MapID/X/Y/Mesh/Type/BaseId`) + `NpcRepository(ConnectionFactory)`.
     2. `IReadOnlyList<DbNpc> All()` → `conn.Query<DbNpc>("SELECT UID, Name, MapID, X, Y, Mesh, Type, BaseId FROM cq_npc").AsList()` (per design §NpcRepository).
