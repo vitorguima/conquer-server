@@ -7,6 +7,7 @@ namespace Conquer.Packets
     /// </summary>
     public enum ChatType : ushort
     {
+        Register = 2100,
         Entrance = 2101
     }
 }

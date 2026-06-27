@@ -1,10 +1,10 @@
 {
   "version": "1.0",
-  "updated": "2026-06-26T18:26:34Z",
+  "updated": "2026-06-27T02:36:31Z",
   "directories": [
     {
       "path": "./specs",
-      "specsCount": 2,
+      "specsCount": 5,
       "isDefault": true
     }
   ],
@@ -17,10 +17,32 @@
       "totalTasks": 63
     },
     {
+      "name": "enter-world",
+      "path": "./specs/enter-world",
+      "phase": "execution",
+      "taskIndex": 7,
+      "totalTasks": 15
+    },
+    {
+      "name": "character-select",
+      "path": "./specs/character-select",
+      "phase": "execution",
+      "taskIndex": 11,
+      "totalTasks": 21
+    },
+    {
+      "name": "character-creation",
+      "path": "./specs/character-creation",
+      "phase": "execution",
+      "taskIndex": 14,
+      "totalTasks": 15,
+      "awaitingApproval": true
+    },
+    {
       "name": "client-patcher",
       "path": "./specs/client-patcher",
       "phase": "execution",
-      "taskIndex": 56,
+      "taskIndex": 58,
       "totalTasks": 59
     }
   ]
