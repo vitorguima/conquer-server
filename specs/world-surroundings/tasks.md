@@ -252,7 +252,7 @@ Focus: cover the spatial math + packet byte layouts (NFR-13). No socket/DB.
   - _Requirements: NFR-13, AC-3.4, AC-4.1, AC-4.2_
   - _Design: Test Strategy (unit), MapInstance, ScreenDiff_
 
-- [ ] 4.3 Packet byte-layout tests: 1014 live-coords, 1005, 132 (NFR-13)
+- [x] 4.3 Packet byte-layout tests: 1014 live-coords, 1005, 132 (NFR-13)
   - **Do**:
     1. In `src/Packets.Tests/SpawnEntityBuildTests.cs` (create/extend): `Build(...)` writes X@52/Y@54 from live args; `BuildSelf(ch)` byte-identical to `Build(ch.*)`.
     2. `Walk.BuildBroadcast`: type@2=1005, len@0=12, UID@4, Dir@8, Mode@9.
