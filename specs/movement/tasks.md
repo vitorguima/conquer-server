@@ -97,13 +97,13 @@ Focus: one UPDATE per session on disconnect → relog spawns at last position en
   - **Commit**: `test(packets): add WalkParseTests for parse, delta, bounds, guards`
   - _Requirements: FR-11, AC-1.1, AC-1.2, AC-3.1, AC-3.2, AC-3.3, AC-4.2_ · _Design: Test Strategy (Unit)_
 
-- [ ] 3.2 [VERIFY] Full test suite green
+- [x] 3.2 [VERIFY] Full test suite green
   - **Do**: `scripts/dotnet test src/Conquer.sln`.
   - **Verify**: `scripts/dotnet test src/Conquer.sln` exits 0; WalkParseTests pass; ActionParseTests + existing suites still green (no regression).
   - **Done when**: All tests pass.
   - **Commit**: `chore(movement): pass full test suite` (only if fixes needed)
 
-- [ ] 3.3 [VERIFY] Additive-scope diff guard
+- [x] 3.3 [VERIFY] Additive-scope diff guard
   - **Do**: Verify only the allowed files changed on this branch vs master: WalkHandler.cs, WalkParseTests.cs (new); ClientSession.cs, MsgConnect.cs, PacketRouter.cs, CharacterRepository.cs, NetworkListener.cs, Program.cs (modified). Confirm no change to auth, crypto/handshake, GameConnection, SendGame, ActionHandler, or character creation.
   - **Verify**: `git diff --name-only master...HEAD | sort | tee /tmp/movement-diff.txt; ! grep -Eq 'Crypto|GameConnection|SendGame|ActionHandler|Auth|Register' /tmp/movement-diff.txt && echo SCOPE_PASS`
   - **Done when**: Diff lists only the ~8 allowed files; no forbidden file touched.
