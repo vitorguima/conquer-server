@@ -60,10 +60,14 @@ VALUES ('testplayer', 'password123', '', 1, 5);
 -- ============================================================
 -- cq_npc: static NPCs (EPIC-3)
 -- Columns align exactly with NpcRepository.All() query.
--- UID band >= 90000 avoids collision with characters.CharacterID AUTO_INCREMENT
--- (the world roster is keyed by UID across all entity kinds).
--- Mesh is a placeholder lookface (live-capture the exact humanoid id);
--- Type=2 (NpcType.Task = clickable dialog); BaseId reserved (EPIC-8, unused v1).
+-- The real Map-1010 (BirthVillage) NPC set, sourced from the original `npcs` table
+-- (Nov_16_Backup.sql): real lookface Mesh + tile X/Y, Type=2 (NpcType.Task = clickable
+-- dialog). That table has NO name column, and the original [2030] spawn omits the name
+-- for nameless NPCs -> the client renders the bare model with no floating label
+-- (authentic). So Name='' here on purpose; SpawnNpc.Build emits NetString Count=0.
+-- UID = original npc id + 1_000_000 to keep NPCs out of the low characters.CharacterID
+-- range (the world roster is keyed by UID across all entity kinds). BaseId reserved
+-- (EPIC-8, unused v1).
 -- ============================================================
 CREATE TABLE IF NOT EXISTS `cq_npc` (
     `UID`    INT          NOT NULL,
@@ -79,7 +83,15 @@ CREATE TABLE IF NOT EXISTS `cq_npc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT IGNORE INTO `cq_npc` (UID, Name, MapID, X, Y, Mesh, Type, BaseId) VALUES
-    (90001, 'Guide',   1010, 63, 109, 1, 2, NULL),
-    (90002, 'Greeter', 1010, 60, 111, 1, 2, NULL);
+    (1000425, '', 1010, 96,  42, 2690, 2, NULL),
+    (1005672, '', 1010, 62, 105, 5050, 2, NULL),
+    (1010004, '', 1010, 70,  37,  170, 2, NULL),
+    (1010005, '', 1010, 66,  46,   56, 2, NULL),
+    (1010006, '', 1010, 72,  50,   86, 2, NULL),
+    (1010007, '', 1010, 76,  55,   46, 2, NULL),
+    (1010008, '', 1010, 80,  62,   36, 2, NULL),
+    (1010009, '', 1010, 85,  41,  180, 2, NULL),
+    (1010010, '', 1010, 88,  31,  190, 2, NULL),
+    (1010055, '', 1010, 74,  37,  130, 2, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -44,6 +44,20 @@ namespace Conquer.Packets.Tests
         }
 
         [Fact]
+        public void SpawnNpc_Build_EmptyName_EmitsNoNameString()
+        {
+            // Authentic nameless NPC: blank name -> NetString Count=0 (header byte 0, no string),
+            // so the client renders the bare model with no floating label. Body = 18 + 1 (count).
+            byte[] body = SpawnNpc.Build(uid: 1010004, mesh: 170, type: 2, x: 70, y: 37, name: "");
+
+            Assert.Equal(19, body.Length);                                                       // 18 + count byte only
+            Assert.Equal((ushort)19, BinaryPrimitives.ReadUInt16LittleEndian(body.AsSpan(0)));   // len @0 = body
+            Assert.Equal(0, body[18]);                                                           // NetString Count = 0 (no name)
+            // null behaves the same as empty.
+            Assert.Equal(body, SpawnNpc.Build(1010004, 170, 2, 70, 37, null!));
+        }
+
+        [Fact]
         public void EntitySpawn_For_Player_IsByteIdenticalToSpawnEntityBuild()
         {
             var player = new PlayerEntity(

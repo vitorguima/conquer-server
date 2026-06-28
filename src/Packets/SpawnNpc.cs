@@ -27,7 +27,13 @@ namespace Conquer.Packets
 
         public static byte[] Build(uint uid, ushort mesh, ushort type, ushort x, ushort y, string name)
         {
-            var names = new NetStringPacker(name ?? string.Empty);
+            // Match the ORIGINAL [2030]: only encode a name when the NPC actually HAS one.
+            // A blank name -> Count=0 (NetString header byte 0, no string) so the client renders
+            // the bare model with NO floating label (authentic — this DB's npcs table has no name
+            // column). Passing "" to the ctor instead emits Count=1 + a 0-length string ("name
+            // present, empty"), the wrong wire shape.
+            var names = new NetStringPacker();
+            if (!string.IsNullOrEmpty(name)) names.AddString(name);
             int bodyLength = NameOffset + names.Length;
 
             var buffer = new byte[bodyLength];
@@ -39,7 +45,10 @@ namespace Conquer.Packets
             BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(10), y);      // Y
             BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(12), mesh);   // Mesh (lookface)
             BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(14), type);   // Type (NpcType)
-            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(16), 0u);     // Unknown1
+            // Unknown1 is nominally a u32 @16, but Name @18 (NetStringPacker) overlaps its high
+            // 2 bytes, so only bytes 16-17 are effectively Unknown1. Write just those 2 (a u32
+            // here would also overrun a nameless 19-byte body). The buffer is zero-initialized.
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(16), 0);      // Unknown1 (low half; high half = Name)
             names.Write(span.Slice(NameOffset));                             // Name
 
             return buffer;
