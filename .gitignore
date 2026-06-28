@@ -23,3 +23,5 @@ Thumbs.db
 specs/.current-spec
 **/.progress.md
 **/.ralph-state.json
+src/docker-compose.override.yml
+.clientpatcher-win/

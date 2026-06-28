@@ -100,7 +100,7 @@ namespace Conquer.Packets.Tests
         [Fact]
         public void Handle_ShortPayload_DoesNotThrow()
         {
-            var handler = new WalkHandler();
+            var handler = new WalkHandler(new Conquer.World.World());
             var shortPayload = new byte[7];
 
             // No session needed: the length guard returns before any session access.

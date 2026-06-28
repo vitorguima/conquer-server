@@ -15,12 +15,14 @@ namespace Redux
         private readonly IConfiguration _config;
         private readonly PacketRouter _router;
         private readonly CharacterRepository _characters;
+        private readonly Conquer.World.World _world;
 
-        public NetworkListener(IConfiguration config, PacketRouter router, CharacterRepository characters)
+        public NetworkListener(IConfiguration config, PacketRouter router, CharacterRepository characters, Conquer.World.World world)
         {
             _config = config;
             _router = router;
             _characters = characters;
+            _world = world;
         }
 
         public async Task RunAuthAsync(CancellationToken ct)
@@ -159,6 +161,35 @@ namespace Redux
                 catch (Exception ex)
                 {
                     Console.WriteLine($"[Error] (game) {endpoint} position flush: {ex.Message}");
+                }
+
+                // ADDITIVE (FR-13): deregister the player from the World registry+grid and
+                // broadcast RemoveEntity(132) to its last screen so others see it vanish. Own
+                // try/catch so a broadcast mid-teardown can't throw out of the finally (the
+                // position flush above already ran). Deregister is idempotent (TryRemove).
+                try
+                {
+                    if (session.WorldEntity is Conquer.World.PlayerEntity e)
+                    {
+                        var screen = _world.GetOrAdd(e.MapId).Deregister(e.Uid);
+                        if (screen.Count > 0)
+                        {
+                            byte[] remove = Conquer.Packets.GeneralData.BuildRemoveEntity(e.Uid);
+                            foreach (var other in screen)
+                            {
+                                if (other is not Conquer.World.PlayerEntity op)   // NPCs have no Session; never receive
+                                    continue;
+
+                                op.Session.SendGame(remove);
+                                e.Visible.TryRemove(op.Uid, out _);
+                                op.Visible.TryRemove(e.Uid, out _);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Error] (game) {endpoint} world deregister: {ex.Message}");
                 }
 
                 session.Disconnect();

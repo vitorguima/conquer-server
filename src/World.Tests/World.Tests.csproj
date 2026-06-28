@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <RootNamespace>Conquer.Packets.Tests</RootNamespace>
+    <RootNamespace>Conquer.World.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,11 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Packets/Packets.csproj" />
-    <ProjectReference Include="../Database/Database.csproj" />
     <ProjectReference Include="../World/World.csproj" />
     <ProjectReference Include="../Network/Network.csproj" />
-    <ProjectReference Include="../Crypto/Crypto.csproj" />
+    <ProjectReference Include="../Database/Database.csproj" />
   </ItemGroup>
 
 </Project>

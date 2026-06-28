@@ -1,13 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Conquer.Packets</RootNamespace>
+    <RootNamespace>Conquer.World</RootNamespace>
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../Crypto/Crypto.csproj" />
     <ProjectReference Include="../Network/Network.csproj" />
     <ProjectReference Include="../Database/Database.csproj" />
-    <ProjectReference Include="../World/World.csproj" />
   </ItemGroup>
 </Project>

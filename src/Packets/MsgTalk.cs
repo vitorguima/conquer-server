@@ -48,5 +48,31 @@ namespace Conquer.Packets
 
             return buffer;
         }
+
+        /// <summary>
+        /// Builds a 1004 MsgTalk with caller-supplied <paramref name="from"/>/<paramref name="to"/>
+        /// strings (local screen chat). Same fixed-field layout and offsets as <see cref="Build"/>,
+        /// only the Speaker/Hearer strings are parameters. String list (count=4) =
+        /// [from, to, "", message]. <see cref="Build"/> is intentionally left untouched (its bytes
+        /// are shared with the ANSWER_OK / NEW_ROLE handshake and must stay byte-identical).
+        /// </summary>
+        public static byte[] BuildChat(ChatType channel, string from, string to, string message)
+        {
+            var packer = new NetStringPacker(from, to, string.Empty, message); // count=4
+            int bodyLength = 24 + packer.Length;
+            var buffer = new byte[bodyLength];
+            Span<byte> span = buffer;
+
+            PacketBuilder.AppendHeader(span, (ushort)(bodyLength + 8), MsgTalkType);
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(4), DefaultColor);
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(8), (ushort)channel);
+            BinaryPrimitives.WriteUInt16LittleEndian(span.Slice(10), 0);  // Unknown0
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(12), 0);  // Time
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(16), 0);  // HearerLookface
+            BinaryPrimitives.WriteUInt32LittleEndian(span.Slice(20), 0);  // SpeakerLookface
+            packer.Write(span.Slice(24));
+
+            return buffer;
+        }
     }
 }

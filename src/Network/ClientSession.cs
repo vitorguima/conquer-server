@@ -26,6 +26,11 @@ namespace Conquer.Network
         private static readonly byte[] SERVER_SEAL =
             System.Text.Encoding.ASCII.GetBytes("TQServer");
 
+        // AD-3: serializes the encrypt+write in Send/SendGame so foreign broadcaster
+        // threads cannot interleave the stateful CFB keystream advance or the socket
+        // writes. Additive; uncontended on the owning loop's own sends.
+        private readonly object _sendLock = new();
+
         public TcpClient TcpClient { get; }
         public NetworkStream Stream { get; }
 
@@ -59,6 +64,14 @@ namespace Conquer.Network
         public ushort CurrentY       { get; set; }
         public bool   PositionLoaded { get; set; }
 
+        /// <summary>World entity UID (= Character.CharacterID). Set when the player is
+        /// registered into the World; primitive so Network needs no World reference (AD-5).</summary>
+        public uint Uid { get; set; }
+
+        /// <summary>Back-reference to this session's world entity, typed <c>object?</c> so
+        /// Network stays ignorant of World types (AD-5). Handlers cast it to PlayerEntity.</summary>
+        public object? WorldEntity { get; set; }
+
         public ClientSession(TcpClient tcp)
         {
             TcpClient = tcp;
@@ -67,14 +80,19 @@ namespace Conquer.Network
             Cipher = new TQCipher();
         }
 
+        // AD-3: Send encrypts IN PLACE — never hand it a shared build-once buffer
+        // (SendGame copies first, Send does not). Broadcast always goes through SendGame.
         public void Send(byte[] packet)
         {
             if (!Stream.CanWrite) return;
-            // TQCipher is a continuous counter-based stream cipher: the client decrypts
-            // the entire inbound stream (length prefix included) from the very first byte.
-            // So encrypt the WHOLE packet from offset 0, on every send, from connect.
-            Cipher.Encrypt(packet, 0, packet.Length);
-            Stream.Write(packet, 0, packet.Length);
+            lock (_sendLock)
+            {
+                // TQCipher is a continuous counter-based stream cipher: the client decrypts
+                // the entire inbound stream (length prefix included) from the very first byte.
+                // So encrypt the WHOLE packet from offset 0, on every send, from connect.
+                Cipher.Encrypt(packet, 0, packet.Length);
+                Stream.Write(packet, 0, packet.Length);
+            }
         }
 
         /// <summary>
@@ -89,8 +107,13 @@ namespace Conquer.Network
             var buffer = new byte[wholeLength];
             Buffer.BlockCopy(packet, 0, buffer, 0, packet.Length);
             Buffer.BlockCopy(SERVER_SEAL, 0, buffer, wholeLength - 8, 8);
-            Cipher.Encrypt(buffer, 0, wholeLength);
-            Stream.Write(buffer, 0, wholeLength);
+            // Build-once broadcast is safe: the input `packet` is copied into our own
+            // `buffer` above before encrypting, so N recipients never mutate the source (AD-3).
+            lock (_sendLock)
+            {
+                Cipher.Encrypt(buffer, 0, wholeLength);
+                Stream.Write(buffer, 0, wholeLength);
+            }
         }
 
         public void Disconnect()
