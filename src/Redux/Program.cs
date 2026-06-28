@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Conquer.Database;
@@ -42,6 +43,14 @@ namespace Redux
                 world.GetOrAdd(npc.MapId).Register(npc);
             }
             Console.WriteLine($"[Startup] Loaded {npcs.Count} NPCs");
+
+            // Spawn monsters from the spawn regions into the grid (EPIC-4 Phase 0.1; static, no AI).
+            var spawns = new SpawnRepository(factory).All();
+            var monsterTypes = new Dictionary<int, DbMonsterType>();
+            foreach (var t in new MonsterTypeRepository(factory).All())
+                monsterTypes[t.Id] = t;
+            int monsterCount = new MonsterManager().SpawnAll(world, spawns, monsterTypes);
+            Console.WriteLine($"[Startup] Loaded {monsterTypes.Count} monster types, spawned {monsterCount} monsters from {spawns.Count} regions");
 
             var router     = new PacketRouter(accounts, characters, config, world);
             var listener   = new NetworkListener(config, router, characters, world);

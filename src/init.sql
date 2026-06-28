@@ -94,4 +94,54 @@ INSERT IGNORE INTO `cq_npc` (UID, Name, MapID, X, Y, Mesh, Type, BaseId) VALUES
     (1010010, '', 1010, 88,  31,  190, 2, NULL),
     (1010055, '', 1010, 74,  37,  130, 2, NULL);
 
+-- ============================================================
+-- monstertype: monster stat templates (EPIC-4 Phase 0)
+-- Subset of the original `monstertype` table (Nov_16_Backup.sql) — the columns combat +
+-- spawn need in Phase 0. A few low-level newbie monsters; more can be imported later.
+-- Columns align with MonsterTypeRepository.All().
+-- ============================================================
+CREATE TABLE IF NOT EXISTS `monstertype` (
+    `ID`          INT          NOT NULL,
+    `Name`        VARCHAR(32)  NOT NULL DEFAULT '?T',
+    `Mesh`        INT          NOT NULL DEFAULT 0,
+    `Life`        INT          NOT NULL DEFAULT 0,
+    `AttackMin`   INT          NOT NULL DEFAULT 0,
+    `AttackMax`   INT          NOT NULL DEFAULT 0,
+    `AttackRange` INT          NOT NULL DEFAULT 1,
+    `ViewRange`   INT          NOT NULL DEFAULT 8,
+    `Defence`     INT          NOT NULL DEFAULT 0,
+    `Level`       INT          NOT NULL DEFAULT 1,
+    `BonusExp`    INT          NOT NULL DEFAULT 0,
+    PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT IGNORE INTO `monstertype`
+    (ID, Name, Mesh, Life, AttackMin, AttackMax, AttackRange, ViewRange, Defence, Level, BonusExp) VALUES
+    (1, 'Pheasant',   104,  33,  5,  6, 1, 8, 0, 1, 100),
+    (2, 'Turtledove', 304,  81, 10, 15, 1, 8, 0, 7, 100),
+    (6, 'Rabbit',     112,  20,  3,  4, 1, 8, 0, 1, 100);
+
+-- ============================================================
+-- spawns: monster spawn regions (EPIC-4 Phase 0). One TEST region of Pheasants on Map 1010
+-- (BirthVillage) right by the spawn point (~60,108) so a fresh login sees monsters immediately.
+-- Box (52,100)-(68,114), up to 6 monsters. Columns align with SpawnRepository.All().
+-- ============================================================
+CREATE TABLE IF NOT EXISTS `spawns` (
+    `UID`         INT NOT NULL AUTO_INCREMENT,
+    `Map`         INT NOT NULL,
+    `X1`          INT NOT NULL,
+    `Y1`          INT NOT NULL,
+    `X2`          INT NOT NULL,
+    `Y2`          INT NOT NULL,
+    `MonsterType` INT NOT NULL,
+    `AmountPer`   INT NOT NULL DEFAULT 1,
+    `AmountMax`   INT NOT NULL DEFAULT 1,
+    `Frequency`   INT NOT NULL DEFAULT 10,
+    PRIMARY KEY (`UID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT IGNORE INTO `spawns`
+    (UID, Map, X1, Y1, X2, Y2, MonsterType, AmountPer, AmountMax, Frequency) VALUES
+    (1, 1010, 52, 100, 68, 114, 1, 2, 6, 10);
+
 SET FOREIGN_KEY_CHECKS = 1;

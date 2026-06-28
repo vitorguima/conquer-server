@@ -17,8 +17,9 @@ namespace Conquer.Packets
     {
         public static byte[] For(IWorldEntity e) => e switch
         {
-            NpcEntity n    => SpawnNpc.Build(n.Uid, n.Mesh, n.NpcType, n.X, n.Y, n.Name),
-            PlayerEntity p => SpawnEntity.Build(p.Uid, p.Mesh, p.Avatar, p.Level, p.Hp, p.X, p.Y, p.Name),
+            NpcEntity n     => SpawnNpc.Build(n.Uid, n.Mesh, n.NpcType, n.X, n.Y, n.Name),
+            PlayerEntity p  => SpawnEntity.Build(p.Uid, p.Mesh, p.Avatar, p.Level, p.Hp, p.X, p.Y, p.Name),
+            MonsterEntity m => SpawnEntity.Build(m.Uid, m.Mesh, 0, m.Level, (int)m.Life, m.X, m.Y, m.Name),
             _ => throw new ArgumentOutOfRangeException(nameof(e), e?.Kind, "unknown entity kind"),
         };
     }
