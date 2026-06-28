@@ -84,45 +84,36 @@ namespace Conquer.Packets
             _world.GetOrAdd(entity.MapId).Register(entity);
             session.WorldEntity = entity;
             session.Uid = entity.Uid;
-            Console.WriteLine($"[DBG] register uid={entity.Uid} map={entity.MapId} " +
-                              $"pos=({entity.X},{entity.Y}) cell=({entity.CellX},{entity.CellY})");
         }
 
-        // GetSurroundings (Action=114, FR-6): the newcomer B asks who is on screen. Resolve B's
-        // entity, query its 3x3 cell block, and for every OTHER on-screen player A send a MUTUAL
-        // 1014: B <- A's 1014 (A's LIVE coords) AND A <- B's 1014. Seed both Visible sets so the
-        // enter/leave diff (Phase 3) is consistent. B's own 1014 is built ONCE and reused for the
-        // fan-out (build-once, AD-4). Empty screen -> sends nothing, no error.
-        // GetSurroundings (Action=114): the player asks who/what is on screen → reconcile its
-        // screen (spawns everything visible). Same path movement uses (idempotent).
+        // GetSurroundings (Action=114, FR-6): the player asks who/what is on screen → reconcile
+        // its screen (spawns everything visible, mutual 1014 for players / one-way 2030 for NPCs).
+        // The client polls 114 to refresh, so force a FULL re-send (ignore dedup) to self-heal any
+        // spawn the client previously missed. Same idempotent path movement uses.
         private void HandleGetSurroundings(ClientSession session)
         {
             if (session.WorldEntity is not Conquer.World.PlayerEntity b)
                 return;
-            // The client polls 114 to refresh — force a FULL re-send (ignore dedup) so any
-            // spawn the client previously missed is corrected (self-heal the desync).
-            Console.WriteLine($"[DBG] 114 refresh uid={b.Uid}");
-            SyncScreen(b, _world.GetOrAdd(b.MapId), forceResend: true, reason: "114");
+            SyncScreen(b, _world.GetOrAdd(b.MapId), forceResend: true);
         }
+
+        /// <summary>Client render radius in tiles — the real screen. Entities beyond this are
+        /// culled by the client, so the server must not treat them as visible (see VIEW gate).</summary>
+        private const int View = 18;
 
         /// <summary>
         /// Full screen reconciliation (replaces the fragile incremental cell-diff). For the
-        /// mover's current 3x3 screen: spawn every entity not already shown (1014 for players —
+        /// mover's current screen: spawn every entity not already shown (1014 for players —
         /// mutual; 2030 for NPCs — one-way) and drop every shown entity no longer on screen.
         /// Idempotent + self-healing — a missed cell transition, a jump, or a transient race is
         /// corrected on the next move. NO RemoveEntity(132) on screen-leave (the client view-culls
         /// the off-screen entity; a fresh spawn on re-enter — Visible was cleared — re-renders it);
         /// 132 is reserved for TRUE removal on disconnect (NetworkListener teardown).
         /// </summary>
-        /// <summary>Client render radius in tiles — the real screen. Entities beyond this are
-        /// culled by the client, so the server must not treat them as visible (see VIEW gate).</summary>
-        private const int View = 18;
-
-        public static void SyncScreen(Conquer.World.PlayerEntity mover, Conquer.World.MapInstance mi, bool forceResend = false, string reason = "?")
+        public static void SyncScreen(Conquer.World.PlayerEntity mover, Conquer.World.MapInstance mi, bool forceResend = false)
         {
             byte[]? moverSpawn = null;
             var onScreen = new System.Collections.Generic.HashSet<uint>();
-            int npcSeen = 0, npcSent = 0, plrSeen = 0, plrSent = 0;   // [DBG]
 
             foreach (var other in mi.QueryScreen(mover.CellX, mover.CellY))
             {
@@ -140,14 +131,10 @@ namespace Conquer.Packets
                     continue;
 
                 onScreen.Add(other.Uid);
-                if (other.Kind == Conquer.World.EntityKind.Npc) npcSeen++; else plrSeen++;   // [DBG]
 
                 bool newlyVisible = mover.Visible.TryAdd(other.Uid, 1);
                 if (newlyVisible || forceResend)                    // dedup during movement; full re-send on 114
-                {
                     mover.Session.SendGame(EntitySpawn.For(other)); // mover sees other (1014 OR 2030)
-                    if (other.Kind == Conquer.World.EntityKind.Npc) npcSent++; else plrSent++;   // [DBG]
-                }
 
                 if (other is Conquer.World.PlayerEntity op)         // MUTUAL: the other player sees the mover
                 {
@@ -171,10 +158,6 @@ namespace Conquer.Packets
                 if (mi.Roster.TryGetValue(uid, out var e) && e is Conquer.World.PlayerEntity op2)
                     op2.Visible.TryRemove(mover.Uid, out _);
             }
-
-            Console.WriteLine($"[DBG] sync uid={mover.Uid} via={reason} force={forceResend} " +
-                              $"cell=({mover.CellX},{mover.CellY}) " +
-                              $"npc={npcSent}/{npcSeen} plr={plrSent}/{plrSeen} visible={mover.Visible.Count}");
         }
 
         // Jump (Action=133): the client sends the target packed in Data1 — Data1Low=X
@@ -202,7 +185,6 @@ namespace Conquer.Packets
                 return;
 
             var mi = _world.GetOrAdd(e.MapId);
-            int ocx = e.CellX, ocy = e.CellY;
             mi.Move(e, x, y);   // updates grid + live position (jump can cross several cells)
 
             // Reuse the existing BuildJump packet (built ONCE), fanned to the screen EXCLUDING self
@@ -211,7 +193,7 @@ namespace Conquer.Packets
 
             // Reconcile the full screen after EVERY jump (VIEW-distance gate can change even
             // within a cell; a jump can also cross several cells at once). SyncScreen dedups.
-            SyncScreen(e, mi, reason: (e.CellX != ocx || e.CellY != ocy) ? "jump+" : "jump");
+            SyncScreen(e, mi);
         }
     }
 }

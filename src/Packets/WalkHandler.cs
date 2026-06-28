@@ -63,7 +63,6 @@ namespace Conquer.Packets
                 return;
 
             var mi = _world.GetOrAdd(e.MapId);
-            int ocx = e.CellX, ocy = e.CellY;
             mi.Move(e, (ushort)nx, (ushort)ny);   // updates grid + live position
 
             // Build the outbound 1005 ONCE; fan out to the WHOLE screen incl self (other clients
@@ -75,7 +74,7 @@ namespace Conquer.Packets
             // VIEW-distance gate, an entity can cross the real screen edge while the player stays
             // within one cell, so a cell-cross-only check would miss it. SyncScreen dedups, so a
             // step that changes nothing visible sends nothing.
-            ActionHandler.SyncScreen(e, mi, reason: (e.CellX != ocx || e.CellY != ocy) ? "walk+" : "walk");
+            ActionHandler.SyncScreen(e, mi);
         }
 
         /// <summary>

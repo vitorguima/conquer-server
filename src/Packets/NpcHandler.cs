@@ -39,7 +39,6 @@ namespace Conquer.Packets
 
             var map = _world.GetOrAdd(p.MapId);
             bool found = map.Roster.TryGetValue(npcUid, out var e) && e is Conquer.World.NpcEntity;
-            Console.WriteLine($"[DBG] 2031 click npcUid={npcUid} action={action} found={found}");
 
             if (action != 0) return;                                              // Activate only
             if (!found || e is not Conquer.World.NpcEntity npc) return;           // validate UID + kind

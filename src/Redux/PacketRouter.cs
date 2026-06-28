@@ -55,11 +55,6 @@ namespace Redux
 
         public void Dispatch(ClientSession session, ushort typeId, byte[] payload)
         {
-            // TEMP diagnostic — log every inbound typeId except the spammy ping(1009)/walk(1005)
-            // so the NPC-click packet is visible. Remove after the click protocol is pinned.
-            if (typeId != 1009 && typeId != 1005)
-                Console.WriteLine($"[DBG] typeId={typeId} len={payload.Length}");
-
             // Payload is already decrypted in ReadPacket, so typeId is the real packet type.
             switch (typeId)
             {
