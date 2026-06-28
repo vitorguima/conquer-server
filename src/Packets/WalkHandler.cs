@@ -71,9 +71,11 @@ namespace Conquer.Packets
             byte[] walk = Walk.BuildBroadcast(e.Uid, dir, mode);
             mi.Broadcast(e, walk, includeSelf: true);
 
-            // Visibility only changes on a cell boundary cross — reconcile the full screen then.
-            if (e.CellX != ocx || e.CellY != ocy)
-                ActionHandler.SyncScreen(e, mi);
+            // Reconcile the full screen on EVERY step (not just cell-crossings): with the
+            // VIEW-distance gate, an entity can cross the real screen edge while the player stays
+            // within one cell, so a cell-cross-only check would miss it. SyncScreen dedups, so a
+            // step that changes nothing visible sends nothing.
+            ActionHandler.SyncScreen(e, mi, reason: (e.CellX != ocx || e.CellY != ocy) ? "walk+" : "walk");
         }
 
         /// <summary>
